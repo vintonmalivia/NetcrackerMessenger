@@ -1,4 +1,4 @@
-package com.messenger;
+package com.messenger.models;
 import java.io.Serializable;
 import java.util.Date;
 import java.util.UUID;
@@ -9,11 +9,10 @@ public class TextMessage extends AbstractMessage implements Serializable
 
     public TextMessage(){};
 
-    public TextMessage(String textOfMessage, UUID senderID, Date dateOfSending, boolean isMessageRead)
+    public TextMessage(String textOfMessage, UUID senderID, Date dateOfSending)
     {
         this.senderID = senderID;
         this.dateOfSending = dateOfSending;
-        this.isMessageRead = isMessageRead;
         this.textOfMessage = textOfMessage;
     }
 
@@ -47,21 +46,12 @@ public class TextMessage extends AbstractMessage implements Serializable
         this.dateOfSending = dateOfSending;
     }
 
-    public boolean isMessageRead()
-    {
-        return isMessageRead;
-    }
-
-    public void setMessageRead(boolean messageRead)
-    {
-        isMessageRead = messageRead;
-    }
 
     @Override
     public String toString()
     {
         return "Text of message: " + "\"" + textOfMessage + "\"" + ", sender's ID:  " +  senderID
-                + ", date of sending:  " + dateOfSending + ", is message read: " + isMessageRead;
+                + ", date of sending:  " + dateOfSending;
     }
 
 }

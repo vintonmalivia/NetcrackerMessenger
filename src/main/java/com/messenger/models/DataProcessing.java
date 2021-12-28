@@ -1,4 +1,4 @@
-package com.messenger;
+package com.messenger.models;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.dataformat.yaml.YAMLFactory;
 import java.io.*;

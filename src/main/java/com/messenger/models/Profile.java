@@ -1,4 +1,4 @@
-package com.messenger;
+package com.messenger.models;
 import java.util.UUID;
 
 public class Profile
