@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <meta charset="ISO-8859-1">
+    <title>Messages in dialogue</title>
+</head>
+<body>
+<!--<table>-->
+<!--    <tr>-->
+<!--        <td>-->
+<!--            <b th:text="${conversationMessages.getNameOfConversation()}"></b>-->
+<!--        </td>-->
+<!--    </tr>-->
+<!--</table>-->
+<!--<div th:each="conversation : ${conversationMessages.getMessagesInConversation()}">-->
+<!--<table>-->
+<!--    <tr>-->
+<!--        <td>-->
+<!--            <a th:text="${conversation.getSenderID()}"> </a>-->
+<!--            <a th:text="${conversation.getDateOfSending()}"> </a>-->
+<!--            <br>-->
+<!--            <a th:text="${conversation.getTextOfMessage()}"> </a>-->
+<!--        </td>-->
+<!--    </tr>-->
+<!--</table>-->
+<!--    <br>-->
+<!--</div>-->
+<table>
+    <tr>
+        <td>
+            <b th:text="${conversationMessages.getNameOfConversation()}"></b>
+        </td>
+    </tr>
+</table>
+<div th:each="conversation : ${conversationMessages.getMessagesInConversation()}">
+    <table>
+        <tr>
+            <td>
+                <a th:text="${conversation.getSenderID()}"> </a>
+                <a th:text="${conversation.getDateOfSending()}"> </a>
+                <br>
+                <a th:text="${conversation.getTextOfMessage()}"> </a>
+            </td>
+        </tr>
+    </table>
+    <br>
+</div>
+</body>
+</html>
