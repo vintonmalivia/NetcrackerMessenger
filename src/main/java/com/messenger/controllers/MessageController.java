@@ -1,4 +1,5 @@
 package com.messenger.controllers;
+import com.messenger.models.Conversation;
 import com.messenger.repository.TextMessageDAO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -32,4 +33,16 @@ public class MessageController
         return "messages/getConversationMessages";
     }
 
+    @GetMapping("/new-conversation")
+    public String getPageForCreateNewConversation(@ModelAttribute("newConversation") Conversation conversation)
+    {
+        return "messages/newConversation";
+    }
+
+    @PostMapping()
+    public String createNewConversation(@ModelAttribute("newConversation") Conversation conversation)
+    {
+        textMessageDAO.saveNewConversation(conversation);
+        return "redirect:/messages";
+    }
 }

@@ -1,9 +1,11 @@
-package com.messenger.models;
+package com.messenger.repository;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.dataformat.yaml.YAMLFactory;
+import com.messenger.models.Conversation;
+
 import java.io.*;
 
-public class DataProcessing implements Serializable
+public class ConversationsDAO implements Serializable
 {
     public static void serializeConversation(Conversation conversation, OutputStream out) throws IOException
     {

@@ -1,9 +1,9 @@
-//package com.messenger.repository;
-//
-//import com.messenger.models.Conversation;
-//
-//public class ConversationManager
-//{
+package com.messenger.repository;
+
+import com.messenger.models.Conversation;
+
+public class ConversationManager
+{
 //    private static ConversationManager instance;
 //    private Conversation[] conversations;
 //
@@ -28,4 +28,4 @@
 //    public void setConversations(Conversation[] conversations) {
 //        this.conversations = conversations;
 //    }
-//}
+}

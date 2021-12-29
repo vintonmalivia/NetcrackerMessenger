@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>New conversation</title>
+</head>
+<body>
+<form th:method="POST" th:action="@{/messages}" th:object="${newConversation}">
+    <label for="nameOfConversation">Enter name of new conversation: </label>
+    <input type="text" th:field="*{nameOfConversation}" id="nameOfConversation"/>
+    <br/>
+    <input type="submit" value="Make new conversation"/>
+</form>
+</body>
+</html>

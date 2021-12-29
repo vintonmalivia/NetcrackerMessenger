@@ -1,10 +1,10 @@
 package com.messenger.models;
+import com.messenger.repository.ConversationsDAO;
 import java.io.Serializable;
-import java.util.Arrays;
 import java.util.List;
 import java.util.UUID;
 
-public class Conversation extends DataProcessing implements Serializable
+public class Conversation extends ConversationsDAO implements Serializable
 {
     private String nameOfConversation;
     private UUID conversationID;
