@@ -3,8 +3,8 @@ import java.util.UUID;
 
 public class Profile
 {
-    String nameOfUser;
-    String surnameOfUser;
+    String nameOfUser;  // TODO: (low) может, просто name?
+    String surnameOfUser; // TODO: (low) может, просто surname?
     UUID userID;
     String login;
     String password;

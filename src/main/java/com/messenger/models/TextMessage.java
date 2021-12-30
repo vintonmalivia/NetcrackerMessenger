@@ -26,6 +26,7 @@ public class TextMessage extends AbstractMessage implements Serializable
         this.textOfMessage = textOfMessage;
     }
 
+    // TODO: (high) Геттеры и сеттеры у тебя уже есть в абстрактном классе. Нет смысла переопределять их здесь
     public UUID getSenderID()
     {
         return senderID;

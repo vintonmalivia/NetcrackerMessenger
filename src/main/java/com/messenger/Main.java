@@ -11,9 +11,13 @@ import java.util.UUID;
 @SpringBootApplication
 public class Main
 {
-    public static void main(String[] args) throws IOException, ClassNotFoundException
+    public static void main(String[] args) throws IOException, ClassNotFoundException   // TODO: (high) На всякий случай: для main так не помечается.
+                                                                                        //  По сути, Main - это последняя инстанция, на которой 100%
+                                                                                        //  должны быть обработаны все исключения (кроме RuntimeException и производных)
     {
-//        TextMessage message1 = new TextMessage("Hi. I am the creator.", UUID.randomUUID(),
+        // TODO: (low) вот здесь, как раз-таки, должна быть инициализация
+
+        //        TextMessage message1 = new TextMessage("Hi. I am the creator.", UUID.randomUUID(),
 //                new Date(), true);
 //
 //        TextMessage message2 = new TextMessage("Hello, I am the second.", UUID.randomUUID(),
