@@ -3,6 +3,7 @@ import java.util.UUID;
 
 public class Profile
 {
+    // TODO: (high) Сделать поля приватными
     String nameOfUser;  // TODO: (low) может, просто name?
     String surnameOfUser; // TODO: (low) может, просто surname?
     UUID userID;
