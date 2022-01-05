@@ -5,11 +5,13 @@ import java.time.LocalDateTime;
 import java.util.Date;
 import java.util.UUID;
 
-public class AbstractMessage implements Serializable
+public abstract class AbstractMessage implements Serializable
 {
+     private static final String TIMEZONE = "GMT+04:00";
+     private static final String PATTERN = "dd-MM-yyyy HH:mm";
      protected UUID senderID;
 
-     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd-MM-yyyy HH:mm", timezone = "GMT+04:00") // TODO: (normal) - лучше вынести и паттерн, и таймзону в константы. А еще лучше, если таймзона будет рассчитываться исходя из текущей таймзоны
+     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = PATTERN, timezone = TIMEZONE) // TODO: (normal) А еще лучше, если таймзона будет рассчитываться исходя из текущей таймзоны
      protected Date dateOfSending; // TODO: (low) в Java 8 появился класс LocalDateTime. Можно попробовать поработать с ним. Он лучше
 
      public AbstractMessage() {}
@@ -19,9 +21,6 @@ public class AbstractMessage implements Serializable
      public UUID getSenderID() {return senderID;}
 
      public void setSenderID(UUID senderID) {this.senderID = senderID;}
-
-     public void setMessageRead(boolean MessageRead) { // TODO: (low) - название параметра должно быть с маленькой буквы
-     }
 
      public Date getDateOfSending() {return dateOfSending;}
 

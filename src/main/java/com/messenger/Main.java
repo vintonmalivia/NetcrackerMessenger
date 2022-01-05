@@ -1,23 +1,22 @@
 package com.messenger;
+import com.messenger.models.AbstractMessage;
 import com.messenger.models.Conversation;
-import com.messenger.models.TextMessage;
+import com.messenger.models.impl.TextMessage;
+import com.messenger.repository.ConversationManager;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
-import java.io.*;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 import java.util.UUID;
 
 @SpringBootApplication
 public class Main
 {
-    public static void main(String[] args) throws IOException, ClassNotFoundException   // TODO: (high) На всякий случай: для main так не помечается.
-                                                                                        //  По сути, Main - это последняя инстанция, на которой 100%
-                                                                                        //  должны быть обработаны все исключения (кроме RuntimeException и производных)
+    public static void main(String[] args)
     {
-        // TODO: (low) вот здесь, как раз-таки, должна быть инициализация
-
-        //        TextMessage message1 = new TextMessage("Hi. I am the creator.", UUID.randomUUID(),
+//        TextMessage message1 = new TextMessage("Hi. I am the creator.", UUID.randomUUID(),
 //                new Date(), true);
 //
 //        TextMessage message2 = new TextMessage("Hello, I am the second.", UUID.randomUUID(),
@@ -80,6 +79,37 @@ public class Main
 //        //YAMLDeserCheck
 //        System.out.println("Проверка сериализации и десериализации YAML: " +
 //                Conversation.deserializeConversationFromYAMLFile(newFileYAML));
+        List<AbstractMessage> messages1conv;
+        {
+            messages1conv = new ArrayList<>();
+            messages1conv.add(new TextMessage("Hi. I am the creator.", UUID.randomUUID(), new Date()));
+            messages1conv.add(new TextMessage("Hello, I am the second.", UUID.randomUUID(), new Date()));
+            messages1conv.add(new TextMessage("I am third.", UUID.randomUUID(), new Date()));
+            messages1conv.add(new TextMessage("Four.", UUID.randomUUID(), new Date()));
+        }
+
+        List<UUID> membersID1conv;
+        {
+            membersID1conv = new ArrayList<>();
+        }
+
+        List<AbstractMessage> messages2conv;
+        {
+            messages2conv = new ArrayList<>();
+            messages2conv.add(new TextMessage("Hi", UUID.randomUUID(), new Date()));
+            messages2conv.add(new TextMessage("Hi", UUID.randomUUID(), new Date()));
+            messages2conv.add(new TextMessage("Hi", UUID.randomUUID(), new Date()));
+        }
+
+        List<Conversation> conversationList;
+        {
+            conversationList = new ArrayList<>();
+            conversationList.add(new Conversation("Conv1", UUID.randomUUID(), UUID.randomUUID(), membersID1conv, messages1conv));
+            conversationList.add(new Conversation("Conv2", UUID.randomUUID(), UUID.randomUUID(), membersID1conv, messages2conv));
+        }
+
+        ConversationManager.getInstance().setConversations(conversationList);
+
         SpringApplication.run(Main.class);
     }
 }

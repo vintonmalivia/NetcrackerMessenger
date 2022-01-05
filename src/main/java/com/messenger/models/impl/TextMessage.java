@@ -1,4 +1,6 @@
-package com.messenger.models;
+package com.messenger.models.impl;
+import com.messenger.models.AbstractMessage;
+
 import java.io.Serializable;
 import java.util.Date;
 import java.util.UUID;
@@ -25,28 +27,6 @@ public class TextMessage extends AbstractMessage implements Serializable
     {
         this.textOfMessage = textOfMessage;
     }
-
-    // TODO: (high) Геттеры и сеттеры у тебя уже есть в абстрактном классе. Нет смысла переопределять их здесь
-    public UUID getSenderID()
-    {
-        return senderID;
-    }
-
-    public void setSenderID(UUID senderID)
-    {
-        this.senderID = senderID;
-    }
-
-    public Date getDateOfSending()
-    {
-        return dateOfSending;
-    }
-
-    public void setDateOfSending(Date dateOfSending)
-    {
-        this.dateOfSending = dateOfSending;
-    }
-
 
     @Override
     public String toString()

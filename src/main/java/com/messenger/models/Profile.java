@@ -3,36 +3,35 @@ import java.util.UUID;
 
 public class Profile
 {
-    // TODO: (high) Сделать поля приватными
-    String nameOfUser;  // TODO: (low) может, просто name?
-    String surnameOfUser; // TODO: (low) может, просто surname?
-    UUID userID;
-    String login;
-    String password;
+    private String name;
+    private String surname;
+    private UUID userID;
+    private String login;
+    private String password;
 
-    public Profile(String nameOfUser, String surnameOfUser, UUID userID, String login, String password)
+    public Profile(String name, String surname, UUID userID, String login, String password)
     {
-        this.nameOfUser = nameOfUser;
-        this.surnameOfUser = surnameOfUser;
+        this.name = name;
+        this.surname = surname;
         this.userID = userID;
         this.login = login;
         this.password = password;
     }
 
-    public String getNameOfUser() {
-        return nameOfUser;
+    public String getName() {
+        return name;
     }
 
-    public void setNameOfUser(String nameOfUser) {
-        this.nameOfUser = nameOfUser;
+    public void setName(String name) {
+        this.name = name;
     }
 
-    public String getSurnameOfUser() {
-        return surnameOfUser;
+    public String getSurname() {
+        return surname;
     }
 
-    public void setSurnameOfUser(String surnameOfUser) {
-        this.surnameOfUser = surnameOfUser;
+    public void setSurname(String surname) {
+        this.surname = surname;
     }
 
     public UUID getUserID() {

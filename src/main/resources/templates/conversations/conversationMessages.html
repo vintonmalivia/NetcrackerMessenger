@@ -8,13 +8,13 @@
 <table>
     <tr>
         <td>
-            <b th:text="${conversationMessages.getNameOfConversation()}"></b>
+            <b th:text="${conversationMessages.getName()}"></b>
         </td>
     </tr>
 </table>
 <div>
 <table>
-    <tr th:each="message : ${conversationMessages.getMessagesInConversation()}">
+    <tr th:each="message : ${conversationMessages.getMessages()}">
         <td>
             <a th:text="${message.getSenderID()}"> </a>
             <a th:text="${message.getDateOfSending()}"> </a>

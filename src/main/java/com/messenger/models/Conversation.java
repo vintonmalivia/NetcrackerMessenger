@@ -1,45 +1,54 @@
 package com.messenger.models;
-import com.messenger.repository.ConversationsDAO;
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
-// TODO: (high) Нужно убрать расширение от ConversationsDAO, поскольку ConversationsDAO - класс для работы с данными, а Conversation - класс данных (энтити)
-public class Conversation extends ConversationsDAO implements Serializable
+public class Conversation implements Serializable
 {
-    private String nameOfConversation; // TODO: (low) может, просто name?
-    private UUID conversationID; // TODO: (low) может, просто id? Он больше ничьим быть не может по логике
+    private String name;
+    private UUID id;
     private UUID creatorID;
     private List<UUID> membersID;
-    private List<AbstractMessage> messagesInConversation; // TODO: (low) может, просто messages?
+    private List<AbstractMessage> messages;
 
-    public Conversation() {
+    public Conversation() {}
+
+    // TODO: constructor without messages list
+
+    public Conversation(String name, UUID id, UUID creatorID, List<AbstractMessage> messages)
+    {
+        this.name = name;
+        this.id = id;
+        this.creatorID = creatorID;
+        this.messages = messages;
+        this.membersID = new ArrayList<>();
+        this.membersID.add(creatorID);
     }
 
-    // TODO: (normal) Можно добавить конструктор без участников. Чтобы можно было добавить их позже
-    public Conversation(String nameOfConversation, UUID conversationID, UUID creatorID, List<UUID> membersID, List<AbstractMessage> messagesInConversation) {
-        this.nameOfConversation = nameOfConversation;
-        this.conversationID = conversationID;
+    public Conversation(String name, UUID id, UUID creatorID, List<UUID> membersID, List<AbstractMessage> messages) {
+        this.name = name;
+        this.id = id;
         this.creatorID = creatorID;
         this.membersID = membersID;
-        this.messagesInConversation = messagesInConversation;
+        this.messages = messages;
+        // TODO: What if creator not in members list???
     }
 
-    // TODO: (low) Название класса уже говорит само за себя. Достаточно называть методы как get<Поле> и set<Поле>: getName, setName, getId, setId
-    public String getNameOfConversation() {
-        return nameOfConversation;
+    public String getName() {
+        return name;
     }
 
-    public void setNameOfConversation(String nameOfConversation) {
-        this.nameOfConversation = nameOfConversation;
+    public void setName(String name) {
+        this.name = name;
     }
 
-    public UUID getConversationID() {
-        return conversationID;
+    public UUID getId() {
+        return id;
     }
 
-    public void setConversationID(UUID conversationID) {
-        this.conversationID = conversationID;
+    public void setId(UUID id) {
+        this.id = id;
     }
 
     public UUID getCreatorID() {
@@ -58,23 +67,24 @@ public class Conversation extends ConversationsDAO implements Serializable
         this.membersID = membersID;
     }
 
-    public List<AbstractMessage> getMessagesInConversation() {
-        return messagesInConversation;
+    public List<AbstractMessage> getMessages() {
+        return messages;
     }
 
-    public void setMessagesInConversation(List<AbstractMessage> messagesInConversation) {
-        this.messagesInConversation = messagesInConversation;
+    public void setMessages(List<AbstractMessage> messages) {
+        this.messages = messages;
     }
 
     // TODO: (normal) Добавить методы добавления/удаления сообщения, добавления/удаления участников
+
     @Override
     public String toString() {
         return "Conversation{" +
-                "nameOfConversation='" + nameOfConversation + '\'' +
-                ", conversationID=" + conversationID +
+                "name='" + name + '\'' +
+                ", id=" + id +
                 ", creatorID=" + creatorID +
                 ", membersID=" + membersID +
-                ", messagesInConversation=" + messagesInConversation +
+                ", messages=" + messages +
                 '}';
     }
 }
