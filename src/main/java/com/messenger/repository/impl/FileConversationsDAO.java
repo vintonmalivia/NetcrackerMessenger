@@ -15,10 +15,10 @@ import java.io.*;
 //  мы будем работать, а потоки создавать уже в методах. Имя файла пусть фигурирует в файле application.properties или
 //  и application.yaml (нужно почитать про то, что это такое и как оттуда доставать проперти)
 
-@Component
+@Component // FIXME: Нужно изменить на @Repository (смотри в класс TextMessageDao)
 public class FileConversationsDAO implements IConversationsDAO, Serializable
 {
-    @Value("file.path")
+    @Value("file.path") // TODO: В константы
     private static String fileName;
 
     public void createConversation(Conversation conversation) throws IOException

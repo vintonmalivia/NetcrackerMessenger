@@ -14,7 +14,7 @@ import java.util.List;
 import java.util.UUID;
 
 @Controller
-@RequestMapping("/conversations/{uuid}/messages")
+@RequestMapping("/conversations/{uuid}/messages") /* TODO: (normal) в константы */
 public class MessagesController
 {
 //    private final TextMessageDAO textMessageDAO;
@@ -25,11 +25,11 @@ public class MessagesController
 //    }
 
     @GetMapping
-    public String getMessagesFromConversationByID(@PathVariable("uuid") UUID uuid, Model model)
+    public String getMessagesFromConversationByID(@PathVariable("uuid") /* TODO: (normal) в константы */ UUID uuid, Model model)
     {
         List<Conversation> conversations = ConversationManager.getInstance().getConversations();
         Conversation resultConversation = conversations.stream().filter(conversation -> conversation.getId().equals(uuid)).findAny().orElse(null);
-        model.addAttribute("conversationMessages", resultConversation);
-        return "conversations/conversationMessages";
+        model.addAttribute("conversationMessages", /* TODO: (normal) в константы */ resultConversation);
+        return "conversations/conversationMessages"; /* TODO: (normal) в константы */
     }
 }

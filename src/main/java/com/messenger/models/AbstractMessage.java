@@ -11,7 +11,7 @@ public abstract class AbstractMessage implements Serializable
      private static final String PATTERN = "dd-MM-yyyy HH:mm";
      protected UUID senderID;
 
-     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = PATTERN, timezone = TIMEZONE) // TODO: (normal) А еще лучше, если таймзона будет рассчитываться исходя из текущей таймзоны
+     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = PATTERN, timezone = TIMEZONE)
      protected Date dateOfSending; // TODO: (low) в Java 8 появился класс LocalDateTime. Можно попробовать поработать с ним. Он лучше
 
      public AbstractMessage() {}

@@ -11,7 +11,9 @@ import java.util.List;
 import java.util.UUID;
 
 // TODO: (high) - репозиторий для сообщений, не для чатов!
-@Component
+@Component // FIXME: (normal) DAO - это репозиторий. Все репозитории должны обозначаться на общей аннотацией @Component, а @Repository,
+           //  Я знаю 4 типа компонент: @Repository, @Service, @Controller/@RestController. Скоро будем делить приложение на слои, можно почитать про слои репозиториев,
+           //  сервисов и контроллеров
 public class TextMessageDAO
 {
 //    private List<AbstractMessage> messages1conv;

@@ -11,7 +11,7 @@ import java.util.List;
 import java.util.UUID;
 
 @Controller
-@RequestMapping("/conversations")
+@RequestMapping("/conversations") // TODO: (normal) Думаю, это нужно вынести в константы. Давай постараемся по-максимуму избавиться от "магических" строк
 public class ConversationController
 {
 //    private final TextMessageDAO textMessageDAO;
@@ -24,23 +24,23 @@ public class ConversationController
     @GetMapping
     public String getConversations(Model model)
     {
-        model.addAttribute("allConversations",  ConversationManager.getInstance().getConversations());
-        return "conversations/allConversations";
+        model.addAttribute("allConversations" /* TODO: (normal) в константы */,  ConversationManager.getInstance().getConversations());
+        return "conversations/allConversations"; // TODO: (normal) в константы
     }
 
     @GetMapping("/new")
-    public String getPageForCreateNewConversation(@ModelAttribute("newConversation") Conversation conversation)
+    public String getPageForCreateNewConversation(@ModelAttribute("newConversation") /* TODO: (normal) в константы */ Conversation conversation)
     {
-        return "conversations/newConversation";
+        return "conversations/newConversation"; // TODO: (normal) в константы
     }
 
     @PostMapping
-    public String createNewConversation(@ModelAttribute("newConversation") Conversation conversation)
+    public String createNewConversation(@ModelAttribute("newConversation") /* TODO: (normal) в константы */ Conversation conversation)
     {
         List<Conversation> conversations = ConversationManager.getInstance().getConversations();
         conversations.add(conversation);
         ConversationManager.getInstance().setConversations(conversations);
         //textMessageDAO.saveNewConversation(conversation);
-        return "redirect:/conversations";
+        return "redirect:/conversations"; /* TODO: (normal) в константы */
     }
 }

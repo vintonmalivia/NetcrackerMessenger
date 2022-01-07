@@ -9,6 +9,8 @@ public class Profile
     private String login;
     private String password;
 
+    /* TODO (question): (Additional info required) Будут ли в приложении роли? Admin, Simple User ... ? Если да, то предусмотреть такую возможность */
+
     public Profile(String name, String surname, UUID userID, String login, String password)
     {
         this.name = name;

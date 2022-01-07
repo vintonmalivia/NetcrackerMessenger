@@ -32,7 +32,7 @@ public class Conversation implements Serializable
         this.creatorID = creatorID;
         this.membersID = membersID;
         this.messages = messages;
-        // TODO: What if creator not in members list???
+        // TODO: What if creator not in members list??? (Добавить валидацию листа участников чата)
     }
 
     public String getName() {

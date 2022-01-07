@@ -6,6 +6,7 @@ import com.messenger.models.Conversation;
 import java.io.File;
 import java.io.IOException;
 
+// FIXME: Класс должен имплементировать интерфейс Serializer. Должны быть два метода: serialize и deserialize
 public class JSONSerializer
 {
     static void serializeConversationToJSONFile(Conversation conversation, File newFile) throws IOException
