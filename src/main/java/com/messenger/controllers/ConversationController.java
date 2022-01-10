@@ -6,7 +6,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
-
 import java.util.List;
 import java.util.UUID;
 
@@ -20,27 +19,33 @@ public class ConversationController
 //    public ConversationController(TextMessageDAO textMessageDAO){
 //        this.textMessageDAO = textMessageDAO;
 //    }
+    private static final String CONVERSATIONS = "conversations/";
+    private static final String ALL_CONVERSATIONS = "allConversations";
+    private static final String NEW_CONVERSATION = "newConversation";
+    private static final String REDIRECT = "redirect:/";
+    private static final String NEW = "/new";
 
     @GetMapping
     public String getConversations(Model model)
     {
-        model.addAttribute("allConversations" /* TODO: (normal) в константы */,  ConversationManager.getInstance().getConversations());
-        return "conversations/allConversations"; // TODO: (normal) в константы
+        model.addAttribute(ALL_CONVERSATIONS,  ConversationManager.getInstance().getConversations());
+        return CONVERSATIONS + ALL_CONVERSATIONS;
     }
 
-    @GetMapping("/new")
-    public String getPageForCreateNewConversation(@ModelAttribute("newConversation") /* TODO: (normal) в константы */ Conversation conversation)
+    @GetMapping(NEW)
+    public String getPageForCreateNewConversation(@ModelAttribute(NEW_CONVERSATION) Conversation conversation)
     {
-        return "conversations/newConversation"; // TODO: (normal) в константы
+        return CONVERSATIONS + NEW_CONVERSATION;
     }
 
     @PostMapping
-    public String createNewConversation(@ModelAttribute("newConversation") /* TODO: (normal) в константы */ Conversation conversation)
+    public String createNewConversation(@ModelAttribute(NEW_CONVERSATION) Conversation conversation)
     {
         List<Conversation> conversations = ConversationManager.getInstance().getConversations();
+        conversation.setId(UUID.randomUUID());
         conversations.add(conversation);
         ConversationManager.getInstance().setConversations(conversations);
         //textMessageDAO.saveNewConversation(conversation);
-        return "redirect:/conversations"; /* TODO: (normal) в константы */
+        return REDIRECT + CONVERSATIONS;
     }
 }

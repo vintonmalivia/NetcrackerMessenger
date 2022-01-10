@@ -1,24 +1,20 @@
 package com.messenger.serializers.impl;
-
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.dataformat.yaml.YAMLFactory;
 import com.messenger.models.Conversation;
-
-import java.io.File;
+import com.messenger.serializers.Serializer;
 import java.io.IOException;
 
-// FIXME: Класс должен имплементировать интерфейс Serializer. Должны быть два метода: serialize и deserialize
-public class YAMLSerializer {
-
-
-    static void serializeConversationToYAMLFile(Conversation conversation, File newFile) throws IOException
-    {
-        ObjectMapper om = new ObjectMapper(new YAMLFactory());
-        om.writeValue(newFile, conversation);
-    }
-    static Conversation deserializeConversationFromYAMLFile(File newFile) throws IOException
+public class YAMLSerializer implements Serializer
+{
+    public String serialize(Conversation conversation) throws IOException
     {
         ObjectMapper mapper = new ObjectMapper(new YAMLFactory());
-        return mapper.readValue(newFile, Conversation.class);
+        return mapper.writeValueAsString(conversation);
+    }
+    public Conversation deserialize(String conversationYAMLString) throws IOException
+    {
+        ObjectMapper mapper = new ObjectMapper(new YAMLFactory());
+        return mapper.readValue(conversationYAMLString, Conversation.class);
     }
 }

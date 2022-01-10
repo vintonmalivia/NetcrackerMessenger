@@ -1,23 +1,19 @@
 package com.messenger.serializers.impl;
-
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.messenger.models.Conversation;
-
-import java.io.File;
+import com.messenger.serializers.Serializer;
 import java.io.IOException;
 
-// FIXME: Класс должен имплементировать интерфейс Serializer. Должны быть два метода: serialize и deserialize
-public class JSONSerializer
+public class JSONSerializer implements Serializer
 {
-    static void serializeConversationToJSONFile(Conversation conversation, File newFile) throws IOException
+    public String serialize(Conversation conversation) throws IOException
     {
         ObjectMapper mapper = new ObjectMapper();
-        mapper.writeValue(newFile, conversation);
+        return mapper.writeValueAsString(conversation);
     }
-
-    static Conversation deserializeConversationFromJSONFile(File newFile) throws IOException
+    public Conversation deserialize(String conversationJSONString) throws IOException
     {
         ObjectMapper mapper = new ObjectMapper();
-        return mapper.readValue(newFile, Conversation.class);
+        return mapper.readValue(conversationJSONString, Conversation.class);
     }
 }
