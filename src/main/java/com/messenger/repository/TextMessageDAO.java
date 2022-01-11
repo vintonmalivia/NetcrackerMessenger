@@ -1,21 +1,15 @@
 package com.messenger.repository;
-
 import com.messenger.models.AbstractMessage;
 import com.messenger.models.Conversation;
 import com.messenger.models.impl.TextMessage;
 import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Repository;
-
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.UUID;
 
-// TODO: (high) - репозиторий для сообщений, не для чатов!
 @Repository
-// FIXME: (normal) DAO - это репозиторий. Все репозитории должны обозначаться на общей аннотацией @Component, а @Repository,
-           //  Я знаю 4 типа компонент: @Repository, @Service, @Controller/@RestController. Скоро будем делить приложение на слои, можно почитать про слои репозиториев,
-           //  сервисов и контроллеров
 public class TextMessageDAO
 {
 //    private List<AbstractMessage> messages1conv;

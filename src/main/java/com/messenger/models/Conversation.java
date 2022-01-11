@@ -14,7 +14,14 @@ public class Conversation implements Serializable
 
     public Conversation() {}
 
-    // TODO: constructor without messages list
+    public Conversation(String name, UUID id, UUID creatorID)
+    {
+        this.name = name;
+        this.id = id;
+        this.creatorID = creatorID;
+        this.membersID = new ArrayList<>();
+        this.membersID.add(creatorID);
+    }
 
     public Conversation(String name, UUID id, UUID creatorID, List<AbstractMessage> messages)
     {
@@ -32,7 +39,10 @@ public class Conversation implements Serializable
         this.creatorID = creatorID;
         this.membersID = membersID;
         this.messages = messages;
-        // TODO: What if creator not in members list??? (Добавить валидацию листа участников чата)
+        if (!membersID.contains(creatorID))
+        {
+            // TODO: What if creator not in members list??? (Добавить валидацию листа участников чата)
+        }
     }
 
     public String getName() {
@@ -76,6 +86,7 @@ public class Conversation implements Serializable
     }
 
     // TODO: (normal) Добавить методы добавления/удаления сообщения, добавления/удаления участников
+    //TODO: lists, maps, sets
 
     @Override
     public String toString() {

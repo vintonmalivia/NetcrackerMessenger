@@ -4,11 +4,9 @@ import java.io.IOException;
 
 public interface Serializer
 {
-    // TODO: (high) Фиг с ними, с байтами. Пусть лучше будут только JSON и YAML (по желанию, можно сделать в XML, оценю)
-    //  Нужно создать интерфейс - Serializer, и сделать в нем два метода: serialize(объект) и deserialize(объект). Сериализаторов у тебя всего пока 3 штуки:
-    //  1) JSON (при сериализации берем объект и сериализуем в JSON-строку, при десериализации берем строку и строим объект);
-    //  2) YAML (то же самое, но с YAML строкой);
     String serialize(Conversation conversation) throws IOException;
 
     Conversation deserialize(String conversationString) throws IOException;
+
+    //TODO: JSON Node, Object Node и подтипы
 }

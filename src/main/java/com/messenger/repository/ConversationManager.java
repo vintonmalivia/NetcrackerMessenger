@@ -1,7 +1,5 @@
 package com.messenger.repository;
-
 import com.messenger.models.Conversation;
-
 import java.util.ArrayList;
 import java.util.List;
 

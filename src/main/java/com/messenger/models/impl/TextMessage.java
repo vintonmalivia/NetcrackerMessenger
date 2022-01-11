@@ -9,9 +9,15 @@ public class TextMessage extends AbstractMessage implements Serializable
 {
     private String textOfMessage;
 
-    public TextMessage(){};
+    public TextMessage(){}
 
-    /* TODO: (not necessary) Можно добавить конструктор без времени отправления. Исключительно для удобства. А время отправления может браться как текущее */
+    public TextMessage(String textOfMessage, UUID senderID)
+    {
+        this.senderID = senderID;
+        this.dateOfSending = new Date();
+        this.textOfMessage = textOfMessage;
+    }
+
     public TextMessage(String textOfMessage, UUID senderID, Date dateOfSending)
     {
         this.senderID = senderID;

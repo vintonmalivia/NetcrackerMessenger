@@ -4,8 +4,8 @@ import com.messenger.repository.IConversationsDAO;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Repository;
-
 import java.io.*;
+import java.util.Collections;
 import java.util.List;
 
 // TODO: (normal) Предлагаю создать интерфейс ConversationsDAO. А этот класс будет его имплементацией (аксесс к данным через файлы).
@@ -44,4 +44,13 @@ public class FileConversationsDAO implements IConversationsDAO, Serializable
         return (Conversation) temp.readObject();
     }
 
+    public List<Conversation> getAllConversations() throws IOException, ClassNotFoundException
+    {
+        ObjectInputStream inputStream = new ObjectInputStream(new FileInputStream(fileName));
+        ObjectInputStream temp = new ObjectInputStream(inputStream);
+        return Collections.singletonList((Conversation) temp.readObject());
+    }
+
+    // TODO: Collections
+    // TODO: createAll, getAll and others
 }
