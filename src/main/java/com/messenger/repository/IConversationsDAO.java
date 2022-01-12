@@ -15,5 +15,6 @@ public interface IConversationsDAO
 
     Conversation getConversation() throws IOException, ClassNotFoundException;
 
+    List<Conversation> getAllConversations() throws IOException, ClassNotFoundException;
     // TODO: Implement getAll and others
 }

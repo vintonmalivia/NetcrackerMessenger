@@ -20,7 +20,7 @@ public class MessagesController
 //    public MessagesController(TextMessageDAO textMessageDAO){
 //        this.textMessageDAO = textMessageDAO;
 //    }
-    private static final String CONVERSATIONS = "conversations/";
+    private static final String CONVERSATIONS_PATH = "conversations/";
     private static final String MESSAGES = "conversationMessages";
     private static final String MESSAGES_HTML = "conversationMessages";
     private static final String UUID = "uuid";
@@ -31,6 +31,6 @@ public class MessagesController
         List<Conversation> conversations = ConversationManager.getInstance().getConversations();
         Conversation resultConversation = conversations.stream().filter(conversation -> conversation.getId().equals(uuid)).findAny().orElse(null);
         model.addAttribute(MESSAGES, resultConversation);
-        return CONVERSATIONS + MESSAGES_HTML;
+        return CONVERSATIONS_PATH + MESSAGES_HTML;
     }
 }
