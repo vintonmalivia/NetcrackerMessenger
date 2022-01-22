@@ -3,6 +3,7 @@ package com.messenger.repository;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.dataformat.yaml.YAMLFactory;
 import com.messenger.models.Conversation;
+import org.springframework.data.repository.CrudRepository;
 
 import java.io.*;
 import java.util.List;

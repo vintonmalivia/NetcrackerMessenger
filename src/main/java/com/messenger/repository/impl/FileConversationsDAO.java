@@ -7,6 +7,7 @@ import org.springframework.stereotype.Repository;
 import java.io.*;
 import java.util.Collections;
 import java.util.List;
+import java.util.Optional;
 
 @Repository
 public class FileConversationsDAO implements IConversationsDAO, Serializable
@@ -41,6 +42,7 @@ public class FileConversationsDAO implements IConversationsDAO, Serializable
         ObjectInputStream temp = new ObjectInputStream(inputStream);
         return Collections.singletonList((Conversation) temp.readObject());
     }
+
 
     // TODO: Collections
     // TODO: createAll, getAll and others

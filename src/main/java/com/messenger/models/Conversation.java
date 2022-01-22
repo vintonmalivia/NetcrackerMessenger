@@ -1,15 +1,30 @@
 package com.messenger.models;
+import org.springframework.context.annotation.Bean;
+import org.springframework.stereotype.Component;
+
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.ManyToOne;
+import javax.persistence.Table;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
+
+@Table(name="conversation")
+@Entity
 public class Conversation implements Serializable
 {
     private String name;
+    @Id
     private UUID id;
     private UUID creatorID;
+
+    //TODO: @ManyToOne, @OneToMany
+
     private List<UUID> membersID;
+
     private List<AbstractMessage> messages;
 
     public Conversation() {}
