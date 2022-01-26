@@ -1,10 +1,16 @@
 package com.messenger.models;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.Table;
 import java.util.UUID;
 
+@Table(name = "profile")
+@Entity
 public class Profile
 {
     private String name;
     private String surname;
+    @Id
     private UUID userID;
     private String login;
     private String password;
@@ -19,6 +25,8 @@ public class Profile
         this.login = login;
         this.password = password;
     }
+
+    public Profile() {}
 
     public String getName() {
         return name;

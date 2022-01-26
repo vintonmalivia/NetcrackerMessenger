@@ -1,18 +1,16 @@
 package com.messenger.models;
+import org.hibernate.annotations.CollectionId;
 import org.springframework.context.annotation.Bean;
 import org.springframework.stereotype.Component;
 
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.ManyToOne;
-import javax.persistence.Table;
+import javax.persistence.*;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
 
-@Table(name="conversation")
+@Table(name = "conversations")
 @Entity
 public class Conversation implements Serializable
 {
@@ -23,8 +21,10 @@ public class Conversation implements Serializable
 
     //TODO: @ManyToOne, @OneToMany
 
+    @ManyToMany
     private List<UUID> membersID;
 
+    @OneToMany
     private List<AbstractMessage> messages;
 
     public Conversation() {}

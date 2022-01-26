@@ -1,10 +1,14 @@
 package com.messenger.models.impl;
 import com.messenger.models.AbstractMessage;
 
+import javax.persistence.Entity;
+import javax.persistence.Table;
 import java.io.Serializable;
 import java.util.Date;
 import java.util.UUID;
 
+@Table(name = "text_messages")
+@Entity
 public class TextMessage extends AbstractMessage implements Serializable
 {
     private String textOfMessage;
