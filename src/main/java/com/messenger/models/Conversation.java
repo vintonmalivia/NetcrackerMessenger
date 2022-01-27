@@ -14,9 +14,13 @@ import java.util.UUID;
 @Entity
 public class Conversation implements Serializable
 {
+    @Column(name = "name", nullable = false)
     private String name;
+
     @Id
+    @Column(name = "id", nullable = false, unique = true)
     private UUID id;
+
     private UUID creatorID;
 
     //TODO: @ManyToOne, @OneToMany

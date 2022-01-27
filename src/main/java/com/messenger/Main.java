@@ -79,36 +79,36 @@ public class Main
 //        //YAMLDeserCheck
 //        System.out.println("Проверка сериализации и десериализации YAML: " +
 //                Conversation.deserializeConversationFromYAMLFile(newFileYAML));
-        List<AbstractMessage> messages1conv;
-        {
-            messages1conv = new ArrayList<>();
-            messages1conv.add(new TextMessage("Hi. I am the creator.", UUID.randomUUID(), new Date()));
-            messages1conv.add(new TextMessage("Hello, I am the second.", UUID.randomUUID(), new Date()));
-            messages1conv.add(new TextMessage("I am third.", UUID.randomUUID(), new Date()));
-            messages1conv.add(new TextMessage("Four.", UUID.randomUUID(), new Date()));
-        }
-
-        List<UUID> membersID1conv;
-        {
-            membersID1conv = new ArrayList<>();
-        }
-
-        List<AbstractMessage> messages2conv;
-        {
-            messages2conv = new ArrayList<>();
-            messages2conv.add(new TextMessage("Hi", UUID.randomUUID(), new Date()));
-            messages2conv.add(new TextMessage("Hi", UUID.randomUUID(), new Date()));
-            messages2conv.add(new TextMessage("Hi", UUID.randomUUID(), new Date()));
-        }
-
-        List<Conversation> conversationList;
-        {
-            conversationList = new ArrayList<>();
-            conversationList.add(new Conversation("Conv1", UUID.randomUUID(), UUID.randomUUID(), membersID1conv, messages1conv));
-            conversationList.add(new Conversation("Conv2", UUID.randomUUID(), UUID.randomUUID(), membersID1conv, messages2conv));
-        }
-
-        ConversationManager.getInstance().setConversations(conversationList);
+//        List<AbstractMessage> messages1conv;
+//        {
+//            messages1conv = new ArrayList<>();
+//            messages1conv.add(new TextMessage("Hi. I am the creator.", UUID.randomUUID(), new Date()));
+//            messages1conv.add(new TextMessage("Hello, I am the second.", UUID.randomUUID(), new Date()));
+//            messages1conv.add(new TextMessage("I am third.", UUID.randomUUID(), new Date()));
+//            messages1conv.add(new TextMessage("Four.", UUID.randomUUID(), new Date()));
+//        }
+//
+//        List<UUID> membersID1conv;
+//        {
+//            membersID1conv = new ArrayList<>();
+//        }
+//
+//        List<AbstractMessage> messages2conv;
+//        {
+//            messages2conv = new ArrayList<>();
+//            messages2conv.add(new TextMessage("Hi", UUID.randomUUID(), new Date()));
+//            messages2conv.add(new TextMessage("Hi", UUID.randomUUID(), new Date()));
+//            messages2conv.add(new TextMessage("Hi", UUID.randomUUID(), new Date()));
+//        }
+//
+//        List<Conversation> conversationList;
+//        {
+//            conversationList = new ArrayList<>();
+//            conversationList.add(new Conversation("Conv1", UUID.randomUUID(), UUID.randomUUID(), membersID1conv, messages1conv));
+//            conversationList.add(new Conversation("Conv2", UUID.randomUUID(), UUID.randomUUID(), membersID1conv, messages2conv));
+//        }
+//
+//        ConversationManager.getInstance().setConversations(conversationList);
 
         SpringApplication.run(Main.class);
     }

@@ -1,4 +1,5 @@
 package com.messenger.models;
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
@@ -8,11 +9,20 @@ import java.util.UUID;
 @Entity
 public class Profile
 {
+    @Column(name = "name", nullable = false)
     private String name;
+
+    @Column(name = "surname", nullable = false)
     private String surname;
+
     @Id
+    @Column(name = "id", nullable = false, unique = true)
     private UUID userID;
+
+    @Column(name = "login", nullable = false, unique = true)
     private String login;
+
+    @Column(name = "password", nullable = false)
     private String password;
 
     /* TODO (question): (Additional info required) Будут ли в приложении роли? Admin, Simple User ... ? Если да, то предусмотреть такую возможность */
