@@ -18,47 +18,61 @@ public class Conversation implements Serializable
     private String name;
 
     @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "id", nullable = false, unique = true)
     private UUID id;
 
-    private UUID creatorID;
+    @ManyToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "creator_id")
+    private Profile creator;
 
     //TODO: @ManyToOne, @OneToMany
 
+    @JoinTable(
+            name = "conversation_members",
+            joinColumns = @JoinColumn(
+            name = "conv_ID",
+            referencedColumnName = "id"
+    ),
+    inverseJoinColumns = @JoinColumn(
+            name = "prof_ID",
+            referencedColumnName = "id"
+    ))
     @ManyToMany
-    private List<UUID> membersID;
+    private List<Profile> members;
 
     @OneToMany
     private List<AbstractMessage> messages;
 
     public Conversation() {}
 
-    public Conversation(String name, UUID id, UUID creatorID)
+    public Conversation(String name, UUID id, Profile creator)
     {
         this.name = name;
         this.id = id;
-        this.creatorID = creatorID;
-        this.membersID = new ArrayList<>();
-        this.membersID.add(creatorID);
+        this.creator = creator;
+        this.members = new ArrayList<>();
+        this.members.add(creator);
     }
 
-    public Conversation(String name, UUID id, UUID creatorID, List<AbstractMessage> messages)
+    public Conversation(String name, UUID id, Profile creator, List<AbstractMessage> messages)
     {
         this.name = name;
         this.id = id;
-        this.creatorID = creatorID;
+        this.creator = creator;
         this.messages = messages;
-        this.membersID = new ArrayList<>();
-        this.membersID.add(creatorID);
+        this.members = new ArrayList<>();
+        this.members.add(creator);
     }
 
-    public Conversation(String name, UUID id, UUID creatorID, List<UUID> membersID, List<AbstractMessage> messages) {
+    public Conversation(String name, UUID id, Profile creator, List<Profile> members, List<AbstractMessage> messages)
+    {
         this.name = name;
         this.id = id;
-        this.creatorID = creatorID;
-        this.membersID = membersID;
+        this.creator = creator;
+        this.members = members;
         this.messages = messages;
-        if (!membersID.contains(creatorID))
+        if (!members.contains(creator))
         {
             // TODO: What if creator not in members list??? (Добавить валидацию листа участников чата)
         }
@@ -80,20 +94,20 @@ public class Conversation implements Serializable
         this.id = id;
     }
 
-    public UUID getCreatorID() {
-        return creatorID;
+    public Profile getCreator() {
+        return creator;
     }
 
-    public void setCreatorID(UUID creatorID) {
-        this.creatorID = creatorID;
+    public void setCreator(Profile creator) {
+        this.creator = creator;
     }
 
-    public List<UUID> getMembersID() {
-        return membersID;
+    public List<Profile> getMembers() {
+        return members;
     }
 
-    public void setMembersID(List<UUID> membersID) {
-        this.membersID = membersID;
+    public void setMembersID(List<Profile> members) {
+        this.members = members;
     }
 
     public List<AbstractMessage> getMessages() {
@@ -112,8 +126,8 @@ public class Conversation implements Serializable
         return "Conversation{" +
                 "name='" + name + '\'' +
                 ", id=" + id +
-                ", creatorID=" + creatorID +
-                ", membersID=" + membersID +
+                ", creatorID=" + creator +
+                ", membersID=" + members +
                 ", messages=" + messages +
                 '}';
     }
