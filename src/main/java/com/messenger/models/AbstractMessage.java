@@ -9,6 +9,8 @@ import java.util.UUID;
 
 @Table(name = "abstract_messages")
 @Entity
+@Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
+//@MappedSuperclass
 public abstract class AbstractMessage implements Serializable
 {
      //TODO: TIMEZONE
@@ -16,10 +18,12 @@ public abstract class AbstractMessage implements Serializable
      private static final String PATTERN = "dd-MM-yyyy HH:mm";
 
      @Id
+     @GeneratedValue(strategy = GenerationType.AUTO)
      @Column(name = "id", nullable = false, unique = true)
      private UUID id;
 
-     @OneToOne
+     @ManyToOne
+     @JoinColumn(name = "sender_id")
      protected Profile sender;
 
      @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = PATTERN, timezone = TIMEZONE)

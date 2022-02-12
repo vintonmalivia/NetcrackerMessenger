@@ -27,7 +27,8 @@ public class ConversationController
     @GetMapping
     public String getConversations(Model model)
     {
-        model.addAttribute(ALL_CONVERSATIONS, /*ConversationManager.getInstance().getConversations()*/ databaseConversationDAO.findAll());
+        model.addAttribute(ALL_CONVERSATIONS, /*ConversationManager.getInstance().getConversations()*/
+                databaseConversationDAO.findAll());
         return CONVERSATIONS_PATH + ALL_CONVERSATIONS_HTML;
     }
 
