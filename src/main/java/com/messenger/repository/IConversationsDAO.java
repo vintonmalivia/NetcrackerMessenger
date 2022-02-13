@@ -8,6 +8,7 @@ import org.springframework.data.repository.CrudRepository;
 import java.io.*;
 import java.util.List;
 
+/* Todo: В принципе, этот класс врятли нам пригодится. Можно удалить */
 public interface IConversationsDAO
 {
     void createConversation(Conversation conversation) throws IOException;

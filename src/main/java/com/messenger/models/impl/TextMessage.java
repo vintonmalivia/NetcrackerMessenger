@@ -9,11 +9,11 @@ import java.io.Serializable;
 import java.util.Date;
 import java.util.UUID;
 
-@Table(name = "text_messages")
+@Table(name = "text_messages") // TODO: В константы (чисто константы под таблички)
 @Entity
 public class TextMessage extends AbstractMessage implements Serializable
 {
-    @Column(name = "text", nullable = false)
+    @Column(name = "text" /* TODO: В константы для колонок. Эти константы можно вынести во вложенный класс и назвать аля ColumnNames (см. пример в MessagesController) */, nullable = false)
     private String textOfMessage;
 
     public TextMessage(){}

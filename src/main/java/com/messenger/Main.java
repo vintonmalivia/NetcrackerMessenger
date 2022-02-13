@@ -8,7 +8,7 @@ public class Main
     public static void main(String[] args)
     {
         //DB init
-
+        /* TODO: Здесь нужно проинициализировать бд (создать таблички, ЕСЛИ ИХ НЕТ!)*/
 
         SpringApplication.run(Main.class);
     }

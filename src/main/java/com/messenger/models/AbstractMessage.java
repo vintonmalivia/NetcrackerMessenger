@@ -19,15 +19,15 @@ public abstract class AbstractMessage implements Serializable
 
      @Id
      @GeneratedValue(strategy = GenerationType.AUTO)
-     @Column(name = "id", nullable = false, unique = true)
+     @Column(name = "id" /* Todo: В константы */, nullable = false, unique = true)
      private UUID id;
 
      @ManyToOne
-     @JoinColumn(name = "sender_id")
+     @JoinColumn(name = "sender_id" /* Todo: В константы */)
      protected Profile sender;
 
      @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = PATTERN, timezone = TIMEZONE)
-     @Column(name = "date", nullable = false)
+     @Column(name = "date" /* Todo: В константы */, nullable = false)
      protected Date dateOfSending;
 
      public AbstractMessage() {}

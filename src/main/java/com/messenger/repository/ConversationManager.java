@@ -3,6 +3,7 @@ import com.messenger.models.Conversation;
 import java.util.ArrayList;
 import java.util.List;
 
+/* Todo: Как только я увижу, что все сущности спокойно сохраняются в бд, можно будет удалить этт класс */
 public class ConversationManager
 {
     private static ConversationManager instance;

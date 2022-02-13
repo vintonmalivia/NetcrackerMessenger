@@ -10,32 +10,32 @@ import java.util.List;
 import java.util.UUID;
 
 
-@Table(name = "conversations")
+@Table(name = "conversations") /* Todo: В константы */
 @Entity
 public class Conversation implements Serializable
 {
-    @Column(name = "name", nullable = false)
+    @Column(name = "name" /* Todo: В константы */, nullable = false)
     private String name;
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    @Column(name = "id", nullable = false, unique = true)
+    @Column(name = "id" /* Todo: В константы */, nullable = false, unique = true)
     private UUID id;
 
     @ManyToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "creator_id")
+    @JoinColumn(name = "creator_id" /* Todo: В константы */)
     private Profile creator;
 
     //TODO: @ManyToOne, @OneToMany
 
-    @JoinTable(
+    @JoinTable( /* Todo: Все магические строки в константы */
             name = "conversation_members",
             joinColumns = @JoinColumn(
-            name = "conv_ID",
+            name = "conv_ID",  /* Todo: Названия колонок не должны иметь заглавных букв */
             referencedColumnName = "id"
     ),
     inverseJoinColumns = @JoinColumn(
-            name = "prof_ID",
+            name = "prof_ID", /* Todo: Названия колонок не должны иметь заглавных букв */
             referencedColumnName = "id"
     ))
     @ManyToMany
@@ -74,6 +74,7 @@ public class Conversation implements Serializable
         this.messages = messages;
         if (!members.contains(creator))
         {
+            /* Todo: Доделай, пожалуйста, предыдущие тудушки ) */
             // TODO: What if creator not in members list??? (Добавить валидацию листа участников чата)
         }
     }
@@ -119,7 +120,7 @@ public class Conversation implements Serializable
     }
 
     // TODO: (normal) Добавить методы добавления/удаления сообщения, добавления/удаления участников
-    //TODO: lists, maps, sets
+    //TODO: Чекнуть lists, maps, sets
 
     @Override
     public String toString() {

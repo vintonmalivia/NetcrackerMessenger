@@ -8,5 +8,5 @@ public interface Serializer
 
     Conversation deserialize(String conversationString) throws IOException;
 
-    //TODO: JSON Node, Object Node и подтипы
+    //TODO: [Optional] Посмотреть про JSON Node, Object Node и подтипы (библиотека Jackson)
 }

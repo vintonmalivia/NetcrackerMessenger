@@ -24,10 +24,25 @@ public class MessagesController
 //    public MessagesController(TextMessageDAO textMessageDAO){
 //        this.textMessageDAO = textMessageDAO;
 //    }
-    private static final String CONVERSATIONS_PATH = "conversations/";
+    private static final String CONVERSATIONS_PATH = "conversations/"; // TODO: Можно объединять константы для разных целей в отдельные вложенные статические классы (пример сразу после констант)
     private static final String MESSAGES = "conversationMessages";
     private static final String MESSAGES_HTML = "conversationMessages";
     private static final String UUID = "uuid";
+
+    // Пример объявления вложенных статических классов констант
+    /*
+    private static abstract class Views {
+        public static final String CONVERSATION_MESSAGES = "conversations/conversationMessages";
+    }
+
+    private static abstract class PathVariables {
+        public static final String UUID = "uuid";
+    }
+
+    private static abstract class ModelAttributes {
+        public static final String SOME_MODEL_ATTRIBUTE = "some_attribute";
+    }
+    */
 
     @Autowired
     private IDatabaseMessageDAO databaseMessageDAO;
