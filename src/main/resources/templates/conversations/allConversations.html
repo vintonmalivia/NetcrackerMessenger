@@ -10,7 +10,11 @@
     <tr>
         <td>
         <a th:href="@{/conversations/{uuid}/messages (uuid = ${conversation.getId()})}"
-           th:text="${conversation.getName()}"></a>
+           th:text="${conversation.getName()}">
+        </a>
+        <form th:method="DELETE" th:action="@{/conversations}" th:object="${conversation}">
+            <input type="submit" value="x"/>
+        </form>
         </td>
     </tr>
 </table>
