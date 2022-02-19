@@ -1,4 +1,4 @@
-package com.messenger.constants;
+package com.messenger.constants.controllers;
 
 public class Endpoints
 {
