@@ -1,19 +1,24 @@
 package com.messenger.models.impl;
 import com.messenger.models.AbstractMessage;
 import com.messenger.models.Profile;
-
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Table;
 import java.io.Serializable;
 import java.util.Date;
 import java.util.UUID;
+import static com.messenger.constants.tables.TableNames.TEXT_MESSAGES;
 
-@Table(name = "text_messages") // TODO: В константы (чисто константы под таблички)
+@Table(name = TEXT_MESSAGES)
 @Entity
 public class TextMessage extends AbstractMessage implements Serializable
 {
-    @Column(name = "text" /* TODO: В константы для колонок. Эти константы можно вынести во вложенный класс и назвать аля ColumnNames (см. пример в MessagesController) */, nullable = false)
+    private static abstract class ColumnNames
+    {
+        private static final String TEXT = "text";
+    }
+
+    @Column(name = ColumnNames.TEXT, nullable = false)
     private String textOfMessage;
 
     public TextMessage(){}

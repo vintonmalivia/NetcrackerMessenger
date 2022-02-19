@@ -1,42 +1,53 @@
 package com.messenger.models;
-import org.hibernate.annotations.CollectionId;
-import org.springframework.context.annotation.Bean;
-import org.springframework.stereotype.Component;
-
+import com.messenger.exceptions.NoCreatorIDException;
 import javax.persistence.*;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
+import static com.messenger.constants.tables.TableNames.CONVERSATIONS;
 
-
-@Table(name = "conversations") /* Todo: В константы */
+@Table(name = CONVERSATIONS)
 @Entity
 public class Conversation implements Serializable
 {
-    @Column(name = "name" /* Todo: В константы */, nullable = false)
+    private static abstract class ColumnNames
+    {
+        private static final String NAME = "name";
+        private static final String ID = "id";
+        private static final String CREATOR_ID = "creator_id";
+        private static final String CONV_ID = "conv_id";
+        private static final String PROF_ID = "prof_id";
+    }
+
+    private static abstract class TableNames
+    {
+        private static final String CONVERSATION_MEMBERS = "conversation_members";
+    }
+
+    @Column(name = ColumnNames.NAME, nullable = false)
     private String name;
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    @Column(name = "id" /* Todo: В константы */, nullable = false, unique = true)
+    @Column(name = ColumnNames.ID, nullable = false, unique = true,  columnDefinition = "varchar(36)")
     private UUID id;
 
     @ManyToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "creator_id" /* Todo: В константы */)
+    @JoinColumn(name = ColumnNames.CREATOR_ID)
     private Profile creator;
 
     //TODO: @ManyToOne, @OneToMany
 
-    @JoinTable( /* Todo: Все магические строки в константы */
-            name = "conversation_members",
+    @JoinTable(
+            name = TableNames.CONVERSATION_MEMBERS,
             joinColumns = @JoinColumn(
-            name = "conv_ID",  /* Todo: Названия колонок не должны иметь заглавных букв */
-            referencedColumnName = "id"
+            name = ColumnNames.CONV_ID,
+            referencedColumnName = ColumnNames.ID
     ),
     inverseJoinColumns = @JoinColumn(
-            name = "prof_ID", /* Todo: Названия колонок не должны иметь заглавных букв */
-            referencedColumnName = "id"
+            name = ColumnNames.PROF_ID,
+            referencedColumnName = ColumnNames.ID
     ))
     @ManyToMany
     private List<Profile> members;
@@ -65,8 +76,7 @@ public class Conversation implements Serializable
         this.members.add(creator);
     }
 
-    public Conversation(String name, UUID id, Profile creator, List<Profile> members, List<AbstractMessage> messages)
-    {
+    public Conversation(String name, UUID id, Profile creator, List<Profile> members, List<AbstractMessage> messages) throws NoCreatorIDException {
         this.name = name;
         this.id = id;
         this.creator = creator;
@@ -74,8 +84,8 @@ public class Conversation implements Serializable
         this.messages = messages;
         if (!members.contains(creator))
         {
-            /* Todo: Доделай, пожалуйста, предыдущие тудушки ) */
             // TODO: What if creator not in members list??? (Добавить валидацию листа участников чата)
+            throw new NoCreatorIDException();
         }
     }
 

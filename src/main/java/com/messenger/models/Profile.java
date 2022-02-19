@@ -1,26 +1,36 @@
 package com.messenger.models;
 import javax.persistence.*;
 import java.util.UUID;
+import static com.messenger.constants.tables.TableNames.PROFILE;
 
-@Table(name = "profile") /* Todo: В константы */
+@Table(name = PROFILE) /* Todo: В константы */
 @Entity
 public class Profile
 {
-    @Column(name = "name" /* Todo: В константы */, nullable = false)
+    private static abstract class ColumnNames
+    {
+        private static final String NAME = "name";
+        private static final String SURNAME = "surname";
+        private static final String ID = "id";
+        private static final String LOGIN = "login";
+        private static final String PASSWORD = "password";
+    }
+
+    @Column(name = ColumnNames.NAME, nullable = false)
     private String name;
 
-    @Column(name = "surname" /* Todo: В константы */, nullable = false)
+    @Column(name = ColumnNames.SURNAME, nullable = false)
     private String surname;
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    @Column(name = "id" /* Todo: В константы */, nullable = false, unique = true)
+    @Column(name = ColumnNames.ID, nullable = false, unique = true)
     private UUID userID;
 
-    @Column(name = "login" /* Todo: В константы *//*, nullable = false, unique = true*/)
+    @Column(name = ColumnNames.LOGIN/*, nullable = false, unique = true*/)
     private String login;
 
-    @Column(name = "password" /* Todo: В константы *//*, nullable = false*/)
+    @Column(name = ColumnNames.PASSWORD/*, nullable = false*/)
     private String password;
 
     /* TODO (question): (Additional info required) Будут ли в приложении роли? Admin, Simple User ... ? Если да, то предусмотреть такую возможность */
