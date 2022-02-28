@@ -1,5 +1,7 @@
 package com.messenger.models;
 import com.fasterxml.jackson.annotation.JsonFormat;
+import org.hibernate.annotations.Type;
+
 import javax.persistence.*;
 import java.io.Serializable;
 import java.util.Date;

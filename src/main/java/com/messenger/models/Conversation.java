@@ -84,7 +84,6 @@ public class Conversation implements Serializable
         this.messages = messages;
         if (!members.contains(creator))
         {
-            // TODO: What if creator not in members list??? (Добавить валидацию листа участников чата)
             throw new NoCreatorIDException();
         }
     }
