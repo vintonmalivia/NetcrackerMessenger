@@ -1,0 +1,23 @@
+<!DOCTYPE HTML>
+<html xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
+      lang="en">
+<head>
+    <title>Homepage</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+</head>
+<body>
+<div>
+    <div sec:authorize="!isAuthenticated()">
+    <h4><a href="/login">Log in</a></h4>
+    <h4><a href="/registration">Register</a></h4>
+    </div>
+    <div sec:authorize="isAuthenticated()">
+    <h4><a href="/logout">Log out</a></h4>
+    <h4><a href="/conversations">Conversations</a></h4>
+        <div sec:authorize="hasAuthority('ROLE_ADMIN')">
+            <h4><a href="/admin">Users (admin access only)</a></h4>
+        </div>
+    </div>
+</div>
+</body>
+</html>

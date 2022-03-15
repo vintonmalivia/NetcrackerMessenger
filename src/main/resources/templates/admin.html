@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
+      lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>Administration page</title>
+    <link rel="stylesheet" type="text/css" href="${contextPath}/resources/css/style.css">
+</head>
+
+<body>
+<div>
+    <table>
+        <thead>
+        <th>ID</th>
+        <th>Username</th>
+        <th>Password</th>
+        <th>Roles</th>
+        </thead>
+        <div>
+            <tr th:each="user : ${allUsers}">
+                <td th:text="${user.getId()}"></td>
+                <td th:text="${user.getUsername()}"></td>
+                <td th:text="${user.getPassword()}"></td>
+                <td th:each="role : ${user.getRoles()}" th:text="${role.getName()}"></td>
+                <td>
+                    <form action="/admin" method="post">
+                        <input type="hidden" name="userId" th:value="${user.getId()}"/>
+                        <input type="hidden" name="action" value="delete"/>
+                        <button type="submit">Delete</button>
+                    </form>
+                </td>
+            </tr>
+        </div>
+    </table>
+    <h4><a href="/">Go to homepage</a></h4>
+</div>
+</body>
+</html>
