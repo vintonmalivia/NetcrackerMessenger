@@ -2,27 +2,22 @@
 <html xmlns:th="http://www.thymeleaf.org" lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Messages in dialogue</title>
+    <title>Conversation messages</title>
 </head>
 <body>
-<table>
+<h4>
+    <div>
+        <a href="/conversations">Get to all conversations</a>
+    </div>
+</h4>
+<table th:each="message : ${conversationMessages}">
     <tr>
-        <td>
-            <b th:text="${conversationMessages.getName()}"></b>
-        </td>
+        <td th:text="${message.getSender().getName()}"></td>
+        <td th:text="${message.getDateOfSending()}"></td>
+    </tr>
+    <tr>
+        <td th:text="${message.getTextOfMessage()}"></td>
     </tr>
 </table>
-<div>
-<table>
-    <tr th:each="message : ${conversationMessages.getMessages()}">
-        <td>
-            <a th:text="${message.getSenderID()}"> </a>
-            <a th:text="${message.getDateOfSending()}"> </a>
-            <br>
-            <a th:text="${message.getTextOfMessage()}"></a>
-        </td>
-    </tr>
-</table>
-</div>
 </body>
 </html>
