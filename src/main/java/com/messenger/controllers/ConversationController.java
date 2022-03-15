@@ -5,6 +5,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import java.util.UUID;
 import static com.messenger.constants.controllers.Endpoints.CONVERSATIONS;
 import static com.messenger.constants.controllers.Endpoints.NEW;
 
@@ -12,14 +13,6 @@ import static com.messenger.constants.controllers.Endpoints.NEW;
 @RequestMapping(CONVERSATIONS)
 public class ConversationController
 {
-//    private static final String CONVERSATIONS_PATH = "conversations/";
-//    private static final String ALL_CONVERSATIONS = "allConversations";
-//    private static final String ALL_CONVERSATIONS_HTML = "allConversations";
-//    private static final String NEW_CONVERSATION = "newConversation";
-//    private static final String NEW_CONVERSATION_HTML = "newConversation";
-//    private static final String REDIRECT = "redirect:/";
-
-    // Пример объявления вложенных статических классов констант
     private static abstract class Views {
         private static final String CONVERSATIONS_PATH = "conversations/";
         private static final String ALL_CONVERSATIONS_HTML = "allConversations";
@@ -30,7 +23,7 @@ public class ConversationController
     private static abstract class ModelAttributes {
         private static final String ALL_CONVERSATIONS = "allConversations";
         private static final String NEW_CONVERSATION = "newConversation";
-        private static final String CONVERSATION = "com/messenger/exceptions/conversation";
+//        private static final String CONVERSATION = "conversation";
     }
 
     @Autowired
@@ -39,8 +32,7 @@ public class ConversationController
     @GetMapping
     public String getConversations(Model model)
     {
-        model.addAttribute(ModelAttributes.ALL_CONVERSATIONS, /*ConversationManager.getInstance().getConversations()*/
-                databaseConversationDAO.findAll());
+        model.addAttribute(ModelAttributes.ALL_CONVERSATIONS, databaseConversationDAO.findAll());
         return Views.CONVERSATIONS_PATH + Views.ALL_CONVERSATIONS_HTML;
     }
 
@@ -53,19 +45,14 @@ public class ConversationController
     @PostMapping
     public String createNewConversation(@ModelAttribute(ModelAttributes.NEW_CONVERSATION) Conversation conversation)
     {
-//        List<Conversation> conversations = ConversationManager.getInstance().getConversations();
-//        conversation.setId(UUID.randomUUID());
-//        conversations.add(conversation);
-//        ConversationManager.getInstance().setConversations(conversations);
-//        textMessageDAO.saveNewConversation(conversation);
         databaseConversationDAO.save(conversation);
         return Views.REDIRECT + Views.CONVERSATIONS_PATH;
     }
 
-    @DeleteMapping
-    public String deleteConversation(@ModelAttribute(ModelAttributes.CONVERSATION) Conversation conversation)
-    {
-        databaseConversationDAO.delete(conversation);
+    //TODO: Doesn't work, needs to be fixed
+    @PostMapping("/{uuid}")
+    public String deleteConversation(@PathVariable("uuid") UUID uuid) {
+        databaseConversationDAO.deleteById(uuid);
         return Views.REDIRECT + Views.CONVERSATIONS_PATH;
     }
 

@@ -1,5 +1,8 @@
 package com.messenger.models;
 import com.messenger.exceptions.NoCreatorIDException;
+import com.messenger.models.impl.TextMessage;
+import org.hibernate.annotations.Type;
+
 import javax.persistence.*;
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -25,12 +28,23 @@ public class Conversation implements Serializable
         private static final String CONVERSATION_MEMBERS = "conversation_members";
     }
 
+    private static abstract class ColumnDefinition
+    {
+        private static final String VARCHAR_36 = "varchar(36)";
+    }
+
+    private static abstract class TypeAnnotation
+    {
+        private static final String UUID_CHAR_TYPE = "org.hibernate.type.UUIDCharType";
+    }
+
     @Column(name = ColumnNames.NAME, nullable = false)
     private String name;
 
     @Id
+    @Type(type = TypeAnnotation.UUID_CHAR_TYPE)
     @GeneratedValue(strategy = GenerationType.AUTO)
-    @Column(name = ColumnNames.ID, nullable = false, unique = true,  columnDefinition = "varchar(36)")
+    @Column(name = ColumnNames.ID, nullable = false, unique = true,  columnDefinition = ColumnDefinition.VARCHAR_36)
     private UUID id;
 
     @ManyToOne(cascade = CascadeType.ALL)
@@ -130,6 +144,26 @@ public class Conversation implements Serializable
 
     // TODO: (normal) Добавить методы добавления/удаления сообщения, добавления/удаления участников
     //TODO: Чекнуть lists, maps, sets
+
+    public void addMember(Profile member)
+    {
+        members.add(member);
+    }
+
+    public void deleteMember(Profile member)
+    {
+        members.remove(member);
+    }
+
+    public void addMessage(TextMessage newMessage)
+    {
+        messages.add(newMessage);
+    }
+
+    public void deleteMessage(TextMessage textMessage)
+    {
+        messages.remove(textMessage);
+    }
 
     @Override
     public String toString() {

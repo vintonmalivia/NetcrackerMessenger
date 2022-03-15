@@ -11,7 +11,6 @@ import static com.messenger.constants.tables.TableNames.ABSTRACT_MESSAGES;
 @Table(name = ABSTRACT_MESSAGES)
 @Entity
 @Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
-//@MappedSuperclass
 public abstract class AbstractMessage implements Serializable
 {
      private static abstract class ColumnNames
@@ -21,17 +20,27 @@ public abstract class AbstractMessage implements Serializable
           private static final String DATE = "date";
      }
 
+     private static abstract class ColumnDefinition
+     {
+          private static final String VARCHAR_36 = "varchar(36)";
+     }
+
+     private static abstract class TypeAnnotation {
+          private static final String UUID_CHAR_TYPE = "org.hibernate.type.UUIDCharType";
+     }
+
      //TODO: TIMEZONE
      private static final String TIMEZONE = "GMT+04:00";
      private static final String PATTERN = "dd-MM-yyyy HH:mm";
 
      @Id
+     @Type(type = TypeAnnotation.UUID_CHAR_TYPE)
      @GeneratedValue(strategy = GenerationType.AUTO)
-     @Column(name = ColumnNames.ID, nullable = false, unique = true, columnDefinition = "varchar(36)")
+     @Column(name = ColumnNames.ID, nullable = false, unique = true, columnDefinition = ColumnDefinition.VARCHAR_36)
      private UUID id;
 
      @ManyToOne
-     @JoinColumn(name = ColumnNames.SENDER_ID,  columnDefinition = "varchar(36)")
+     @JoinColumn(name = ColumnNames.SENDER_ID,  columnDefinition = ColumnDefinition.VARCHAR_36)
      protected Profile sender;
 
      @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = PATTERN, timezone = TIMEZONE)
@@ -42,7 +51,7 @@ public abstract class AbstractMessage implements Serializable
 
      public Profile getSender() {return sender;}
 
-     public void setSenderID(Profile sender) {this.sender = sender;}
+     public void setSender(Profile sender) {this.sender = sender;}
 
      public Date getDateOfSending() {return dateOfSending;}
 

@@ -1,4 +1,5 @@
 package com.messenger.controllers;
+import com.messenger.repository.IDatabaseConversationDAO;
 import com.messenger.repository.IDatabaseMessageDAO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -15,14 +16,6 @@ import static com.messenger.constants.controllers.Endpoints.MESSAGES;
 @RequestMapping(MESSAGES)
 public class MessagesController
 {
-//    private final TextMessageDAO textMessageDAO;
-//
-//    @Autowired
-//    public MessagesController(TextMessageDAO textMessageDAO){
-//        this.textMessageDAO = textMessageDAO;
-//    }
-
-    // Пример объявления вложенных статических классов констант
     private static abstract class Views {
         private static final String CONVERSATIONS_PATH = "conversations/";
         private static final String MESSAGES_HTML = "conversationMessages";

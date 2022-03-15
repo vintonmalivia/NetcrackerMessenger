@@ -1,9 +1,11 @@
 package com.messenger.models;
+import org.hibernate.annotations.Type;
+
 import javax.persistence.*;
 import java.util.UUID;
 import static com.messenger.constants.tables.TableNames.PROFILE;
 
-@Table(name = PROFILE) /* Todo: В константы */
+@Table(name = PROFILE)
 @Entity
 public class Profile
 {
@@ -14,6 +16,10 @@ public class Profile
         private static final String ID = "id";
     }
 
+    private static abstract class TypeAnnotation {
+        private static final String UUID_CHAR_TYPE = "org.hibernate.type.UUIDCharType";
+    }
+
     @Column(name = ColumnNames.NAME, nullable = false)
     private String name;
 
@@ -21,11 +27,10 @@ public class Profile
     private String surname;
 
     @Id
+    @Type(type = TypeAnnotation.UUID_CHAR_TYPE)
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = ColumnNames.ID, nullable = false, unique = true)
     private UUID userID;
-
-    /* TODO (question): (Additional info required) Будут ли в приложении роли? Admin, Simple User ... ? Если да, то предусмотреть такую возможность */
 
     public Profile(String name, String surname, UUID userID)
     {

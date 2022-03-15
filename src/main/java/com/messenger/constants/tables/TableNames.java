@@ -5,4 +5,6 @@ public class TableNames {
     public static final String TEXT_MESSAGES = "text_messages";
     public static final String PROFILE = "profile";
     public static final String CONVERSATIONS = "conversations";
+    public static final String ROLE = "table_role";
+    public static final String USER = "table_user";
 }

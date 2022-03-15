@@ -25,7 +25,7 @@ public class RegistrationController {
         private static final String USER_FORM = "userForm";
         private static final String ATTRIBUTE_NAME_PASSWORD_ERROR = "passwordError";
         private static final String ATTRIBUTE_VALUE_PASSWORD_ERROR = "Password do not match!";
-        private static final String ATTRIBUTE_NAME_USERNAME_ERROR = "passwordError";
+        private static final String ATTRIBUTE_NAME_USERNAME_ERROR = "usernameError";
         private static final String ATTRIBUTE_VALUE_USERNAME_ERROR = "A user with the same username already exists!";
     }
 
