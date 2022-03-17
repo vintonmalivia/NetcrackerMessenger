@@ -36,7 +36,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         private static final String ADMIN = "ADMIN";
     }
 
-    @Autowired
+    @Autowired // TODO: смотри подобные тудушки. Ставим над конструкторами, не над полями. + модификатор доступа должен быть явно указан
     UserService userService;
 
     @Bean

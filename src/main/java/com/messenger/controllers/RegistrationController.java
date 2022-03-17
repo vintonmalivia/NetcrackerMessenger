@@ -29,8 +29,8 @@ public class RegistrationController {
         private static final String ATTRIBUTE_VALUE_USERNAME_ERROR = "A user with the same username already exists!";
     }
 
-    @Autowired
-    private UserService userService;
+    @Autowired // TODO: смотри подобные тудушки. Ставим над конструкторами, не над полями. + модификатор доступа должен быть явно указан
+    private UserService userService; // TODO (не туду, просто чтоб подсветить): А вот здесь сервис стоит верно!
 
     @GetMapping(REGISTRATION)
     public String registration(Model model) {
@@ -41,14 +41,15 @@ public class RegistrationController {
     @PostMapping(REGISTRATION)
     public String addUser(@ModelAttribute(ModelAttributes.USER_FORM) User userForm, BindingResult bindingResult, Model model) {
         if (bindingResult.hasErrors()) {
-            return Views.REGISTRATION_HTML;
+            return Views.REGISTRATION_HTML; // TODO: чуть больше бизнес-логики. Что за ошибки? Как пользователь поймет, что он сделал не так?
+                                            //  Можно добавлять сообщение в модель и выводить его, если оно есть (либо пустую строку, если ошибок нет). Это просто пример реализации
         }
         if (!userForm.getPassword().equals(userForm.getPasswordConfirm())){
-            model.addAttribute(ModelAttributes.ATTRIBUTE_NAME_PASSWORD_ERROR, ModelAttributes.ATTRIBUTE_VALUE_PASSWORD_ERROR);
+            model.addAttribute(ModelAttributes.ATTRIBUTE_NAME_PASSWORD_ERROR, ModelAttributes.ATTRIBUTE_VALUE_PASSWORD_ERROR); // TODO: код выходит за линию
             return Views.REGISTRATION_HTML;
         }
         if (!userService.saveUser(userForm)){
-            model.addAttribute(ModelAttributes.ATTRIBUTE_NAME_USERNAME_ERROR, ModelAttributes.ATTRIBUTE_VALUE_USERNAME_ERROR);
+            model.addAttribute(ModelAttributes.ATTRIBUTE_NAME_USERNAME_ERROR, ModelAttributes.ATTRIBUTE_VALUE_USERNAME_ERROR); // TODO: код выходит за линию
             return Views.REGISTRATION_HTML;
         }
         return Views.REDIRECT;

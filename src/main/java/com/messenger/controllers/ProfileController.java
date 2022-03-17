@@ -29,8 +29,8 @@ public class ProfileController {
         private static final String PROFILE = "profile";
     }
 
-    @Autowired
-    private IDatabaseProfileDAO databaseProfileDAO;
+    @Autowired // TODO: смотри подобные тудушки. Ставим над конструкторами, не над полями. + модификатор доступа должен быть явно указан
+    private IDatabaseProfileDAO databaseProfileDAO; // TODO: Заменить на сервис. Смотри MessagesController. Там описано.
 
     @GetMapping
     public String getProfile(@PathVariable(PathVariables.UUID) UUID uuid, Model model)

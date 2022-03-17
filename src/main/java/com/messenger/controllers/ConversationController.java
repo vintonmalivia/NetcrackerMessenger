@@ -26,7 +26,7 @@ public class ConversationController
 //        private static final String CONVERSATION = "conversation";
     }
 
-    @Autowired
+    @Autowired // TODO: смотри подобные тудушки. Ставим над конструкторами, не над полями. + модификатор доступа должен быть явно указан
     private  IDatabaseConversationDAO databaseConversationDAO;
 
     @GetMapping
@@ -37,7 +37,7 @@ public class ConversationController
     }
 
     @GetMapping(NEW)
-    public String getPageForCreateNewConversation(@ModelAttribute(ModelAttributes.NEW_CONVERSATION) Conversation conversation)
+    public String getPageForCreateNewConversation(@ModelAttribute(ModelAttributes.NEW_CONVERSATION) Conversation conversation) // TODO: ВНИМАНИЕ! Этот коммент нарушает свои же правила ... Старайся, чтобы код не вылазил за линию (эту линию видно, она пересекает conversation). Если код выходит за нее - надо где-то сделать перенос
     {
         return Views.CONVERSATIONS_PATH + Views.NEW_CONVERSATION_HTML;
     }
@@ -50,8 +50,8 @@ public class ConversationController
     }
 
     //TODO: Doesn't work, needs to be fixed
-    @PostMapping("/{uuid}")
-    public String deleteConversation(@PathVariable("uuid") UUID uuid) {
+    @PostMapping("/{uuid}" /* TODO: В константы */)
+    public String deleteConversation(@PathVariable("uuid" /* TODO: В константы */) UUID uuid) {
         databaseConversationDAO.deleteById(uuid);
         return Views.REDIRECT + Views.CONVERSATIONS_PATH;
     }

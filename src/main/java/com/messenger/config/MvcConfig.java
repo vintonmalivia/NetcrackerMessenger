@@ -8,7 +8,7 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 public class MvcConfig implements WebMvcConfigurer {
 
     private static abstract class URLPathOrPattern {
-        private static final String LOGIN_URLPATH_OR_PATTERN = "/login";
+        private static final String LOGIN_URL_PATH_OR_PATTERN = "/login";
     }
 
     private static abstract class ViewName {
@@ -17,6 +17,6 @@ public class MvcConfig implements WebMvcConfigurer {
 
     @Override
     public void addViewControllers(ViewControllerRegistry registry) {
-        registry.addViewController(URLPathOrPattern.LOGIN_URLPATH_OR_PATTERN).setViewName(ViewName.LOGIN_VIEW_NAME);
+        registry.addViewController(URLPathOrPattern.LOGIN_URL_PATH_OR_PATTERN).setViewName(ViewName.LOGIN_VIEW_NAME);
     }
 }

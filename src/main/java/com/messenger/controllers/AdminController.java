@@ -37,7 +37,7 @@ public class AdminController {
         private static final String DELETE = "delete";
     }
 
-    @Autowired
+    @Autowired // TODO: смотри подобные тудушки. Ставим над конструкторами, не над полями. + модификатор доступа должен быть явно указан
     private UserService userService;
 
     @GetMapping(ADMIN)

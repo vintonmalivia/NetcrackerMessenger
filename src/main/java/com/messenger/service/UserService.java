@@ -28,18 +28,18 @@ public class UserService implements UserDetailsService {
 
     private static abstract class UserData
     {
-        private static final String ROLE_USER = "ROLE_USER";
-        private static final String ROLE_USER_ID = "0ada0e40-c34b-48ce-9ddc-be67eec99eed";
+        private static final String ROLE_USER = "ROLE_USER"; // todo: Наверное, это нужно перенести в отдельный класс ролей
+        private static final String ROLE_USER_ID = "0ada0e40-c34b-48ce-9ddc-be67eec99eed"; // TODO: Что это? Хардкод?
     }
 
     @PersistenceContext
     private EntityManager em;
-    @Autowired
-    UserRepository userRepository;
-    @Autowired
-    RoleRepository roleRepository;
-    @Autowired
-    BCryptPasswordEncoder bCryptPasswordEncoder;
+    @Autowired // TODO: Autowired ставится над конструктором. Использование его над полями лучше избегать. Почитай здесь: https://blog.marcnuri.com/field-injection-is-not-recommended
+    UserRepository userRepository; // TODO: Всегда указывай модификаторы доступа явно
+    @Autowired // TODO: см. 37 строку
+    RoleRepository roleRepository; // TODO: Всегда указывай модификаторы доступа явно
+    @Autowired // TODO: см. 37 строку
+    BCryptPasswordEncoder bCryptPasswordEncoder; // TODO: Всегда указывай модификаторы доступа явно
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
@@ -54,19 +54,25 @@ public class UserService implements UserDetailsService {
 
     public User findUserById(UUID userId) {
         Optional<User> userFromDb = userRepository.findById(userId);
-        return userFromDb.orElse(new User());
+        return userFromDb.orElse(new User()); // TODO: А почему мы создаем нового юзера, если его нет? По названию метода,
+                                              //  создания происходить не должно. Решение: переделать логику или переназвать метод
     }
 
-    public List<User> allUsers() {
+    public List<User> allUsers() { // TODO: Лучше getAllUsers. Потому что allUsers не совсем понятно, для чего это (можно только предположить!)
         return userRepository.findAll();
     }
 
     public boolean saveUser(User user) {
         User userFromDB = userRepository.findByUsername(user.getUsername());
 
+        // TODO: Просто как вариант. В java 8 появилась возможность юзать Objects.isNull(). Мы стараемся использовать
+        //  как можно более новые варианты написания кода
         if (userFromDB != null) {
             return false;
         }
+
+        // TODO: на будущее: очень часто тяжело читать подобный код. Слишком длинная цепочка вызовов.
+        //  Именно тут все логино и понятно, но код не всегда простой. По возможности, нужно разделять цепочку вызовов
         user.setRoles(Collections.singleton(new Role(UUID.fromString(UserData.ROLE_USER_ID), UserData.ROLE_USER)));
         user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
         userRepository.save(user);
@@ -81,8 +87,8 @@ public class UserService implements UserDetailsService {
         return false;
     }
 
-    public List<User> usergtList(UUID idMin) {
-        return em.createQuery("SELECT u FROM User u WHERE u.id > :paramId", User.class)
-                .setParameter("paramId", idMin).getResultList();
+    public List<User> usergtList(UUID idMin) { // TODO: не совсем понятно, что делает метод. Название не очень удачное
+        return em.createQuery("SELECT u FROM User u WHERE u.id > :paramId" /* TODO: В константы */, User.class)
+                .setParameter("paramId" /* TODO: В константы */, idMin).getResultList();
     }
 }

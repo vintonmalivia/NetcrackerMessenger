@@ -29,9 +29,13 @@ public class MessagesController
         private static final String MESSAGES = "conversationMessages";
     }
 
-    @Autowired
-    private IDatabaseMessageDAO databaseMessageDAO;
-
+    @Autowired // TODO: смотри подобные тудушки. Ставим над конструкторами, не над полями. + модификатор доступа должен быть явно указан
+    private IDatabaseMessageDAO databaseMessageDAO; // TODO: Пора обернуть все репозитории в сервисы. https://alexkosarev.name/2018/07/27/n-tier-java-part1/
+                                                    //  У нас обычно используются 3 уровня: контроллеры -> сервисы -> репозитории.
+                                                    //  Самое быстрое объяснение: репозитории только берут данные, сервисы могут делать дополнительную бизнес-логику
+                                                    //  над данными с репозиториев (DAO). Пример бизнес логики: некоторая промежуточная валидация
+                                                    //  Контроллеры юзают сервисы. Именно здесь должен быть прикручен сервис (а не репозиторий, как это сделано сейчас)
+                                                    //  Доп литература: многословное построение приложения. Слои репозитория, сервиса, контроллера
     @GetMapping
     public String getMessagesFromConversationByID(@PathVariable(PathVariables.UUID) UUID uuid, Model model)
     {
