@@ -10,14 +10,15 @@
         <a href="/conversations">Get to all conversations</a>
     </div>
 </h4>
-<table th:each="message : ${conversationMessages}">
+<table border="2" th:each="message : ${conversationMessages}">
     <tr>
         <td th:text="${message.getSender().getName()}"></td>
         <td th:text="${message.getDateOfSending()}"></td>
     </tr>
     <tr>
-        <td th:text="${message.getTextOfMessage()}"></td>
+        <td colspan="2" th:text="${message.getTextOfMessage()}"></td>
     </tr>
+    <br>
 </table>
 </body>
 </html>

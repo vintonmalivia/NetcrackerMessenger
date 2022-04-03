@@ -1,5 +1,7 @@
 package com.messenger.serializers;
+
 import com.messenger.models.Conversation;
+
 import java.io.IOException;
 
 public interface Serializer

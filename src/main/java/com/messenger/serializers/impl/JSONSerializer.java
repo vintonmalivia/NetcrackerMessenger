@@ -1,7 +1,9 @@
 package com.messenger.serializers.impl;
+
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.messenger.models.Conversation;
 import com.messenger.serializers.Serializer;
+
 import java.io.IOException;
 
 public class JSONSerializer implements Serializer

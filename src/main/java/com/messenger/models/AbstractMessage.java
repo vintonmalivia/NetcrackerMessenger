@@ -1,4 +1,5 @@
 package com.messenger.models;
+
 import com.fasterxml.jackson.annotation.JsonFormat;
 import org.hibernate.annotations.Type;
 
@@ -6,6 +7,7 @@ import javax.persistence.*;
 import java.io.Serializable;
 import java.util.Date;
 import java.util.UUID;
+
 import static com.messenger.constants.tables.TableNames.ABSTRACT_MESSAGES;
 
 @Table(name = ABSTRACT_MESSAGES)
@@ -29,7 +31,6 @@ public abstract class AbstractMessage implements Serializable
           private static final String UUID_CHAR_TYPE = "org.hibernate.type.UUIDCharType";
      }
 
-     //TODO: TIMEZONE
      private static final String TIMEZONE = "GMT+04:00";
      private static final String PATTERN = "dd-MM-yyyy HH:mm";
 
@@ -46,6 +47,9 @@ public abstract class AbstractMessage implements Serializable
      @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = PATTERN, timezone = TIMEZONE)
      @Column(name = ColumnNames.DATE, nullable = false)
      protected Date dateOfSending;
+
+//     @ManyToOne
+//     protected Conversation conversation;
 
      public AbstractMessage() {}
 

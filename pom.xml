@@ -115,6 +115,11 @@
         <version>7.0.3.Final</version>
     </dependency>
 
+    <dependency>
+        <groupId>org.projectlombok</groupId>
+        <artifactId>lombok</artifactId>
+    </dependency>
+
 </dependencies>
 
     <build>

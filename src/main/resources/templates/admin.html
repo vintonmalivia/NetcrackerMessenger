@@ -1,6 +1,5 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org"
-      xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
       lang="en">
 <head>
     <meta charset="utf-8">
@@ -10,7 +9,7 @@
 
 <body>
 <div>
-    <table>
+    <table border="2">
         <thead>
         <th>ID</th>
         <th>Username</th>
@@ -22,7 +21,7 @@
                 <td th:text="${user.getId()}"></td>
                 <td th:text="${user.getUsername()}"></td>
                 <td th:text="${user.getPassword()}"></td>
-                <td th:each="role : ${user.getRoles()}" th:text="${role.getName()}"></td>
+                <td><div th:each="role : ${user.getRoles()}" th:text="${role.getName()}"></div></td>
                 <td>
                     <form action="/admin" method="post">
                         <input type="hidden" name="userId" th:value="${user.getId()}"/>

@@ -1,8 +1,10 @@
 package com.messenger.models;
+
 import org.hibernate.annotations.Type;
 
 import javax.persistence.*;
 import java.util.UUID;
+
 import static com.messenger.constants.tables.TableNames.PROFILE;
 
 @Table(name = PROFILE)

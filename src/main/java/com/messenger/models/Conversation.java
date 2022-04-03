@@ -1,4 +1,5 @@
 package com.messenger.models;
+
 import com.messenger.exceptions.NoCreatorIDException;
 import com.messenger.models.impl.TextMessage;
 import org.hibernate.annotations.Type;
@@ -8,6 +9,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
+
 import static com.messenger.constants.tables.TableNames.CONVERSATIONS;
 
 @Table(name = CONVERSATIONS)
@@ -50,8 +52,6 @@ public class Conversation implements Serializable
     @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = ColumnNames.CREATOR_ID)
     private Profile creator;
-
-    //TODO: @ManyToOne, @OneToMany
 
     @JoinTable(
             name = TableNames.CONVERSATION_MEMBERS,
@@ -141,9 +141,6 @@ public class Conversation implements Serializable
     public void setMessages(List<AbstractMessage> messages) {
         this.messages = messages;
     }
-
-    // TODO: (normal) Добавить методы добавления/удаления сообщения, добавления/удаления участников
-    //TODO: Чекнуть lists, maps, sets
 
     public void addMember(Profile member)
     {

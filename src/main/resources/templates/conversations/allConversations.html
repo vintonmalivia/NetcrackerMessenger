@@ -22,7 +22,7 @@
 <!--                <input type="hidden" name="uuid" th:value="${uuid}"/>-->
 <!--                <button type="submit">Delete</button>-->
 <!--            </form>-->
-            <form th:action="@{conversations/{uuid} (uuid = ${conversation.getId()})}" th:method="DELETE">
+            <form th:action="@{conversations/{uuid} (uuid = ${conversation.getId()})}" th:method="POST">
                 <input type="hidden" name="uuid" th:value="${conversation.getId()}">
                 <button type="submit">Delete</button>
             </form>
