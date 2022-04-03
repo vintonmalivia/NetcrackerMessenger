@@ -1,14 +1,21 @@
 package com.messenger.controllers;
+
 import com.messenger.models.Conversation;
-import com.messenger.repository.IDatabaseConversationDAO;
+import com.messenger.service.ConversationService;
+import lombok.extern.slf4j.Slf4j;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+
 import java.util.UUID;
+
 import static com.messenger.constants.controllers.Endpoints.CONVERSATIONS;
 import static com.messenger.constants.controllers.Endpoints.NEW;
 
+@Slf4j
 @Controller
 @RequestMapping(CONVERSATIONS)
 public class ConversationController
@@ -26,33 +33,47 @@ public class ConversationController
 //        private static final String CONVERSATION = "conversation";
     }
 
-    @Autowired // TODO: смотри подобные тудушки. Ставим над конструкторами, не над полями. + модификатор доступа должен быть явно указан
-    private  IDatabaseConversationDAO databaseConversationDAO;
+    private static final Logger logger = LoggerFactory.getLogger(ConversationController.class);
+
+    private final ConversationService conversationService;
+
+    @Autowired
+    public ConversationController(ConversationService conversationService)
+    {
+        this.conversationService = conversationService;
+    }
 
     @GetMapping
     public String getConversations(Model model)
     {
-        model.addAttribute(ModelAttributes.ALL_CONVERSATIONS, databaseConversationDAO.findAll());
+        model.addAttribute(ModelAttributes.ALL_CONVERSATIONS, conversationService.getAllConversations());
+        logger.trace("Conversations are opened.");
         return Views.CONVERSATIONS_PATH + Views.ALL_CONVERSATIONS_HTML;
     }
 
     @GetMapping(NEW)
-    public String getPageForCreateNewConversation(@ModelAttribute(ModelAttributes.NEW_CONVERSATION) Conversation conversation) // TODO: ВНИМАНИЕ! Этот коммент нарушает свои же правила ... Старайся, чтобы код не вылазил за линию (эту линию видно, она пересекает conversation). Если код выходит за нее - надо где-то сделать перенос
+    public String getPageForCreateNewConversation(
+            @ModelAttribute(ModelAttributes.NEW_CONVERSATION) Conversation conversation)
     {
+        logger.trace("Page for creating new conversation is opened.");
         return Views.CONVERSATIONS_PATH + Views.NEW_CONVERSATION_HTML;
     }
 
     @PostMapping
     public String createNewConversation(@ModelAttribute(ModelAttributes.NEW_CONVERSATION) Conversation conversation)
     {
-        databaseConversationDAO.save(conversation);
+        conversationService.createConversation(conversation);
+        logger.info("New conversation with name = {} and ID = {} is created. Creator = {}.",
+                conversation.getName(), conversation.getId(), conversation.getCreator());
         return Views.REDIRECT + Views.CONVERSATIONS_PATH;
     }
 
     //TODO: Doesn't work, needs to be fixed
     @PostMapping("/{uuid}" /* TODO: В константы */)
     public String deleteConversation(@PathVariable("uuid" /* TODO: В константы */) UUID uuid) {
-        databaseConversationDAO.deleteById(uuid);
+        conversationService.deleteConversation(uuid);
+        logger.info("Deleted.");
+        logger.error("Not deleted.");
         return Views.REDIRECT + Views.CONVERSATIONS_PATH;
     }
 

@@ -1,7 +1,10 @@
 package com.messenger.controllers;
 
+import com.messenger.models.Profile;
 import com.messenger.models.User;
 import com.messenger.service.UserService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -9,7 +12,6 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
-import javax.validation.Valid;
 
 import static com.messenger.constants.controllers.Endpoints.REGISTRATION;
 
@@ -29,12 +31,18 @@ public class RegistrationController {
         private static final String ATTRIBUTE_VALUE_USERNAME_ERROR = "A user with the same username already exists!";
     }
 
-    @Autowired // TODO: смотри подобные тудушки. Ставим над конструкторами, не над полями. + модификатор доступа должен быть явно указан
-    private UserService userService; // TODO (не туду, просто чтоб подсветить): А вот здесь сервис стоит верно!
+    private static final Logger logger = LoggerFactory.getLogger(RegistrationController.class);
+    private final UserService userService;
+
+    @Autowired
+    public RegistrationController(UserService userService) {
+        this.userService = userService;
+    }
 
     @GetMapping(REGISTRATION)
     public String registration(Model model) {
         model.addAttribute(ModelAttributes.USER_FORM, new User());
+        logger.info("New user registered.");
         return Views.REGISTRATION_HTML;
     }
 
@@ -45,13 +53,21 @@ public class RegistrationController {
                                             //  Можно добавлять сообщение в модель и выводить его, если оно есть (либо пустую строку, если ошибок нет). Это просто пример реализации
         }
         if (!userForm.getPassword().equals(userForm.getPasswordConfirm())){
-            model.addAttribute(ModelAttributes.ATTRIBUTE_NAME_PASSWORD_ERROR, ModelAttributes.ATTRIBUTE_VALUE_PASSWORD_ERROR); // TODO: код выходит за линию
+            model.addAttribute(
+                    ModelAttributes.ATTRIBUTE_NAME_PASSWORD_ERROR,
+                    ModelAttributes.ATTRIBUTE_VALUE_PASSWORD_ERROR);
+            logger.info("Password do not match.");
             return Views.REGISTRATION_HTML;
         }
+
         if (!userService.saveUser(userForm)){
-            model.addAttribute(ModelAttributes.ATTRIBUTE_NAME_USERNAME_ERROR, ModelAttributes.ATTRIBUTE_VALUE_USERNAME_ERROR); // TODO: код выходит за линию
+            model.addAttribute(
+                    ModelAttributes.ATTRIBUTE_NAME_USERNAME_ERROR,
+                    ModelAttributes.ATTRIBUTE_VALUE_USERNAME_ERROR);
+            logger.info("User with the same username already exists.");
             return Views.REGISTRATION_HTML;
         }
+
         return Views.REDIRECT;
     }
 }

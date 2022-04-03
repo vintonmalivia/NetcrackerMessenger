@@ -1,6 +1,7 @@
 package com.messenger.controllers;
 
 import com.messenger.repository.IDatabaseProfileDAO;
+import com.messenger.service.ProfileService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -29,13 +30,17 @@ public class ProfileController {
         private static final String PROFILE = "profile";
     }
 
-    @Autowired // TODO: смотри подобные тудушки. Ставим над конструкторами, не над полями. + модификатор доступа должен быть явно указан
-    private IDatabaseProfileDAO databaseProfileDAO; // TODO: Заменить на сервис. Смотри MessagesController. Там описано.
+    private final ProfileService profileService;
+    
+    @Autowired
+    public ProfileController(ProfileService profileService){
+        this.profileService = profileService;
+    }
 
     @GetMapping
     public String getProfile(@PathVariable(PathVariables.UUID) UUID uuid, Model model)
     {
-        model.addAttribute(ModelAttributes.PROFILE, databaseProfileDAO.findById(uuid));
+//        model.addAttribute(ModelAttributes.PROFILE, databaseProfileDAO.findById(uuid));
         return Views.PROFILE_PATH + Views.PROFILE_HTML;
     }
 }
