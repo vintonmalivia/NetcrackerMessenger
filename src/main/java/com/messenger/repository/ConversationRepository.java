@@ -7,5 +7,5 @@ import org.springframework.stereotype.Repository;
 import java.util.UUID;
 
 @Repository
-public interface IDatabaseConversationDAO extends CrudRepository<Conversation, UUID> {
+public interface ConversationRepository extends CrudRepository<Conversation, UUID> {
 }
