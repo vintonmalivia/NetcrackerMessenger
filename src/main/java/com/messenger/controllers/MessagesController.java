@@ -1,12 +1,14 @@
 package com.messenger.controllers;
 
+import com.messenger.models.Conversation;
+import com.messenger.models.impl.TextMessage;
 import com.messenger.service.MessageService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.UUID;
 
@@ -29,6 +31,8 @@ public class MessagesController
         private static final String MESSAGES = "conversationMessages";
     }
 
+    private static final Logger logger = LoggerFactory.getLogger(MessagesController.class);
+
     private final MessageService messageService;
 
     @Autowired
@@ -38,8 +42,20 @@ public class MessagesController
     }
 
     @GetMapping
-    public String getMessagesFromConversationByID(@PathVariable(PathVariables.UUID) UUID uuid, Model model)
+    public String getMessagesFromConversationByID(@PathVariable(PathVariables.UUID) UUID uuid,
+                                                  @ModelAttribute("newMessage") TextMessage textMessage,
+                                                  Model model)
     {
+        model.addAttribute(ModelAttributes.MESSAGES, messageService.getTextMessages(uuid));
+        return Views.CONVERSATIONS_PATH + Views.MESSAGES_HTML;
+    }
+
+    @PostMapping
+    public String createNewMessage(@PathVariable(PathVariables.UUID) UUID uuid,
+                                   @ModelAttribute("newMessage") TextMessage textMessage,
+                                   Model model)
+    {
+        messageService.create(textMessage, uuid);
         model.addAttribute(ModelAttributes.MESSAGES, messageService.getTextMessages(uuid));
         return Views.CONVERSATIONS_PATH + Views.MESSAGES_HTML;
     }

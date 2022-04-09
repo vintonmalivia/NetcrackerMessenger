@@ -20,5 +20,11 @@
     </tr>
     <br>
 </table>
+<br>
+<form th:method="POST" th:action="@{/conversations/{uuid}/messages (uuid = ${uuid})}" th:object="${newMessage}">
+    <label for="messageText">Enter your message: </label>
+    <input type="text" th:field="*{textOfMessage}" id="messageText"/>
+    <input type="submit" value="send"/>
+</form>
 </body>
 </html>
