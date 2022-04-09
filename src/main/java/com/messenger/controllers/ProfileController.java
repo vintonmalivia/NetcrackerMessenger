@@ -1,6 +1,5 @@
 package com.messenger.controllers;
 
-import com.messenger.repository.IDatabaseProfileDAO;
 import com.messenger.service.ProfileService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;

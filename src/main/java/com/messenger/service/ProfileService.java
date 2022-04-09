@@ -1,15 +1,15 @@
 package com.messenger.service;
 
-import com.messenger.repository.IDatabaseProfileDAO;
+import com.messenger.repository.ProfileRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 @Service
 public class ProfileService {
-    private IDatabaseProfileDAO databaseProfileDAO;
+    private ProfileRepository databaseProfileDAO;
     
     @Autowired
-    public ProfileService(IDatabaseProfileDAO databaseProfileDAO) {
+    public ProfileService(ProfileRepository databaseProfileDAO) {
         this.databaseProfileDAO = databaseProfileDAO;
     }
 }

@@ -72,8 +72,7 @@ public class ConversationController
     @PostMapping("/{uuid}" /* TODO: В константы */)
     public String deleteConversation(@PathVariable("uuid" /* TODO: В константы */) UUID uuid) {
         conversationService.deleteConversation(uuid);
-        logger.info("Deleted.");
-        logger.error("Not deleted.");
+        logger.info("Deleted conversation with ID = {}.", uuid);
         return Views.REDIRECT + Views.CONVERSATIONS_PATH;
     }
 

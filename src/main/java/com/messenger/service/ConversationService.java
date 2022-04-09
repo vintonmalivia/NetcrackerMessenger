@@ -1,7 +1,7 @@
 package com.messenger.service;
 
 import com.messenger.models.Conversation;
-import com.messenger.repository.IDatabaseConversationDAO;
+import com.messenger.repository.ConversationRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -10,10 +10,10 @@ import java.util.UUID;
 
 @Service
 public class ConversationService {
-    private IDatabaseConversationDAO databaseConversationDAO;
+    private ConversationRepository databaseConversationDAO;
 
     @Autowired
-    public ConversationService(IDatabaseConversationDAO databaseConversationDAO) {
+    public ConversationService(ConversationRepository databaseConversationDAO) {
         this.databaseConversationDAO = databaseConversationDAO;
     }
 
