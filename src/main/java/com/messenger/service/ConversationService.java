@@ -17,6 +17,10 @@ public class ConversationService {
         this.databaseConversationDAO = databaseConversationDAO;
     }
 
+    public Conversation getById(UUID id) {
+        return databaseConversationDAO.findById(id).get();
+    }
+
     public List<Conversation> getAllConversations(){
         return (List<Conversation>) databaseConversationDAO.findAll();
     }

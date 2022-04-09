@@ -1,5 +1,6 @@
 package com.messenger.service;
 
+import com.messenger.models.Conversation;
 import com.messenger.models.impl.TextMessage;
 import com.messenger.repository.MessageRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,11 +12,14 @@ import java.util.UUID;
 
 @Service
 public class MessageService {
-    private MessageRepository databaseMessageDAO;
+    private final MessageRepository databaseMessageDAO;
+    private final ConversationService conversationService;
 
     @Autowired
-    public MessageService(MessageRepository databaseMessageDAO) {
+    public MessageService(MessageRepository databaseMessageDAO,
+                          ConversationService conversationService) {
         this.databaseMessageDAO = databaseMessageDAO;
+        this.conversationService = conversationService;
     }
 
     public List<TextMessage> getTextMessages(UUID uuid)
@@ -27,8 +31,8 @@ public class MessageService {
         textMessage.setId(UUID.randomUUID());
         textMessage.setDateOfSending(new Date());
         textMessage.setSender(null);
-//        getTextMessages(uuid).add(textMessage);
-//        databaseMessageDAO.setConversationId(uuid);
-        databaseMessageDAO.getMessages(uuid).add(databaseMessageDAO.save(textMessage));
+        Conversation conversation = conversationService.getById(uuid);
+        conversation.addMessage(textMessage);
+        conversationService.createConversation(conversation);
     }
 }

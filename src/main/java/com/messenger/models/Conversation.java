@@ -66,7 +66,7 @@ public class Conversation implements Serializable
     @ManyToMany
     private List<Profile> members;
 
-    @OneToMany//(cascade = CascadeType.ALL, fetch = FetchType.EAGER) //TODO: EAGER FETCH
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY) //TODO: EAGER FETCH
     @JoinColumn(name = "id_conversation")
     private List<AbstractMessage> messages;
 
