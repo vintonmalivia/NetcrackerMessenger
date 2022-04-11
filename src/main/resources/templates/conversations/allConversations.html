@@ -17,16 +17,10 @@
     <tr>
         <td>
             <a th:href="@{/conversations/{uuid}/messages (uuid = ${conversation.getId()})}" th:text="${conversation.getName()}"></a>
-
-<!--            <form th:action="@{/conversations/{uuid} (uuid = ${conversation.getId()})}" th:method="DELETE">-->
-<!--                <input type="hidden" name="uuid" th:value="${uuid}"/>-->
-<!--                <button type="submit">Delete</button>-->
-<!--            </form>-->
             <form th:action="@{conversations/{uuid} (uuid = ${conversation.getId()})}" th:method="POST">
                 <input type="hidden" name="uuid" th:value="${conversation.getId()}">
                 <button type="submit">Delete</button>
             </form>
-
         </td>
     </tr>
 </table>
