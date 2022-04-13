@@ -39,7 +39,7 @@ public class ProfileController {
     @GetMapping
     public String getProfile(@PathVariable(PathVariables.UUID) UUID uuid, Model model)
     {
-//        model.addAttribute(ModelAttributes.PROFILE, databaseProfileDAO.findById(uuid));
+        model.addAttribute(ModelAttributes.PROFILE, profileService.getProfile(uuid));
         return Views.PROFILE_PATH + Views.PROFILE_HTML;
     }
 }

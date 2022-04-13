@@ -12,8 +12,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.UUID;
 
-import static com.messenger.constants.controllers.Endpoints.CONVERSATIONS;
-import static com.messenger.constants.controllers.Endpoints.NEW;
+import static com.messenger.constants.controllers.Endpoints.*;
 
 @Slf4j
 @Controller
@@ -24,13 +23,19 @@ public class ConversationController
         private static final String CONVERSATIONS_PATH = "conversations/";
         private static final String ALL_CONVERSATIONS_HTML = "allConversations";
         private static final String NEW_CONVERSATION_HTML = "newConversation";
-        private static final String REDIRECT = "redirect:/";
     }
 
     private static abstract class ModelAttributes {
         private static final String ALL_CONVERSATIONS = "allConversations";
         private static final String NEW_CONVERSATION = "newConversation";
-//        private static final String CONVERSATION = "conversation";
+    }
+
+    private static abstract class PathVariables {
+        private static final String CONVERSATION_ID = "uuid";
+    }
+
+    private static abstract class Redirects {
+        private static final String REDIRECT_TO_CONVERSATIONS = "redirect:/conversations";
     }
 
     private static final Logger logger = LoggerFactory.getLogger(ConversationController.class);
@@ -65,15 +70,14 @@ public class ConversationController
         conversationService.createConversation(conversation);
         logger.info("New conversation with name = {} and ID = {} is created. Creator = {}.",
                 conversation.getName(), conversation.getId(), conversation.getCreator());
-        return Views.REDIRECT + Views.CONVERSATIONS_PATH;
+        return Redirects.REDIRECT_TO_CONVERSATIONS;
     }
 
-    //TODO: Doesn't work, needs to be fixed
-    @PostMapping("/{uuid}" /* TODO: В константы */)
-    public String deleteConversation(@PathVariable("uuid" /* TODO: В константы */) UUID uuid) {
+    @PostMapping(CONVERSATION_ID)
+    public String deleteConversation(@PathVariable(PathVariables.CONVERSATION_ID) UUID uuid) {
         conversationService.deleteConversation(uuid);
         logger.info("Deleted conversation with ID = {}.", uuid);
-        return Views.REDIRECT + Views.CONVERSATIONS_PATH;
+        return Redirects.REDIRECT_TO_CONVERSATIONS;
     }
 
 }

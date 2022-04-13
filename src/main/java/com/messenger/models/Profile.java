@@ -66,4 +66,9 @@ public class Profile
     public void setUserID(UUID userID) {
         this.userID = userID;
     }
+
+    @Override
+    public String toString() {
+        return name + ' ' + surname;
+    }
 }

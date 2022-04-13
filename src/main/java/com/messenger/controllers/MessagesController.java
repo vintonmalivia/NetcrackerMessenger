@@ -1,6 +1,5 @@
 package com.messenger.controllers;
 
-import com.messenger.models.Conversation;
 import com.messenger.models.impl.TextMessage;
 import com.messenger.service.MessageService;
 import org.slf4j.Logger;
@@ -31,6 +30,10 @@ public class MessagesController
         private static final String MESSAGES = "conversationMessages";
     }
 
+    private static abstract class Redirects {
+        private static final String REDIRECT_TO_CONVERSATION_MESSAGES = "redirect:/conversations/{uuid}/messages";
+    }
+
     private static final Logger logger = LoggerFactory.getLogger(MessagesController.class);
 
     private final MessageService messageService;
@@ -56,7 +59,8 @@ public class MessagesController
                                    Model model)
     {
         messageService.create(textMessage, uuid);
+        logger.info("Message with ID = {} by user with id = {} and profile ID = {} has been sent.");
         model.addAttribute(ModelAttributes.MESSAGES, messageService.getTextMessages(uuid));
-        return Views.CONVERSATIONS_PATH + Views.MESSAGES_HTML;
+        return Redirects.REDIRECT_TO_CONVERSATION_MESSAGES;
     }
 }

@@ -48,9 +48,6 @@ public abstract class AbstractMessage implements Serializable
      @Column(name = ColumnNames.DATE, nullable = false)
      protected Date dateOfSending;
 
-//     @ManyToOne
-//     protected Conversation conversation;
-
      public AbstractMessage() {}
 
      public Profile getSender() {return sender;}

@@ -8,6 +8,7 @@ public class Endpoints
 
     //  Messages controller
     public static final String MESSAGES = "conversations/{uuid}/messages";
+    public static final String CONVERSATION_ID = "/{uuid}";
 
     //  Profile controller
     public static final String PROFILE = "/profile/{uuid}";

@@ -1,6 +1,5 @@
 package com.messenger.controllers;
 
-import com.messenger.models.Profile;
 import com.messenger.models.User;
 import com.messenger.service.UserService;
 import org.slf4j.Logger;

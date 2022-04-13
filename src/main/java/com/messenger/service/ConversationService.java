@@ -10,11 +10,14 @@ import java.util.UUID;
 
 @Service
 public class ConversationService {
-    private ConversationRepository databaseConversationDAO;
+    private final ConversationRepository databaseConversationDAO;
+    private final UserService userService;
 
     @Autowired
-    public ConversationService(ConversationRepository databaseConversationDAO) {
+    public ConversationService(ConversationRepository databaseConversationDAO,
+                               UserService userService) {
         this.databaseConversationDAO = databaseConversationDAO;
+        this.userService = userService;
     }
 
     public Conversation getById(UUID id) {
@@ -26,6 +29,11 @@ public class ConversationService {
     }
 
     public void createConversation(Conversation conversation){
+//        conversation.setCreator(userService.getCurrentUser().getProfile());
+        databaseConversationDAO.save(conversation);
+    }
+
+    public void saveConversation(Conversation conversation){
         databaseConversationDAO.save(conversation);
     }
 
