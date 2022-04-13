@@ -14,12 +14,15 @@ import java.util.UUID;
 public class MessageService {
     private final MessageRepository databaseMessageDAO;
     private final ConversationService conversationService;
+    private final UserService userService;
 
     @Autowired
     public MessageService(MessageRepository databaseMessageDAO,
-                          ConversationService conversationService) {
+                          ConversationService conversationService,
+                          UserService userService) {
         this.databaseMessageDAO = databaseMessageDAO;
         this.conversationService = conversationService;
+        this.userService = userService;
     }
 
     public List<TextMessage> getTextMessages(UUID uuid)
@@ -30,9 +33,9 @@ public class MessageService {
     public void create(TextMessage textMessage, UUID uuid) {
         textMessage.setId(UUID.randomUUID());
         textMessage.setDateOfSending(new Date());
-        textMessage.setSender(null);
+        textMessage.setSender(userService.getCurrentUser().getProfile());
         Conversation conversation = conversationService.getById(uuid);
         conversation.addMessage(textMessage);
-        conversationService.createConversation(conversation);
+        conversationService.saveConversation(conversation);
     }
 }
