@@ -9,13 +9,20 @@ import java.util.UUID;
 
 @Service
 public class ProfileService {
-    private ProfileRepository databaseProfileDAO;
+    private final ProfileRepository databaseProfileDAO;
     
     @Autowired
     public ProfileService(ProfileRepository databaseProfileDAO) {
         this.databaseProfileDAO = databaseProfileDAO;
     }
 
-    public Profile getProfile(UUID uuid){return databaseProfileDAO.findById(uuid).get();
+    public Profile getProfile(UUID uuid){return databaseProfileDAO.findById(uuid).get();}
+
+    public void updateProfileName(UUID profileID, Profile profile){
+        Profile profileToBeUpdated = getProfile(profileID);
+        profileToBeUpdated.setName(profile.getName());
+        profileToBeUpdated.setSurname(profile.getSurname());
+        profileToBeUpdated.setUserID(profileID);
+        databaseProfileDAO.save(profileToBeUpdated);
     }
 }

@@ -6,8 +6,24 @@
     <title>Profile</title>
 </head>
 <body>
+<h4>
+    <a href="/">Go to main page</a>
+    <a> or </a>
+    <a href="/conversations">go to your conversations</a></h4>
 <div>
     <a th:text="${profile.getName() + ' ' + profile.getSurname()}"></a>
+</div>
+<br>
+<div th:if="${currentUser} == ${profile.getUserID()}">
+<form th:method="POST" th:object="${profile}" th:action="@{/profile/{uuid}/ (uuid = ${profile.getUserID()})}">
+    <label for="name">Your name: </label>
+    <input th:size="30" minlength="1" type="text" th:field="*{name}" id="name"/>
+    <br><br>
+    <label for="surname">Your surname: </label>
+    <input th:size="30" minlength="1" type="text" th:field="*{surname}" id="surname"/>
+    <br><br>
+    <input type="submit" value="CLICK TO CONFIRM PROFILE RENAME"/>
+</form>
 </div>
 </body>
 </html>
