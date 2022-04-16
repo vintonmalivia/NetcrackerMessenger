@@ -12,8 +12,13 @@
     <h4><a href="/registration">Register</a></h4>
     </div>
     <div sec:authorize="isAuthenticated()">
+    <h4><a th:text="'Welcome back, ' + ${#authentication.getPrincipal().getUsername()} + '!'"></a></h4>
     <h4><a href="/logout">Log out</a></h4>
     <h4><a href="/conversations">Conversations</a></h4>
+    <h4>
+        <a th:href="@{/profile/{uuid}/ (uuid = ${#authentication.getPrincipal().getProfile().getUserID()})}">
+            My profile</a>
+    </h4>
         <div sec:authorize="hasAuthority('ROLE_ADMIN')">
             <h4><a href="/admin">Users (admin access only)</a></h4>
         </div>
