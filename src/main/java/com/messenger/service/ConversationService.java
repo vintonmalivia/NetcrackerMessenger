@@ -29,7 +29,8 @@ public class ConversationService {
     }
 
     public void createConversation(Conversation conversation){
-//        conversation.setCreator(userService.getCurrentUser().getProfile());
+        conversation.setCreator(userService.getCurrentUser().getProfile());
+        conversation.addMember(userService.getCurrentUser().getProfile());
         databaseConversationDAO.save(conversation);
     }
 
