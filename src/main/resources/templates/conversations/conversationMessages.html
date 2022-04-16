@@ -12,7 +12,10 @@
 </h4>
 <table border="2" th:each="message : ${conversationMessages}">
     <tr>
-        <td th:text="*{message.getSender().name} + ' ' + *{message.getSender().surname}"></td>
+        <td>
+            <a th:href="@{/profile/{uuid} (uuid = ${message.getSender().getUserID()})}"
+               th:text="*{message.getSender().name} + ' ' + *{message.getSender().surname}"></a>
+        </td>
         <td th:text="${message.getDateOfSending()}"></td>
     </tr>
     <tr>
