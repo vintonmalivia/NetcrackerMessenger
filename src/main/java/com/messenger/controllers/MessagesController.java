@@ -28,6 +28,7 @@ public class MessagesController
 
     private static abstract class ModelAttributes {
         private static final String MESSAGES = "conversationMessages";
+        private static final String NEW_MESSAGE = "newMessage";
     }
 
     private static abstract class Redirects {
@@ -46,7 +47,7 @@ public class MessagesController
 
     @GetMapping
     public String getMessagesFromConversationByID(@PathVariable(PathVariables.UUID) UUID uuid,
-                                                  @ModelAttribute("newMessage") TextMessage textMessage,
+                                                  @ModelAttribute(ModelAttributes.NEW_MESSAGE) TextMessage textMessage,
                                                   Model model)
     {
         model.addAttribute(ModelAttributes.MESSAGES, messageService.getTextMessages(uuid));
@@ -55,11 +56,12 @@ public class MessagesController
 
     @PostMapping
     public String createNewMessage(@PathVariable(PathVariables.UUID) UUID uuid,
-                                   @ModelAttribute("newMessage") TextMessage textMessage,
+                                   @ModelAttribute(ModelAttributes.NEW_MESSAGE) TextMessage textMessage,
                                    Model model)
     {
         messageService.create(textMessage, uuid);
-        logger.info("Message with ID = {} by user with id = {} and profile ID = {} has been sent.");
+        logger.info("Message with ID = {} by user with profile ID = {} has been sent.",
+                textMessage.getId(), textMessage.getSender().getUserID());
         model.addAttribute(ModelAttributes.MESSAGES, messageService.getTextMessages(uuid));
         return Redirects.REDIRECT_TO_CONVERSATION_MESSAGES;
     }
