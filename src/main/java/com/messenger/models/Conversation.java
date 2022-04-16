@@ -63,12 +63,13 @@ public class Conversation implements Serializable
             name = ColumnNames.PROF_ID,
             referencedColumnName = ColumnNames.ID
     ))
+
     @ManyToMany
-    private List<Profile> members;
+    private List<Profile> members = new ArrayList<>();
 
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY) //TODO: EAGER FETCH
     @JoinColumn(name = "id_conversation")
-    private List<AbstractMessage> messages;
+    private List<AbstractMessage> messages = new ArrayList<>();
 
     public Conversation() {}
 
@@ -77,7 +78,6 @@ public class Conversation implements Serializable
         this.name = name;
         this.id = id;
         this.creator = creator;
-        this.members = new ArrayList<>();
         this.members.add(creator);
     }
 
@@ -87,7 +87,6 @@ public class Conversation implements Serializable
         this.id = id;
         this.creator = creator;
         this.messages = messages;
-        this.members = new ArrayList<>();
         this.members.add(creator);
     }
 

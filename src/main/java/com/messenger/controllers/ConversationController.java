@@ -79,5 +79,4 @@ public class ConversationController
         logger.info("Deleted conversation with ID = {}.", uuid);
         return Redirects.REDIRECT_TO_CONVERSATIONS;
     }
-
 }
