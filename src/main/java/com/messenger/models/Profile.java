@@ -1,6 +1,7 @@
 package com.messenger.models;
 
 import org.hibernate.annotations.Type;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.*;
 import java.util.UUID;
@@ -69,6 +70,10 @@ public class Profile
 
     @Override
     public String toString() {
-        return name + ' ' + surname;
+        return "Profile{" +
+                "name='" + name + '\'' +
+                ", surname='" + surname + '\'' +
+                ", userID=" + userID +
+                '}';
     }
 }
