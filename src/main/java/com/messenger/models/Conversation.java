@@ -49,7 +49,8 @@ public class Conversation implements Serializable
     @Column(name = ColumnNames.ID, nullable = false, unique = true,  columnDefinition = ColumnDefinition.VARCHAR_36)
     private UUID id;
 
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne
+//            (cascade = CascadeType.ALL)
     @JoinColumn(name = ColumnNames.CREATOR_ID)
     private Profile creator;
 

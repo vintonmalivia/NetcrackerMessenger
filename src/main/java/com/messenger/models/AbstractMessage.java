@@ -40,7 +40,8 @@ public abstract class AbstractMessage implements Serializable
      @Column(name = ColumnNames.ID, nullable = false, unique = true, columnDefinition = ColumnDefinition.VARCHAR_36)
      private UUID id;
 
-     @ManyToOne(cascade = CascadeType.ALL)
+     @ManyToOne
+//             (cascade = CascadeType.ALL)
      @JoinColumn(name = ColumnNames.SENDER_ID,  columnDefinition = ColumnDefinition.VARCHAR_36)
      protected Profile sender;
 
