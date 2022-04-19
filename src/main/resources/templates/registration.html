@@ -11,27 +11,27 @@
 <form action="/registration" th:object="${userForm}" method="POST" enctype="utf8">
     <div>
         <label>Enter your name: </label>
-        <input minlength="1" required th:field="*{profile.name}"/>
+        <input minlength="1" maxlength="32" required th:field="*{profile.name}"/>
     </div>
     </br>
     <div>
         <label>Enter your surname: </label>
-        <input minlength="1" required th:field="*{profile.surname}"/>
+        <input minlength="1" maxlength="32" required th:field="*{profile.surname}"/>
     </div>
     </br>
     <div>
         <label>Choose your username: </label>
-        <input minlength="8" required th:field="*{username}"/>
+        <input minlength="8" maxlength="32" required th:field="*{username}"/>
     </div>
     </br>
     <div>
         <label>Enter your password: </label>
-        <input type="password" minlength="6" required th:field="*{password}"/>
+        <input type="password" minlength="6" maxlength="32" required th:field="*{password}"/>
     </div>
     </br>
     <div>
         <label>Confirm your password: </label>
-        <input type="password" minlength="6" required th:field="*{passwordConfirm}"/>
+        <input type="password" minlength="6" maxlength="32" required th:field="*{passwordConfirm}"/>
     </div>
     <div style="color: red" th:if="${passwordError}" th:text="${passwordError}"></div>
     <div style="color: red" th:if="${usernameError}" th:text="${usernameError}"></div>

@@ -25,10 +25,12 @@ public class MessageService {
         this.userService = userService;
     }
 
-    public List<TextMessage> getTextMessages(UUID uuid)
+    public List<TextMessage> getMessages(UUID uuid)
     {
         return databaseMessageDAO.getMessages(uuid);
     }
+
+    public void deleteMessagesByProfile(UUID uuid){databaseMessageDAO.deleteMessagesByProfile(uuid);}
 
     public void create(TextMessage textMessage, UUID uuid) {
         textMessage.setId(UUID.randomUUID());

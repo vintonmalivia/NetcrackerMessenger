@@ -2,6 +2,7 @@ package com.messenger.controllers;
 
 import com.messenger.models.Conversation;
 import com.messenger.service.ConversationService;
+import com.messenger.service.UserService;
 import lombok.extern.slf4j.Slf4j;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -41,17 +42,20 @@ public class ConversationController
     private static final Logger logger = LoggerFactory.getLogger(ConversationController.class);
 
     private final ConversationService conversationService;
+    private final UserService userService;
 
     @Autowired
-    public ConversationController(ConversationService conversationService)
+    public ConversationController(ConversationService conversationService, UserService userService)
     {
         this.conversationService = conversationService;
+        this.userService = userService;
     }
 
     @GetMapping
     public String getConversations(Model model)
     {
-        model.addAttribute(ModelAttributes.ALL_CONVERSATIONS, conversationService.getAllConversations());
+        model.addAttribute(ModelAttributes.ALL_CONVERSATIONS,
+                conversationService.getAllConversations(userService.getCurrentUser().getProfile().getUserID()));
         logger.trace("Conversations are opened.");
         return Views.CONVERSATIONS_PATH + Views.ALL_CONVERSATIONS_HTML;
     }
@@ -68,8 +72,9 @@ public class ConversationController
     public String createNewConversation(@ModelAttribute(ModelAttributes.NEW_CONVERSATION) Conversation conversation)
     {
         conversationService.createConversation(conversation);
-        logger.info("New conversation with name = {} and ID = {} is created. Creator = {}.",
-                conversation.getName(), conversation.getId(), conversation.getCreator());
+        logger.info("New conversation with name = {} and ID = {} is created. Creator = {} {} with ID = {}.",
+                conversation.getName(), conversation.getId(), conversation.getCreator().getName(),
+                conversation.getCreator().getSurname(), conversation.getCreator().getUserID());
         return Redirects.REDIRECT_TO_CONVERSATIONS;
     }
 

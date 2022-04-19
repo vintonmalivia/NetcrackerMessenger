@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Adding new user to conversation</title>
+</head>
+<body>
+<h4>
+    <div>
+        <a href="/conversations">Get to all conversations </a>
+        <a>or</a>
+        <a th:href="@{/conversations/{uuid}/messages/ (uuid = ${uuid})}"> go back to the current conversation</a>
+    </div>
+</h4>
+<form th:method="POST" th:action="@{/conversations/{uuid}/messages/add-new-member (uuid = ${uuid})}" th:object="${newMember}">
+    <label for="username">Enter username to invite user to conversation: </label>
+    <input th:size="40" minlength="1" type="text" th:field="*{username}" id="username"/>
+    <input type="submit" value="send"/>
+</form>
+<div>
+    <a style="color: red" th:if="${userAlreadyInConversation}" th:text="${userAlreadyInConversation}"></a>
+    <a style="color: red" th:if="${userNotExist}" th:text="${userNotExist}"></a>
+    <a style="color: limegreen" th:if="${userAdded}" th:text="${userAdded}"></a>
+</div>
+</body>
+</html>

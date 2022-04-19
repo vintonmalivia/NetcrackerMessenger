@@ -7,7 +7,9 @@
 <body>
 <h4>
     <div>
-        <a href="/conversations">Get to all conversations</a>
+        <a href="/conversations">Get to all conversations </a>
+        <a>or</a>
+        <a th:href="@{/conversations/{uuid}/messages/add-new-member (uuid = ${uuid})}"> add new member to conversation</a>
     </div>
 </h4>
 <table border="2" th:each="message : ${conversationMessages}">

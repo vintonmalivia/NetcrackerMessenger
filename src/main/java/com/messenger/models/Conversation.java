@@ -50,7 +50,6 @@ public class Conversation implements Serializable
     private UUID id;
 
     @ManyToOne
-//            (cascade = CascadeType.ALL)
     @JoinColumn(name = ColumnNames.CREATOR_ID)
     private Profile creator;
 
@@ -64,7 +63,6 @@ public class Conversation implements Serializable
             name = ColumnNames.PROF_ID,
             referencedColumnName = ColumnNames.ID
     ))
-
     @ManyToMany
     private List<Profile> members = new ArrayList<>();
 

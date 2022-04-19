@@ -5,9 +5,14 @@
     <title>New conversation</title>
 </head>
 <body>
+<h4>
+    <div>
+        <a href="/conversations">Go to all conversations page</a>
+    </div>
+</h4>
 <form th:method="POST" th:action="@{/conversations}" th:object="${newConversation}">
     <label for="nameOfConversation">Enter name of new conversation: </label>
-    <input type="text" th:field="*{name}" id="nameOfConversation"/>
+    <input type="text" minlength="1" maxlength="32" th:field="*{name}" id="nameOfConversation"/>
     <br/>
     <input type="submit" value="Make new conversation"/>
 </form>

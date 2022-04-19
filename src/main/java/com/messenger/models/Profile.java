@@ -1,7 +1,6 @@
 package com.messenger.models;
 
 import org.hibernate.annotations.Type;
-import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.*;
 import java.util.UUID;
