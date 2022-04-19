@@ -1,6 +1,7 @@
 package com.messenger.service;
 
 import com.messenger.models.Conversation;
+import com.messenger.models.User;
 import com.messenger.repository.ConversationRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -24,8 +25,8 @@ public class ConversationService {
         return databaseConversationDAO.findById(id).get();
     }
 
-    public List<Conversation> getAllConversations(){
-        return (List<Conversation>) databaseConversationDAO.findAll();
+    public List<Conversation> getAllConversations(UUID uuid){
+        return databaseConversationDAO.getProfileConversations(uuid);
     }
 
     public void createConversation(Conversation conversation){
@@ -39,4 +40,17 @@ public class ConversationService {
     }
 
     public void deleteConversation(UUID uuid){databaseConversationDAO.deleteById(uuid);}
+
+    public void addMemberToConversation(UUID uuid, User user){
+        Conversation conversation = databaseConversationDAO.findById(uuid).get();
+        User foundUser = userService.findUserByUsername(user.getUsername());
+        conversation.addMember(foundUser.getProfile());
+        saveConversation(conversation);
+    }
+
+    public boolean existenceOfUserInConversation(UUID uuid, User user){
+        Conversation conversation = databaseConversationDAO.findById(uuid).get();
+        User foundUser = userService.findUserByUsername(user.getUsername());
+        return conversation.getMembers().contains(foundUser.getProfile());
+    }
 }

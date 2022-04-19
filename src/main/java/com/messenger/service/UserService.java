@@ -2,6 +2,9 @@ package com.messenger.service;
 
 import com.messenger.models.Role;
 import com.messenger.models.User;
+import com.messenger.repository.ConversationRepository;
+import com.messenger.repository.MessageRepository;
+import com.messenger.repository.ProfileRepository;
 import com.messenger.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -29,12 +32,18 @@ public class UserService implements UserDetailsService {
 
     private final UserRepository userRepository;
     private final BCryptPasswordEncoder bCryptPasswordEncoder;
+    private final MessageRepository messageRepository;
+    private final ConversationRepository conversationRepository;
 
     @Autowired
     public UserService(UserRepository userRepository,
-                       BCryptPasswordEncoder bCryptPasswordEncoder) {
+                       BCryptPasswordEncoder bCryptPasswordEncoder,
+                       MessageRepository messageRepository,
+                       ConversationRepository conversationRepository) {
         this.userRepository = userRepository;
         this.bCryptPasswordEncoder = bCryptPasswordEncoder;
+        this.messageRepository = messageRepository;
+        this.conversationRepository = conversationRepository;
     }
 
     @Override
@@ -50,6 +59,10 @@ public class UserService implements UserDetailsService {
 
     public User getCurrentUser(){
         return (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+    }
+
+    public User findUserByUsername(String username){
+        return userRepository.findByUsername(username);
     }
 
     public User findUserById(UUID userId) {
@@ -77,6 +90,11 @@ public class UserService implements UserDetailsService {
 
     public boolean deleteUser(UUID userId) {
         if (userRepository.findById(userId).isPresent()) {
+            UUID profileID = userRepository.findById(userId).get().getProfile().getUserID();
+            messageRepository.deleteMessagesByProfile(profileID);
+            conversationRepository.deleteConversationMembers(profileID);
+            conversationRepository.deleteMessagesFromDeletedConversations(profileID);
+            conversationRepository.deleteUserCreatedConversations(profileID);
             userRepository.deleteById(userId);
             return true;
         }
