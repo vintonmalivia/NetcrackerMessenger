@@ -9,21 +9,28 @@
 <h4>
     <a href="/">Go to main page</a>
     <a> or </a>
-    <a href="/conversations">go to your conversations</a></h4>
+    <a href="/conversations">go to your conversations</a>
+</h4>
 <div>
     <a th:text="${profile.getName() + ' ' + profile.getSurname()}"></a>
 </div>
 <br>
 <div th:if="${currentUser} == ${profile.getUserID()}">
-<form th:method="POST" th:object="${profile}" th:action="@{/profile/{uuid}/ (uuid = ${profile.getUserID()})}">
-    <label for="name">Your name: </label>
-    <input th:size="30" minlength="1" maxlength="32" type="text" th:field="*{name}" id="name"/>
-    <br><br>
-    <label for="surname">Your surname: </label>
-    <input th:size="30" minlength="1" maxlength="32" type="text" th:field="*{surname}" id="surname"/>
-    <br><br>
+    <form th:method="POST" th:object="${profile}" th:action="@{/profile/{uuid}/ (uuid = ${profile.getUserID()})}">
+        <label for="name">Your name: </label>
+        <br>
+            <div>
+                <input th:size="30" pattern=".{1,32}" required title="1 to 32 characters" type="text" th:field="*{name}" id="name"/>
+            </div>
+        <br>
+        <label for="surname">Your surname: </label>
+        <br>
+            <div>
+                <input th:size="30" pattern=".{1,32}" required title="1 to 32 characters" type="text" th:field="*{surname}" id="surname"/>
+            </div>
+        <br>
     <input type="submit" value="CLICK TO CONFIRM PROFILE RENAME"/>
-</form>
+    </form>
 </div>
 </body>
 </html>

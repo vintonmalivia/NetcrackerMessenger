@@ -12,6 +12,9 @@
         <a th:href="@{/conversations/{uuid}/messages/add-new-member (uuid = ${uuid})}"> add new member to conversation</a>
     </div>
 </h4>
+<h4>
+    <div th:text="${conversation.getName()}"></div>
+</h4>
 <table border="2" th:each="message : ${conversationMessages}">
     <tr>
         <td>
@@ -28,7 +31,7 @@
 <br>
 <form th:method="POST" th:action="@{/conversations/{uuid}/messages (uuid = ${uuid})}" th:object="${newMessage}">
     <label for="messageText">Enter your message: </label>
-    <input th:size="40" minlength="1" type="text" th:field="*{textOfMessage}" id="messageText"/>
+    <input th:size="40" required type="text" th:field="*{textOfMessage}" id="messageText"/>
     <input type="submit" value="send"/>
 </form>
 </body>

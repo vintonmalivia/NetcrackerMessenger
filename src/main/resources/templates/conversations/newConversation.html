@@ -12,7 +12,7 @@
 </h4>
 <form th:method="POST" th:action="@{/conversations}" th:object="${newConversation}">
     <label for="nameOfConversation">Enter name of new conversation: </label>
-    <input type="text" minlength="1" maxlength="32" th:field="*{name}" id="nameOfConversation"/>
+    <input type="text" pattern=".{1,32}" required title="1 to 32 characters" th:field="*{name}" id="nameOfConversation"/>
     <br/>
     <input type="submit" value="Make new conversation"/>
 </form>

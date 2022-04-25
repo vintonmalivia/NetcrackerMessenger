@@ -48,8 +48,7 @@ public class RegistrationController {
     @PostMapping(REGISTRATION)
     public String addUser(@ModelAttribute(ModelAttributes.USER_FORM) User userForm, BindingResult bindingResult, Model model) {
         if (bindingResult.hasErrors()) {
-            return Views.REGISTRATION_HTML; // TODO: чуть больше бизнес-логики. Что за ошибки? Как пользователь поймет, что он сделал не так?
-                                            //  Можно добавлять сообщение в модель и выводить его, если оно есть (либо пустую строку, если ошибок нет). Это просто пример реализации
+            return Views.REGISTRATION_HTML;
         }
         if (!userForm.getPassword().equals(userForm.getPasswordConfirm())){
             model.addAttribute(

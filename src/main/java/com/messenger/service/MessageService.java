@@ -30,8 +30,6 @@ public class MessageService {
         return databaseMessageDAO.getMessages(uuid);
     }
 
-    public void deleteMessagesByProfile(UUID uuid){databaseMessageDAO.deleteMessagesByProfile(uuid);}
-
     public void create(TextMessage textMessage, UUID uuid) {
         textMessage.setId(UUID.randomUUID());
         textMessage.setDateOfSending(new Date());

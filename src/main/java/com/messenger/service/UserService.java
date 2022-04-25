@@ -4,7 +4,6 @@ import com.messenger.models.Role;
 import com.messenger.models.User;
 import com.messenger.repository.ConversationRepository;
 import com.messenger.repository.MessageRepository;
-import com.messenger.repository.ProfileRepository;
 import com.messenger.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -13,6 +12,7 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.*;
 
@@ -88,13 +88,14 @@ public class UserService implements UserDetailsService {
         return true;
     }
 
+    @Transactional
     public boolean deleteUser(UUID userId) {
         if (userRepository.findById(userId).isPresent()) {
             UUID profileID = userRepository.findById(userId).get().getProfile().getUserID();
-            messageRepository.deleteMessagesByProfile(profileID);
-            conversationRepository.deleteConversationMembers(profileID);
-            conversationRepository.deleteMessagesFromDeletedConversations(profileID);
-            conversationRepository.deleteUserCreatedConversations(profileID);
+            conversationRepository.deleteUserFromConversationMembers(profileID);
+            conversationRepository.deleteMessagesFromDeletedUser(profileID);
+            conversationRepository.deleteCreatorID(profileID);
+            conversationRepository.deleteConversationIfNoMembers();
             userRepository.deleteById(userId);
             return true;
         }

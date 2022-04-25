@@ -1,11 +1,11 @@
 package com.messenger.controllers;
 
+import com.messenger.models.Profile;
 import com.messenger.models.User;
 import com.messenger.models.impl.TextMessage;
 import com.messenger.repository.UserRepository;
 import com.messenger.service.ConversationService;
 import com.messenger.service.MessageService;
-import com.messenger.service.ProfileService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,6 +13,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
 import java.util.UUID;
 
 import static com.messenger.constants.controllers.Endpoints.ADD_NEW_MEMBER;
@@ -33,9 +34,13 @@ public class MessagesController
     }
 
     private static abstract class ModelAttributes {
+        private static final String CONVERSATION = "conversation";
+
+
         private static final String MESSAGES = "conversationMessages";
         private static final String NEW_MESSAGE = "newMessage";
         private static final String NEW_MEMBER = "newMember";
+        private static final String MEMBERS = "members";
 
         private static final String USER_NOT_EXIST = "userNotExist";
         private static final String USER_NOT_EXIST_VALUE = "User not exist.";
@@ -59,7 +64,7 @@ public class MessagesController
     @Autowired
     public MessagesController(MessageService messageService,
                               UserRepository userRepository,
-                              ConversationService conversationService, ProfileService profileService)
+                              ConversationService conversationService)
     {
         this.messageService = messageService;
         this.userRepository = userRepository;
@@ -69,9 +74,12 @@ public class MessagesController
     @GetMapping
     public String getMessagesFromConversationByID(@PathVariable(PathVariables.UUID) UUID uuid,
                                                   @ModelAttribute(ModelAttributes.NEW_MESSAGE) TextMessage textMessage,
+//                                                  @ModelAttribute(ModelAttributes.MEMBERS) List<Profile> members,
                                                   Model model)
     {
+        model.addAttribute(ModelAttributes.CONVERSATION, conversationService.getById(uuid));
         model.addAttribute(ModelAttributes.MESSAGES, messageService.getMessages(uuid));
+//        model.addAttribute(ModelAttributes.MEMBERS, conversationService.getMembers(uuid));
         return Views.CONVERSATIONS_PATH + Views.MESSAGES_HTML;
     }
 
