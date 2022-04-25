@@ -72,7 +72,7 @@ public class ConversationController
     public String createNewConversation(@ModelAttribute(ModelAttributes.NEW_CONVERSATION) Conversation conversation)
     {
         conversationService.createConversation(conversation);
-        logger.info("New conversation with name = {} and ID = {} is created. Creator = {} {} with ID = {}.",
+        logger.info("New conversation with name = {} and ID = {} is created. Creator = {} {} with profile ID = {}.",
                 conversation.getName(), conversation.getId(), conversation.getCreator().getName(),
                 conversation.getCreator().getSurname(), conversation.getCreator().getUserID());
         return Redirects.REDIRECT_TO_CONVERSATIONS;
@@ -82,6 +82,13 @@ public class ConversationController
     public String deleteConversation(@PathVariable(PathVariables.CONVERSATION_ID) UUID uuid) {
         conversationService.deleteConversation(uuid);
         logger.info("Deleted conversation with ID = {}.", uuid);
+        return Redirects.REDIRECT_TO_CONVERSATIONS;
+    }
+
+    @PostMapping(LEAVE_CONVERSATION)
+    public String leaveConversation(@PathVariable(PathVariables.CONVERSATION_ID) UUID uuid) {
+        UUID profileID = userService.getCurrentUser().getProfile().getUserID();
+        conversationService.leaveConversation(profileID, uuid);
         return Redirects.REDIRECT_TO_CONVERSATIONS;
     }
 }

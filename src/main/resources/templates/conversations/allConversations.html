@@ -16,10 +16,22 @@
 <table>
     <tr>
         <td>
-            <a th:href="@{/conversations/{uuid}/messages (uuid = ${conversation.getId()})}" th:text="${conversation.getName()}"></a>
-            <form th:action="@{conversations/{uuid} (uuid = ${conversation.getId()})}" th:method="POST">
+            <a th:href="@{/conversations/{uuid}/messages (uuid = ${conversation.getId()})}"
+               th:text="${conversation.getName()}"></a>
+        </td>
+        <td>
+            <div th:if="${conversation.getCreator()} != null">
+            <form th:if="${#authentication.getPrincipal().getProfile.getUserID()} == ${conversation.getCreator().getUserID()}"
+                  th:action="@{conversations/{uuid} (uuid = ${conversation.getId()})}" th:method="POST">
+            <input type="hidden" name="uuid" th:value="${conversation.getId()}">
+            <button type="submit">Delete</button>
+            </form>
+            </div>
+        </td>
+        <td>
+            <form th:action="@{conversations/{uuid}/leave (uuid = ${conversation.getId()})}" th:method="POST">
                 <input type="hidden" name="uuid" th:value="${conversation.getId()}">
-                <button type="submit">Delete</button>
+                <button type="submit">Leave</button>
             </form>
         </td>
     </tr>

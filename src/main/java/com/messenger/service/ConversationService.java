@@ -1,13 +1,16 @@
 package com.messenger.service;
 
 import com.messenger.models.Conversation;
+import com.messenger.models.Profile;
 import com.messenger.models.User;
 import com.messenger.repository.ConversationRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.UUID;
+
 
 @Service
 public class ConversationService {
@@ -41,6 +44,8 @@ public class ConversationService {
 
     public void deleteConversation(UUID uuid){databaseConversationDAO.deleteById(uuid);}
 
+//    public List<Profile> getMembers(UUID uuid){return databaseConversationDAO.getMembers(uuid);}
+
     public void addMemberToConversation(UUID uuid, User user){
         Conversation conversation = databaseConversationDAO.findById(uuid).get();
         User foundUser = userService.findUserByUsername(user.getUsername());
@@ -52,5 +57,14 @@ public class ConversationService {
         Conversation conversation = databaseConversationDAO.findById(uuid).get();
         User foundUser = userService.findUserByUsername(user.getUsername());
         return conversation.getMembers().contains(foundUser.getProfile());
+    }
+
+    @Transactional
+    public void leaveConversation(UUID profileID, UUID convID)
+    {
+        databaseConversationDAO.leaveFromConversation(profileID, convID);
+        databaseConversationDAO.deleteAbandonedUserMessages(profileID, convID);
+        databaseConversationDAO.deleteCreatorIDIfUserLeaving(profileID, convID);
+        databaseConversationDAO.deleteConversationIfNoMembers();
     }
 }
