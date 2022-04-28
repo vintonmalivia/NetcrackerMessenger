@@ -17,6 +17,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     private static abstract class ConfigurationData{
         private static final String NOT_FULLY_AUTHENTICATED_USER_ACCESS = "/registration";
         private static final String ADMIN_ACCESS = "/admin/**";
+        private static final String API_ACCESS = "/api/**";
         private static final String ALL_USERS_ACCESS = "/";
         private static final String ALL_USERS_ACCESS_RESOURCES = "/resources/**";
         private static final String LOGIN_PAGE = "/login";
@@ -48,10 +49,11 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers(ConfigurationData.NOT_FULLY_AUTHENTICATED_USER_ACCESS).not().fullyAuthenticated()
 
                 //Доступ только для пользователей с ролью Администратор
-                .antMatchers(ConfigurationData.ADMIN_ACCESS).hasRole(Roles.ADMIN)
+                .antMatchers(ConfigurationData.ADMIN_ACCESS, ConfigurationData.API_ACCESS).hasRole(Roles.ADMIN)
 
                 //Доступ разрешен всем пользователей
-                .antMatchers(ConfigurationData.ALL_USERS_ACCESS, ConfigurationData.ALL_USERS_ACCESS_RESOURCES).permitAll()
+                .antMatchers(ConfigurationData.ALL_USERS_ACCESS,
+                        ConfigurationData.ALL_USERS_ACCESS_RESOURCES).permitAll()
 
                 //Все остальные страницы требуют аутентификации
                 .anyRequest().authenticated()
