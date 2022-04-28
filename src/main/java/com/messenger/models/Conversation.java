@@ -23,6 +23,7 @@ public class Conversation implements Serializable
         private static final String CREATOR_ID = "creator_id";
         private static final String CONV_ID = "conv_id";
         private static final String PROF_ID = "prof_id";
+        private static final String JOINCOLUMN_CONV_ID = "id_conversation";
     }
 
     private static abstract class TableNames
@@ -67,7 +68,7 @@ public class Conversation implements Serializable
     private List<Profile> members = new ArrayList<>();
 
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY) //TODO: EAGER FETCH
-    @JoinColumn(name = "id_conversation")
+    @JoinColumn(name = ColumnNames.JOINCOLUMN_CONV_ID)
     private List<AbstractMessage> messages = new ArrayList<>();
 
     public Conversation() {}
@@ -89,7 +90,10 @@ public class Conversation implements Serializable
         this.members.add(creator);
     }
 
-    public Conversation(String name, UUID id, Profile creator, List<Profile> members, List<AbstractMessage> messages) throws NoCreatorIDException {
+    public Conversation(String name, UUID id,
+                        Profile creator,
+                        List<Profile> members,
+                        List<AbstractMessage> messages) throws NoCreatorIDException {
         this.name = name;
         this.id = id;
         this.creator = creator;

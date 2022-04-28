@@ -12,7 +12,7 @@ import java.util.UUID;
 @Repository
 public interface MessageRepository extends CrudRepository<TextMessage, UUID> {
 
-    @Query(value = "SELECT * FROM text_messages WHERE id_conversation = CAST (:uuid AS varchar) ORDER BY date",
+    @Query(value = "SELECT * FROM text_messages WHERE id_conversation = CAST (:convID AS varchar) ORDER BY date",
             nativeQuery = true)
-    List<TextMessage> getMessages(@Param("uuid") UUID uuid);
+    List<TextMessage> getMessages(@Param("convID") UUID convID);
 }

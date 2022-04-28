@@ -3,7 +3,6 @@ package com.messenger.service;
 import com.messenger.models.Role;
 import com.messenger.models.User;
 import com.messenger.repository.ConversationRepository;
-import com.messenger.repository.MessageRepository;
 import com.messenger.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -32,17 +31,14 @@ public class UserService implements UserDetailsService {
 
     private final UserRepository userRepository;
     private final BCryptPasswordEncoder bCryptPasswordEncoder;
-    private final MessageRepository messageRepository;
     private final ConversationRepository conversationRepository;
 
     @Autowired
     public UserService(UserRepository userRepository,
                        BCryptPasswordEncoder bCryptPasswordEncoder,
-                       MessageRepository messageRepository,
                        ConversationRepository conversationRepository) {
         this.userRepository = userRepository;
         this.bCryptPasswordEncoder = bCryptPasswordEncoder;
-        this.messageRepository = messageRepository;
         this.conversationRepository = conversationRepository;
     }
 
@@ -59,6 +55,10 @@ public class UserService implements UserDetailsService {
 
     public User getCurrentUser(){
         return (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+    }
+
+    public boolean existsByUsername(String username){
+        return userRepository.existsByUsername(username);
     }
 
     public User findUserByUsername(String username){
