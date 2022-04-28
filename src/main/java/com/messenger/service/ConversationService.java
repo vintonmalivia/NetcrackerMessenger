@@ -38,13 +38,18 @@ public class ConversationService {
         databaseConversationDAO.save(conversation);
     }
 
+    public boolean isInConversation(UUID convID, UUID profileID)
+    {
+        return databaseConversationDAO.isInConversation(convID, profileID);
+    }
+
     public void saveConversation(Conversation conversation){
         databaseConversationDAO.save(conversation);
     }
 
     public void deleteConversation(UUID uuid){databaseConversationDAO.deleteById(uuid);}
 
-//    public List<Profile> getMembers(UUID uuid){return databaseConversationDAO.getMembers(uuid);}
+    public List<Profile> getMembers(UUID uuid){return databaseConversationDAO.getMembers(uuid);}
 
     public void addMemberToConversation(UUID uuid, User user){
         Conversation conversation = databaseConversationDAO.findById(uuid).get();

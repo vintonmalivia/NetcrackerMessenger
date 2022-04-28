@@ -1,11 +1,10 @@
 package com.messenger.controllers;
 
-import com.messenger.models.Profile;
 import com.messenger.models.User;
 import com.messenger.models.impl.TextMessage;
-import com.messenger.repository.UserRepository;
 import com.messenger.service.ConversationService;
 import com.messenger.service.MessageService;
+import com.messenger.service.UserService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,7 +12,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
 import java.util.UUID;
 
 import static com.messenger.constants.controllers.Endpoints.ADD_NEW_MEMBER;
@@ -52,35 +50,38 @@ public class MessagesController
 
     private static abstract class Redirects {
         private static final String REDIRECT_TO_CONVERSATION_MESSAGES = "redirect:/conversations/{uuid}/messages";
+        private static final String REDIRECT_TO_CONVERSATIONS = "redirect:/conversations";
     }
 
     private static final Logger logger = LoggerFactory.getLogger(MessagesController.class);
 
     private final MessageService messageService;
-    private final UserRepository userRepository;
+    private final UserService userService;
     private final ConversationService conversationService;
 
 
     @Autowired
     public MessagesController(MessageService messageService,
-                              UserRepository userRepository,
+                              UserService userService,
                               ConversationService conversationService)
     {
         this.messageService = messageService;
-        this.userRepository = userRepository;
+        this.userService = userService;
         this.conversationService = conversationService;
     }
 
     @GetMapping
     public String getMessagesFromConversationByID(@PathVariable(PathVariables.UUID) UUID uuid,
                                                   @ModelAttribute(ModelAttributes.NEW_MESSAGE) TextMessage textMessage,
-//                                                  @ModelAttribute(ModelAttributes.MEMBERS) List<Profile> members,
                                                   Model model)
     {
-        model.addAttribute(ModelAttributes.CONVERSATION, conversationService.getById(uuid));
-        model.addAttribute(ModelAttributes.MESSAGES, messageService.getMessages(uuid));
-//        model.addAttribute(ModelAttributes.MEMBERS, conversationService.getMembers(uuid));
-        return Views.CONVERSATIONS_PATH + Views.MESSAGES_HTML;
+        if (conversationService.isInConversation(uuid, userService.getCurrentUser().getProfile().getUserID()))
+        {
+            model.addAttribute(ModelAttributes.CONVERSATION, conversationService.getById(uuid));
+            model.addAttribute(ModelAttributes.MESSAGES, messageService.getMessages(uuid));
+            return Views.CONVERSATIONS_PATH + Views.MESSAGES_HTML;
+        }
+        return Redirects.REDIRECT_TO_CONVERSATIONS;
     }
 
     @PostMapping
@@ -99,7 +100,11 @@ public class MessagesController
     public String getPageToAddMember(@ModelAttribute(ModelAttributes.NEW_MEMBER) User user,
                                      @PathVariable UUID uuid)
     {
-        return Views.CONVERSATIONS_PATH + Views.ADD_NEW_MEMBER_HTML;
+        if (conversationService.isInConversation(uuid, userService.getCurrentUser().getProfile().getUserID()))
+        {
+            return Views.CONVERSATIONS_PATH + Views.ADD_NEW_MEMBER_HTML;
+        }
+        return Redirects.REDIRECT_TO_CONVERSATIONS;
     }
 
     @PostMapping(ADD_NEW_MEMBER)
@@ -107,7 +112,7 @@ public class MessagesController
                                           @PathVariable UUID uuid,
                                           Model model)
     {
-        if (!userRepository.existsByUsername(user.getUsername()))
+        if (!userService.existsByUsername(user.getUsername()))
         {
             model.addAttribute(ModelAttributes.USER_NOT_EXIST, ModelAttributes.USER_NOT_EXIST_VALUE);
             return Views.CONVERSATIONS_PATH + Views.ADD_NEW_MEMBER_HTML;
