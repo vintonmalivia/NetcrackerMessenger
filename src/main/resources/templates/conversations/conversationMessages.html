@@ -14,6 +14,15 @@
 </h4>
 <h4>
     <div th:text="${conversation.getName()}"></div>
+    <table border="2">
+        <th>Conversation members</th>
+        <tr th:each="member : ${conversation.getMembers()}">
+            <td>
+                <a th:href="@{/profile/{uuid} (uuid = ${member.getUserID()})}"
+                   th:text="${member.getName()} + ' ' + ${member.getSurname()}"></a>
+            </td>
+        </tr>
+    </table>
 </h4>
 <table border="2" th:each="message : ${conversationMessages}">
     <tr>
