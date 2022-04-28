@@ -1,5 +1,6 @@
 package com.messenger.models;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.hibernate.annotations.Type;
 import org.springframework.data.annotation.Transient;
 import org.springframework.security.core.GrantedAuthority;
@@ -31,6 +32,7 @@ public class Role implements GrantedAuthority {
     private UUID id;
     private String name;
 
+    @JsonIgnore
     @Transient
     @ManyToMany(mappedBy = ColumnNames.ROLES)
     private Set<User> users;

@@ -1,5 +1,6 @@
 package com.messenger.models;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.hibernate.annotations.Type;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -19,6 +20,12 @@ public class User implements UserDetails {
         private static final String UUID_CHAR_TYPE = "org.hibernate.type.UUIDCharType";
     }
 
+    private static abstract class ColumnNames
+    {
+        private static final String PROFILE_ID = "profile_id";
+        private static final String REFERENCED_ID = "id";
+    }
+
     @Id
     @Type(type = TypeAnnotation.UUID_CHAR_TYPE)
     private UUID id;
@@ -27,6 +34,7 @@ public class User implements UserDetails {
 
     private String password;
 
+    @JsonIgnore
     @Transient
     private String passwordConfirm;
 
@@ -34,7 +42,7 @@ public class User implements UserDetails {
     private Set<Role> roles;
 
     @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "profile_id", referencedColumnName = "id")
+    @JoinColumn(name = ColumnNames.PROFILE_ID, referencedColumnName = ColumnNames.REFERENCED_ID)
     private Profile profile;
 
     public User() {
