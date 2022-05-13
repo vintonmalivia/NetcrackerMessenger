@@ -1,17 +1,22 @@
 package com.messenger.service;
 
 import com.messenger.models.Conversation;
+import com.messenger.models.Profile;
 import com.messenger.models.impl.TextMessage;
 import com.messenger.repository.MessageRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.Date;
-import java.util.List;
-import java.util.UUID;
+import java.util.*;
+import java.util.concurrent.TimeUnit;
 
 @Service
 public class MessageService {
+    private static class BlockAndUnblockConsts{
+        public static final int NUMBER_OF_MESSAGES_TO_BLOCK = 10;
+        public static final long SECONDS_TO_UNBLOCK = 60;
+    }
+
     private final MessageRepository databaseMessageDAO;
     private final ConversationService conversationService;
     private final UserService userService;
@@ -30,7 +35,25 @@ public class MessageService {
         return databaseMessageDAO.getMessages(uuid);
     }
 
-    public void create(TextMessage textMessage, UUID uuid) {
+    public void createMessage(TextMessage textMessage, UUID uuid) {
+        Profile currentUserProfile = userService.getCurrentUser().getProfile();
+        if (databaseMessageDAO.getNumberOfMessagesInLastMinute(
+                currentUserProfile.getUserID()) >= BlockAndUnblockConsts.NUMBER_OF_MESSAGES_TO_BLOCK)
+        {
+            currentUserProfile.setSpammingStatus(true);
+            Timer timer = new Timer(true);
+            TimerTask stopSpam = new TimerTask() {
+                @Override
+                public void run() {
+                    unblockProfile();
+                }
+
+                private void unblockProfile() {
+                        currentUserProfile.setSpammingStatus(false);
+                }
+            };
+            timer.schedule(stopSpam, TimeUnit.SECONDS.toMillis(BlockAndUnblockConsts.SECONDS_TO_UNBLOCK));
+        }
         textMessage.setId(UUID.randomUUID());
         textMessage.setDateOfSending(new Date());
         textMessage.setSender(userService.getCurrentUser().getProfile());
@@ -38,4 +61,5 @@ public class MessageService {
         conversation.addMessage(textMessage);
         conversationService.saveConversation(conversation);
     }
+
 }
