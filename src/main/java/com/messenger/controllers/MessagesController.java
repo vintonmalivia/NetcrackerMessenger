@@ -89,7 +89,7 @@ public class MessagesController
                                    @ModelAttribute(ModelAttributes.NEW_MESSAGE) TextMessage textMessage,
                                    Model model)
     {
-        messageService.create(textMessage, uuid);
+        messageService.createMessage(textMessage, uuid);
         logger.info("Message with ID = {} by user with profile ID = {} has been sent.",
                 textMessage.getId(), textMessage.getSender().getUserID());
         model.addAttribute(ModelAttributes.MESSAGES, messageService.getMessages(uuid));
