@@ -34,6 +34,11 @@ public class Profile
     @Column(name = ColumnNames.ID, nullable = false, unique = true)
     private UUID userID;
 
+    @Transient
+    private boolean isSpamming;
+
+    public Profile() {}
+
     public Profile(String name, String surname, UUID userID)
     {
         this.name = name;
@@ -41,7 +46,13 @@ public class Profile
         this.userID = userID;
     }
 
-    public Profile() {}
+    public Profile(String name, String surname, UUID userID, boolean isSpamming)
+    {
+        this.name = name;
+        this.surname = surname;
+        this.userID = userID;
+        this.isSpamming = isSpamming;
+    }
 
     public String getName() {
         return name;
@@ -65,6 +76,14 @@ public class Profile
 
     public void setUserID(UUID userID) {
         this.userID = userID;
+    }
+
+    public boolean getSpammingStatus() {
+        return isSpamming;
+    }
+
+    public void setSpammingStatus(boolean isSpamming) {
+        this.isSpamming = isSpamming;
     }
 
     @Override
