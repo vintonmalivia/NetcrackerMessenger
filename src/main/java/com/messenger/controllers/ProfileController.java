@@ -44,8 +44,9 @@ public class ProfileController {
     }
 
     @GetMapping
+    // TODO: showProfilePage
     public String getProfile(@ModelAttribute(ModelAttributes.PROFILE) Profile profile,
-                             @PathVariable(PathVariables.UUID) UUID uuid,
+                             @PathVariable(PathVariables.UUID) UUID uuid, // TODO: uuid -> id
                              Model model)
     {
         model.addAttribute(ModelAttributes.PROFILE, profileService.getProfile(uuid));
@@ -54,8 +55,9 @@ public class ProfileController {
     }
 
     @PostMapping
+    // TODO: Почему My? updateProfileNameByProfileId
     public String updateMyProfileName(@ModelAttribute(ModelAttributes.PROFILE) Profile profile,
-                                      @PathVariable(PathVariables.UUID) UUID uuid,
+                                      @PathVariable(PathVariables.UUID) UUID uuid, // TODO: uuid -> id
                                       Model model)
     {
         model.addAttribute(ModelAttributes.CURRENT_USER, userService.getCurrentUser().getProfile().getUserID());

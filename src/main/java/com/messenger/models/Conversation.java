@@ -23,6 +23,7 @@ public class Conversation implements Serializable
         private static final String CREATOR_ID = "creator_id";
         private static final String CONV_ID = "conv_id";
         private static final String PROF_ID = "prof_id";
+        // TODO: Забыл нижний прочерк ))
         private static final String JOINCOLUMN_CONV_ID = "id_conversation";
     }
 

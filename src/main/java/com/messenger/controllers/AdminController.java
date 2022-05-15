@@ -44,6 +44,7 @@ public class AdminController {
     }
 
     @GetMapping(ADMIN)
+    // TODO: Юзеров в листе много. Пользователи не будут получены, а будут выведены. Поэтому правильное название будет showUsersList или showUsers
     public String getUserList(Model model) {
         model.addAttribute(ModelAttributes.ALL_USERS, userService.getAllUsers());
         logger.trace("Opened page with all users information.");
@@ -51,6 +52,7 @@ public class AdminController {
     }
 
     @PostMapping(ADMIN)
+    // TODO: deleteUserById
     public String deleteUser(@RequestParam(defaultValue = ReqParam.DEFAULT_VALUE_UUID) UUID userId,
                              @RequestParam(defaultValue = ReqParam.DEFAULT_VALUE_STRING) String action) {
         if (action.equals(Actions.DELETE)){

@@ -18,6 +18,7 @@ import static com.messenger.constants.controllers.Endpoints.*;
 @Slf4j
 @Controller
 @RequestMapping(CONVERSATIONS)
+// TODO: ConversationsController (потому что управлеине не чатом, а чатами)
 public class ConversationController
 {
     private static abstract class Views {
@@ -52,6 +53,7 @@ public class ConversationController
     }
 
     @GetMapping
+    // TODO: howConversations
     public String getConversations(Model model)
     {
         model.addAttribute(ModelAttributes.ALL_CONVERSATIONS,
@@ -61,6 +63,7 @@ public class ConversationController
     }
 
     @GetMapping(NEW)
+    // TODO: showConversationCreationForm / showConversationCreationPage
     public String getPageForCreateNewConversation(
             @ModelAttribute(ModelAttributes.NEW_CONVERSATION) Conversation conversation)
     {
@@ -69,6 +72,7 @@ public class ConversationController
     }
 
     @PostMapping
+    // TODO: createConversation. Итак понятно, что будет новый чат )
     public String createNewConversation(@ModelAttribute(ModelAttributes.NEW_CONVERSATION) Conversation conversation)
     {
         conversationService.createConversation(conversation);
@@ -79,15 +83,22 @@ public class ConversationController
     }
 
     @PostMapping(CONVERSATION_ID)
+    // TODO: deleteConversationById
     public String deleteConversation(@PathVariable(PathVariables.CONVERSATION_ID) UUID uuid) {
         conversationService.deleteConversation(uuid);
+        // TODO: А точно чат удалился? По сути, delete, насколько я знаю, не возвращает результат, если удалять нечего
+        //  А в логах будет светиться, что конверсейшен, который, по сути, не существовал, был удален каким-то образом
         logger.info("Deleted conversation with ID = {}.", uuid);
         return Redirects.REDIRECT_TO_CONVERSATIONS;
     }
 
     @PostMapping(LEAVE_CONVERSATION)
+    // TODO: Leave от имени пользователя. А тут от имени сервиса. deleteCurrentUserFromConversationByConversationId.
+    //  Метод длинное название имеет, но в яве это нормально. Зато понятно, что происходит. Может, придумаешь название короче )
     public String leaveConversation(@PathVariable(PathVariables.CONVERSATION_ID) UUID uuid) {
         UUID profileID = userService.getCurrentUser().getProfile().getUserID();
+        // TODO: Добавь запись в лог
+        // TODO: leaveConversation от имени пользователя. А тут сервис...
         conversationService.leaveConversation(profileID, uuid);
         return Redirects.REDIRECT_TO_CONVERSATIONS;
     }

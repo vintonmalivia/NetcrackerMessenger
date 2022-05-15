@@ -16,7 +16,7 @@ public interface ConversationRepository extends CrudRepository<Conversation, UUI
 
     @Query(value = "SELECT * FROM conversation_members JOIN conversations c on c.id = conversation_members.conv_id " +
             "WHERE prof_id = CAST (:profileID AS varchar)", nativeQuery = true)
-    List<Conversation> getProfileConversations(@Param("profileID") UUID profileID);
+    List<Conversation> getProfileConversations(@Param("profileID" /* В константы* */) UUID profileID);
 
     @Modifying(clearAutomatically = true)
     @Query(value = "DELETE FROM conversations WHERE id NOT IN (SELECT conv_id FROM conversation_members)",
@@ -25,40 +25,42 @@ public interface ConversationRepository extends CrudRepository<Conversation, UUI
 
     @Query(value = "SELECT * FROM conversation_members JOIN profile p on p.id = conversation_members.prof_id " +
             "WHERE conv_id = CAST (:convID AS varchar)", nativeQuery = true)
-    List<Profile> getMembers(@Param("convID") UUID convID);
+    List<Profile> getMembers(@Param("convID" /* В константы* */) UUID convID);
 
     @Query(value = "SELECT exists(SELECT * FROM conversation_members WHERE conv_id = CAST (:convID AS varchar)" +
             " AND prof_id = CAST (:profileID AS varchar))", nativeQuery = true)
-    boolean isInConversation(@Param("convID") UUID convID, @Param("profileID") UUID profileID);
+    // TODO: isInConversation - кто в чате? Кто? Что это? isUserInConversation
+    boolean isInConversation(@Param("convID" /* В константы* */) UUID convID, @Param("profileID" /* В константы* */) UUID profileID);
 
     //  Methods if deleting user
     @Modifying(clearAutomatically = true)
     @Query(value = "DELETE FROM conversation_members WHERE prof_id = CAST (:profileID AS varchar)", nativeQuery = true)
-    void deleteUserFromConversationMembers(@Param("profileID") UUID profileID);
+    void deleteUserFromConversationMembers(@Param("profileID" /* В константы* */) UUID profileID);
 
     @Modifying(clearAutomatically = true)
     @Query(value = "DELETE FROM abstract_messages WHERE sender_id = CAST (:senderID AS varchar)", nativeQuery = true)
-    void deleteMessagesFromDeletedUser(@Param("senderID") UUID senderID);
+    void deleteMessagesFromDeletedUser(@Param("senderID" /* В константы* */) UUID senderID);
 
     @Modifying(clearAutomatically = true)
     @Query(value = "UPDATE conversations SET creator_id = null WHERE creator_id = CAST (:creatorID AS varchar)",
             nativeQuery = true)
-    void deleteCreatorID(@Param("creatorID") UUID creatorID);
+    void deleteCreatorID(@Param("creatorID" /* В константы* */) UUID creatorID);
 
     //  Methods if user leaves conversation
     @Modifying(clearAutomatically = true)
     @Query(value = "DELETE FROM conversation_members WHERE prof_id = CAST (:profileID AS varchar) " +
             "AND conv_id = CAST (:convID AS varchar)", nativeQuery = true)
-    void leaveFromConversation(@Param("profileID") UUID profileID, @Param("convID") UUID convID);
+    // TODO: removeUserFromConversation
+    void leaveFromConversation(@Param("profileID" /* В константы* */) UUID profileID, @Param("convID" /* В константы* */) UUID convID);
 
     @Modifying(clearAutomatically = true)
     @Query(value = "DELETE FROM abstract_messages WHERE sender_id = CAST (:senderID AS varchar) " +
             "AND id_conversation = CAST (:convID AS varchar)", nativeQuery = true)
-    void deleteAbandonedUserMessages(@Param("senderID") UUID senderID, @Param("convID") UUID convID);
+    void deleteAbandonedUserMessages(@Param("senderID" /* В константы* */) UUID senderID, @Param("convID" /* В константы* */) UUID convID);
 
     @Modifying(clearAutomatically = true)
     @Query(value = "UPDATE conversations SET creator_id = null WHERE creator_id = CAST (:creatorID AS varchar) " +
             "AND id = CAST (:convID AS varchar)", nativeQuery = true)
-    void deleteCreatorIDIfUserLeaving(@Param("creatorID") UUID creatorID, @Param("convID") UUID convID);
+    void deleteCreatorIDIfUserLeaving(@Param("creatorID" /* В константы* */) UUID creatorID, @Param("convID" /* В константы* */) UUID convID);
 
 }

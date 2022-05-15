@@ -25,8 +25,11 @@ public class RegistrationController {
     private static abstract class ModelAttributes{
         private static final String USER_FORM = "userForm";
         private static final String ATTRIBUTE_NAME_PASSWORD_ERROR = "passwordError";
+        // TODO: Обычно кастомные сообщения, которые ну 100% будут использоваться лишь раз, в константы не добавляют
+        //  Сделай просто инлайном (прям на месте использования).
         private static final String ATTRIBUTE_VALUE_PASSWORD_ERROR = "Password do not match!";
         private static final String ATTRIBUTE_NAME_USERNAME_ERROR = "usernameError";
+        // TODO: То же самое
         private static final String ATTRIBUTE_VALUE_USERNAME_ERROR = "A user with the same username already exists!";
     }
 
@@ -39,8 +42,12 @@ public class RegistrationController {
     }
 
     @GetMapping(REGISTRATION)
+    // TODO: showRegistrationPage
     public String registration(Model model) {
         model.addAttribute(ModelAttributes.USER_FORM, new User());
+        // TODO: Чей лог? Что за юзер? А если их несколько регается подряд?
+        //  К тому же, этот лог, по-моему, обманет разработчика. На момент ретёрна юзер реально будет зареган и добавлен
+        //  в базу?
         logger.info("New user registered.");
         return Views.REGISTRATION_HTML;
     }
@@ -48,12 +55,16 @@ public class RegistrationController {
     @PostMapping(REGISTRATION)
     public String addUser(@ModelAttribute(ModelAttributes.USER_FORM) User userForm, BindingResult bindingResult, Model model) {
         if (bindingResult.hasErrors()) {
+            // TODO: Все ошибки должны логгироваться. Что за ошибка произойдет, если этот код выполнится?
+            //  Недопустимый логин? Короткий пароль? Потеряна связь с базой? Глянь метод BindingResult, который
+            //  выдаст все ошибки и выведи их в лог
             return Views.REGISTRATION_HTML;
         }
         if (!userForm.getPassword().equals(userForm.getPasswordConfirm())){
             model.addAttribute(
                     ModelAttributes.ATTRIBUTE_NAME_PASSWORD_ERROR,
                     ModelAttributes.ATTRIBUTE_VALUE_PASSWORD_ERROR);
+            // TODO: А если несколько пользователей регистрируются? Чей это лог?
             logger.info("Password do not match.");
             return Views.REGISTRATION_HTML;
         }
@@ -62,6 +73,7 @@ public class RegistrationController {
             model.addAttribute(
                     ModelAttributes.ATTRIBUTE_NAME_USERNAME_ERROR,
                     ModelAttributes.ATTRIBUTE_VALUE_USERNAME_ERROR);
+            // TODO: Чей лог? Что за логин уже существует?
             logger.info("User with the same username already exists.");
             return Views.REGISTRATION_HTML;
         }

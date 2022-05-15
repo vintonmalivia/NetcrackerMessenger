@@ -13,11 +13,12 @@ import static com.messenger.constants.tables.TableNames.TEXT_MESSAGES;
 
 @Table(name = TEXT_MESSAGES)
 @Entity
-public class TextMessage extends AbstractMessage implements Serializable
+public class TextMessage extends AbstractMessage implements Serializable // TODO: AbstractMessage уже имплементирует
+//                                                                           Serializable. Здесь не нужно это прописывать снова
 {
     private static abstract class ColumnNames
     {
-        private static final String TEXT = "text";
+        private static final String TEXT = "text"; // TODO: Сделай text_value. Это будет более правильным
     }
 
     @Column(name = ColumnNames.TEXT, nullable = false)

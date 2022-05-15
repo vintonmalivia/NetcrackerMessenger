@@ -25,6 +25,7 @@ public class ConversationService {
     }
 
     public Conversation getById(UUID id) {
+        // TODO: Здесь findById(id) возвращает Optional. А если там нет объекта? Нужно сделать проверку
         return databaseConversationDAO.findById(id).get();
     }
 
@@ -49,22 +50,28 @@ public class ConversationService {
 
     public void deleteConversation(UUID uuid){databaseConversationDAO.deleteById(uuid);}
 
+    // TODO: Не нужно - удаляй
     public List<Profile> getMembers(UUID uuid){return databaseConversationDAO.getMembers(uuid);}
 
     public void addMemberToConversation(UUID uuid, User user){
+        // TODO: Здесь findById(id) возвращает Optional. А если там нет объекта? Нужно сделать проверку
         Conversation conversation = databaseConversationDAO.findById(uuid).get();
         User foundUser = userService.findUserByUsername(user.getUsername());
         conversation.addMember(foundUser.getProfile());
         saveConversation(conversation);
     }
 
+    // TODO: Лучше isUserInMembers (булеан методы обычно начинаются как вопрос, например с предлога is)
+    //  Примеры: isEmpty, isBlank...
     public boolean existenceOfUserInConversation(UUID uuid, User user){
+        // TODO: Здесь findById(id) возвращает Optional. А если там нет объекта? Нужно сделать проверку
         Conversation conversation = databaseConversationDAO.findById(uuid).get();
         User foundUser = userService.findUserByUsername(user.getUsername());
         return conversation.getMembers().contains(foundUser.getProfile());
     }
 
     @Transactional
+    // TODO: Название от имени юзера, а не сервиса. Поищи аналогичные тудушки
     public void leaveConversation(UUID profileID, UUID convID)
     {
         databaseConversationDAO.leaveFromConversation(profileID, convID);

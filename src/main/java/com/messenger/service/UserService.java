@@ -47,6 +47,7 @@ public class UserService implements UserDetailsService {
         User user = userRepository.findByUsername(username);
 
         if (Objects.isNull(user)) {
+            // TODO: В лог
             throw new UsernameNotFoundException(ExceptionMessage.USER_NOT_FOUND);
         }
 
@@ -54,6 +55,7 @@ public class UserService implements UserDetailsService {
     }
 
     public User getCurrentUser(){
+        // TODO: А если текущий пользователь - не пользователь, а система? Будет NullPointerException (NP)
         return (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
     }
 
@@ -65,6 +67,7 @@ public class UserService implements UserDetailsService {
         return userRepository.findByUsername(username);
     }
 
+    // TODO: Не юзается - удаляем
     public User findUserById(UUID userId) {
         Optional<User> userFromDb = userRepository.findById(userId);
         return userFromDb.orElse(null);
@@ -78,6 +81,7 @@ public class UserService implements UserDetailsService {
         User userFromDB = userRepository.findByUsername(user.getUsername());
 
         if (!Objects.isNull(userFromDB)) {
+            // TODO: В лог
             return false;
         }
 
@@ -88,6 +92,7 @@ public class UserService implements UserDetailsService {
         return true;
     }
 
+    // TODO: В принципе, можно сделать void вместо булеана. Ты нигде не юзаешь результат
     @Transactional
     public boolean deleteUser(UUID userId) {
         if (userRepository.findById(userId).isPresent()) {

@@ -25,6 +25,7 @@ public class ExportController {
     private final UserRepository userRepository;
 
     private static abstract class PathVariables{
+        // TODO: Почему uuid? Лучше conversation_id и user_id. Семантику и абстракцию надо сохранять
         public static final String CONVERSATION_ID = "uuid";
         public static final String USER_ID = "uuid";
     }
@@ -36,7 +37,7 @@ public class ExportController {
         this.userRepository = userRepository;
     }
 
-    @GetMapping(value = CONVERSATIONS_API, produces = MediaType.APPLICATION_JSON_VALUE)
+    @GetMapping(value = CONVERSATIONS_API /* TODO: Но ведь есть константа CONVERSATIONS? Ее будет достаточно... */, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<List<Conversation>> getConversations(){
         List<Conversation> conversations = (List<Conversation>) conversationRepository.findAll();
         return ResponseEntity.ok(conversations);
@@ -49,10 +50,12 @@ public class ExportController {
             Conversation conversation = conversationRepository.findById(convID).get();
             return ResponseEntity.ok(conversation);
         }
+        // TODO: Добавь запись в лог
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
     }
 
     @GetMapping(value = USERS_API, produces = MediaType.APPLICATION_JSON_VALUE)
+    // TODO: getAllUsers
     public ResponseEntity<List<User>> getUsers(){
         List<User> users = userRepository.findAll();
         return ResponseEntity.ok(users);
@@ -65,6 +68,7 @@ public class ExportController {
             User user = userRepository.findById(userID).get();
             return ResponseEntity.ok(user);
         }
+        // TODO: Добавь запись в лог
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
     }
 }

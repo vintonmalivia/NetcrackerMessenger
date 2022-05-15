@@ -2,7 +2,10 @@ package com.messenger.constants.controllers;
 
 public class Endpoints
 {
-    //  Conversation controller
+    // TODO: Все эндпоинты должны начинаться с "/"
+    // TODO: Замени все uuid на id, чтобы было более абстрактно.
+    //  Обычно так и пишут, чтоб не указывать тип идентификатора
+    // Conversation controller
     public static final String CONVERSATIONS = "conversations";
 
     public static final String CONVERSATION_ID = "{uuid}";
@@ -15,7 +18,7 @@ public class Endpoints
     public static final String ADD_NEW_MEMBER = "add-new-member";
 
     //  Profile controller
-    public static final String PROFILE = "profile/{uuid}";
+    public static final String PROFILE = "profile/{uuid}"; // TODO: Пример: /profile/{id}
 
     //  Admin controller
     public static final String ADMIN = "admin";

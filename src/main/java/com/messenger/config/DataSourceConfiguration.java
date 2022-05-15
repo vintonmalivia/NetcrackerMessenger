@@ -9,6 +9,7 @@ import javax.sql.DataSource;
 @Configuration
 public class DataSourceConfiguration {
 
+    // TODO: Дата - это данные. Лучше DatabaseParams или что-нибудь похожее
     private static abstract class DatabaseData {
         private static final String DRIVER_CLASS_NAME = "org.postgresql.Driver";
         private static final String URL = "jdbc:postgresql://localhost:5432/conversation_db";
