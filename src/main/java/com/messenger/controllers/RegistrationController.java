@@ -42,8 +42,7 @@ public class RegistrationController {
     }
 
     @GetMapping(REGISTRATION)
-    // TODO: showRegistrationPage
-    public String registration(Model model) {
+    public String showRegistrationPage(Model model) {
         model.addAttribute(ModelAttributes.USER_FORM, new User());
         // TODO: Чей лог? Что за юзер? А если их несколько регается подряд?
         //  К тому же, этот лог, по-моему, обманет разработчика. На момент ретёрна юзер реально будет зареган и добавлен

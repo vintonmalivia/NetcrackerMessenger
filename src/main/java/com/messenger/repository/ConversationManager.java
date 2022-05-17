@@ -5,7 +5,7 @@ import com.messenger.models.Conversation;
 import java.util.ArrayList;
 import java.util.List;
 
-// TODO: Неиспользуемые классы можно помечать аннотацией @Deprecated
+@Deprecated
 public class ConversationManager
 {
     private static ConversationManager instance;

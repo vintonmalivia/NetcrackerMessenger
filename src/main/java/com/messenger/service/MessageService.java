@@ -13,11 +13,8 @@ import java.util.concurrent.TimeUnit;
 @Service
 public class MessageService {
 
-    // TODO: Не, такие константы лучше не объединять во вложенный класс. Сделай их простыми константами в классе MessageService
-    private static class BlockAndUnblockConsts{
-        public static final int NUMBER_OF_MESSAGES_TO_BLOCK = 10;
-        public static final long SECONDS_TO_UNBLOCK = 60;
-    }
+    private static final int NUMBER_OF_MESSAGES_TO_BLOCK = 10;
+    private static final long SECONDS_TO_UNBLOCK = 60;
 
     private final MessageRepository databaseMessageDAO;
     private final ConversationService conversationService;
@@ -41,13 +38,11 @@ public class MessageService {
     public void createMessage(TextMessage textMessage, UUID uuid) {
         Profile currentUserProfile = userService.getCurrentUser().getProfile();
         if (databaseMessageDAO.getNumberOfMessagesInLastMinute(
-                currentUserProfile.getUserID()) >= BlockAndUnblockConsts.NUMBER_OF_MESSAGES_TO_BLOCK)
+                currentUserProfile.getUserID()) >= NUMBER_OF_MESSAGES_TO_BLOCK)
         {
             currentUserProfile.setSpammingStatus(true);
             Timer timer = new Timer(true);
-
-            // TODO: stopSpam -> stopSpamTask
-            TimerTask stopSpam = new TimerTask() {
+            TimerTask stopSpamTask = new TimerTask() {
                 @Override
                 public void run() {
                     unblockProfile();
@@ -57,7 +52,7 @@ public class MessageService {
                         currentUserProfile.setSpammingStatus(false);
                 }
             };
-            timer.schedule(stopSpam, TimeUnit.SECONDS.toMillis(BlockAndUnblockConsts.SECONDS_TO_UNBLOCK));
+            timer.schedule(stopSpamTask, TimeUnit.SECONDS.toMillis(SECONDS_TO_UNBLOCK));
         }
         textMessage.setId(UUID.randomUUID());
         textMessage.setDateOfSending(new Date());

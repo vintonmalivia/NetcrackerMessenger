@@ -39,18 +39,10 @@ public class MessagesController
         private static final String NEW_MESSAGE = "newMessage";
         private static final String NEW_MEMBER = "newMember";
 
-        // TODO: Не используется - убирай
-        private static final String MEMBERS = "members";
-
         private static final String USER_NOT_EXIST = "userNotExist";
-        private static final String USER_NOT_EXIST_VALUE = "User not exist.";
         private static final String USER_ALREADY_IN_CONVERSATION = "userAlreadyInConversation";
-        // TODO: Обычно кастомные сообщения, которые ну 100% будут использоваться лишь раз, в константы не добавляют
-        //  Сделай просто инлайном (прям на месте использования).
-        private static final String USER_ALREADY_IN_CONVERSATION_VALUE = "User already in this conversation.";
         private static final String USER_ADDED = "userAdded";
-        // TODO: То же самое
-        private static final String USER_ADDED_VALUE = "User successfully added to this conversation.";
+
     }
 
     private static abstract class Redirects {
@@ -92,10 +84,9 @@ public class MessagesController
     }
 
     @PostMapping
-    // TODO: createMessage
-    public String createNewMessage(@PathVariable(PathVariables.UUID) UUID uuid, // TODO: Просто id достаточно
-                                   @ModelAttribute(ModelAttributes.NEW_MESSAGE) TextMessage textMessage,
-                                   Model model)
+    public String createMessage(@PathVariable(PathVariables.UUID) UUID uuid, // TODO: Просто id достаточно
+                                @ModelAttribute(ModelAttributes.NEW_MESSAGE) TextMessage textMessage,
+                                Model model)
     {
         messageService.createMessage(textMessage, uuid);
         logger.info("Message with ID = {} by user with profile ID = {} has been sent.",
@@ -106,8 +97,8 @@ public class MessagesController
 
     @GetMapping(ADD_NEW_MEMBER)
     // TODO: showAddMemberPage
-    public String getPageToAddMember(@ModelAttribute(ModelAttributes.NEW_MEMBER) User user,
-                                     @PathVariable UUID uuid)
+    public String showAddMemberPage(@ModelAttribute(ModelAttributes.NEW_MEMBER) User user,
+                                    @PathVariable UUID uuid)
     {
         if (conversationService.isInConversation(uuid, userService.getCurrentUser().getProfile().getUserID()))
         {
@@ -125,19 +116,19 @@ public class MessagesController
         if (!userService.existsByUsername(user.getUsername()))
         {
             // TODO: Выведи в лог сообщение об отсутствии пользователя
-            model.addAttribute(ModelAttributes.USER_NOT_EXIST, ModelAttributes.USER_NOT_EXIST_VALUE);
+            model.addAttribute(ModelAttributes.USER_NOT_EXIST, "User not exist.");
             return Views.CONVERSATIONS_PATH + Views.ADD_NEW_MEMBER_HTML;
         }
 
-        if (conversationService.existenceOfUserInConversation(uuid, user))
+        if (conversationService.isUserInMembers(uuid, user))
         {
             model.addAttribute(ModelAttributes.USER_ALREADY_IN_CONVERSATION,
-                    ModelAttributes.USER_ALREADY_IN_CONVERSATION_VALUE);
+                    "User already in this conversation.");
             return Views.CONVERSATIONS_PATH + Views.ADD_NEW_MEMBER_HTML;
         }
 
         conversationService.addMemberToConversation(uuid, user);
-        model.addAttribute(ModelAttributes.USER_ADDED, ModelAttributes.USER_ADDED_VALUE);
+        model.addAttribute(ModelAttributes.USER_ADDED, "User successfully added to this conversation.");
         return Views.CONVERSATIONS_PATH + Views.ADD_NEW_MEMBER_HTML;
     }
 }

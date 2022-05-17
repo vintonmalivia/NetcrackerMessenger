@@ -67,12 +67,6 @@ public class UserService implements UserDetailsService {
         return userRepository.findByUsername(username);
     }
 
-    // TODO: Не юзается - удаляем
-    public User findUserById(UUID userId) {
-        Optional<User> userFromDb = userRepository.findById(userId);
-        return userFromDb.orElse(null);
-    }
-
     public List<User> getAllUsers() {
         return userRepository.findAll();
     }
@@ -92,9 +86,8 @@ public class UserService implements UserDetailsService {
         return true;
     }
 
-    // TODO: В принципе, можно сделать void вместо булеана. Ты нигде не юзаешь результат
     @Transactional
-    public boolean deleteUser(UUID userId) {
+    public void deleteUser(UUID userId) {
         if (userRepository.findById(userId).isPresent()) {
             UUID profileID = userRepository.findById(userId).get().getProfile().getUserID();
             conversationRepository.deleteUserFromConversationMembers(profileID);
@@ -102,8 +95,6 @@ public class UserService implements UserDetailsService {
             conversationRepository.deleteCreatorID(profileID);
             conversationRepository.deleteConversationIfNoMembers();
             userRepository.deleteById(userId);
-            return true;
         }
-        return false;
     }
 }

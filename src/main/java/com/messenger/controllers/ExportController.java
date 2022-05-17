@@ -55,8 +55,7 @@ public class ExportController {
     }
 
     @GetMapping(value = USERS_API, produces = MediaType.APPLICATION_JSON_VALUE)
-    // TODO: getAllUsers
-    public ResponseEntity<List<User>> getUsers(){
+    public ResponseEntity<List<User>> getAllUsers(){
         List<User> users = userRepository.findAll();
         return ResponseEntity.ok(users);
     }

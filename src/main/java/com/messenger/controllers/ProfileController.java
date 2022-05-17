@@ -45,9 +45,9 @@ public class ProfileController {
 
     @GetMapping
     // TODO: showProfilePage
-    public String getProfile(@ModelAttribute(ModelAttributes.PROFILE) Profile profile,
-                             @PathVariable(PathVariables.UUID) UUID uuid, // TODO: uuid -> id
-                             Model model)
+    public String showProfilePage(@ModelAttribute(ModelAttributes.PROFILE) Profile profile,
+                                  @PathVariable(PathVariables.UUID) UUID uuid, // TODO: uuid -> id
+                                  Model model)
     {
         model.addAttribute(ModelAttributes.PROFILE, profileService.getProfile(uuid));
         model.addAttribute(ModelAttributes.CURRENT_USER, userService.getCurrentUser().getProfile().getUserID());
@@ -55,10 +55,9 @@ public class ProfileController {
     }
 
     @PostMapping
-    // TODO: Почему My? updateProfileNameByProfileId
-    public String updateMyProfileName(@ModelAttribute(ModelAttributes.PROFILE) Profile profile,
-                                      @PathVariable(PathVariables.UUID) UUID uuid, // TODO: uuid -> id
-                                      Model model)
+    public String updateProfileNameByProfileId(@ModelAttribute(ModelAttributes.PROFILE) Profile profile,
+                                               @PathVariable(PathVariables.UUID) UUID uuid, // TODO: uuid -> id
+                                               Model model)
     {
         model.addAttribute(ModelAttributes.CURRENT_USER, userService.getCurrentUser().getProfile().getUserID());
         profileService.updateProfileName(uuid, profile);

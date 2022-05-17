@@ -1,7 +1,6 @@
 package com.messenger.service;
 
 import com.messenger.models.Conversation;
-import com.messenger.models.Profile;
 import com.messenger.models.User;
 import com.messenger.repository.ConversationRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -41,7 +40,7 @@ public class ConversationService {
 
     public boolean isInConversation(UUID convID, UUID profileID)
     {
-        return databaseConversationDAO.isInConversation(convID, profileID);
+        return databaseConversationDAO.isUserInConversation(convID, profileID);
     }
 
     public void saveConversation(Conversation conversation){
@@ -49,9 +48,6 @@ public class ConversationService {
     }
 
     public void deleteConversation(UUID uuid){databaseConversationDAO.deleteById(uuid);}
-
-    // TODO: Не нужно - удаляй
-    public List<Profile> getMembers(UUID uuid){return databaseConversationDAO.getMembers(uuid);}
 
     public void addMemberToConversation(UUID uuid, User user){
         // TODO: Здесь findById(id) возвращает Optional. А если там нет объекта? Нужно сделать проверку
@@ -61,9 +57,7 @@ public class ConversationService {
         saveConversation(conversation);
     }
 
-    // TODO: Лучше isUserInMembers (булеан методы обычно начинаются как вопрос, например с предлога is)
-    //  Примеры: isEmpty, isBlank...
-    public boolean existenceOfUserInConversation(UUID uuid, User user){
+    public boolean isUserInMembers(UUID uuid, User user){
         // TODO: Здесь findById(id) возвращает Optional. А если там нет объекта? Нужно сделать проверку
         Conversation conversation = databaseConversationDAO.findById(uuid).get();
         User foundUser = userService.findUserByUsername(user.getUsername());
@@ -71,10 +65,9 @@ public class ConversationService {
     }
 
     @Transactional
-    // TODO: Название от имени юзера, а не сервиса. Поищи аналогичные тудушки
-    public void leaveConversation(UUID profileID, UUID convID)
+    public void deleteCurrentUserFromConversationByConversationId(UUID profileID, UUID convID)
     {
-        databaseConversationDAO.leaveFromConversation(profileID, convID);
+        databaseConversationDAO.removeUserFromConversation(profileID, convID);
         databaseConversationDAO.deleteAbandonedUserMessages(profileID, convID);
         databaseConversationDAO.deleteCreatorIDIfUserLeaving(profileID, convID);
         databaseConversationDAO.deleteConversationIfNoMembers();

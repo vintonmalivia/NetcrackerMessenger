@@ -13,8 +13,7 @@ import static com.messenger.constants.tables.TableNames.TEXT_MESSAGES;
 
 @Table(name = TEXT_MESSAGES)
 @Entity
-public class TextMessage extends AbstractMessage implements Serializable // TODO: AbstractMessage уже имплементирует
-//                                                                           Serializable. Здесь не нужно это прописывать снова
+public class TextMessage extends AbstractMessage
 {
     private static abstract class ColumnNames
     {
