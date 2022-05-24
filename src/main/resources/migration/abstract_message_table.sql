@@ -7,5 +7,5 @@ create table if not exists abstract_messages
     FOREIGN KEY (id_conversation) REFERENCES conversations (id),
 
     sender_id       varchar,
-    FOREIGN KEY (sender_id) REFERENCES profile (id)
+    FOREIGN KEY (sender_id) REFERENCES profiles (id)
 );

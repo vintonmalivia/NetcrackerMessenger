@@ -6,7 +6,6 @@ import com.messenger.models.Profile;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Table;
-import java.io.Serializable;
 import java.util.Date;
 
 import static com.messenger.constants.tables.TableNames.TEXT_MESSAGES;
@@ -17,7 +16,7 @@ public class TextMessage extends AbstractMessage
 {
     private static abstract class ColumnNames
     {
-        private static final String TEXT = "text"; // TODO: Сделай text_value. Это будет более правильным
+        private static final String TEXT = "text_value";
     }
 
     @Column(name = ColumnNames.TEXT, nullable = false)

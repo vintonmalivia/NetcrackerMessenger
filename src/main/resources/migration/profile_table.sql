@@ -1,4 +1,4 @@
-create table if not exists profile
+create table if not exists profiles
 (
     id      varchar PRIMARY KEY,
     name    varchar NOT NULL,

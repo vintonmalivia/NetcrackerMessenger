@@ -30,7 +30,7 @@ public interface ConversationRepository extends CrudRepository<Conversation, UUI
             nativeQuery = true)
     void deleteConversationIfNoMembers();
 
-    @Query(value = "SELECT * FROM conversation_members JOIN profile p on p.id = conversation_members.prof_id " +
+    @Query(value = "SELECT * FROM conversation_members JOIN profiles p on p.id = conversation_members.prof_id " +
             "WHERE conv_id = CAST (:convID AS varchar)", nativeQuery = true)
     List<Profile> getMembers(@Param(QueryParams.CONVERSATION_ID) UUID convID);
 

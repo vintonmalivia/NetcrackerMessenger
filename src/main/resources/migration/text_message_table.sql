@@ -1,6 +1,6 @@
 create table if not exists text_messages
 (
-    text varchar,
-    FOREIGN KEY (sender_id) REFERENCES profile (id)
+    text_value varchar,
+    FOREIGN KEY (sender_id) REFERENCES profiles (id)
 )
     inherits (abstract_messages);

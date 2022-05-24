@@ -4,6 +4,8 @@ import com.messenger.models.Role;
 import com.messenger.models.User;
 import com.messenger.repository.ConversationRepository;
 import com.messenger.repository.UserRepository;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -13,7 +15,10 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.*;
+import java.util.Collections;
+import java.util.List;
+import java.util.Objects;
+import java.util.UUID;
 
 @Service
 public class UserService implements UserDetailsService {
@@ -28,6 +33,8 @@ public class UserService implements UserDetailsService {
         private static final String ROLE_USER = "ROLE_USER";
         private static final String ROLE_USER_ID = "0ada0e40-c34b-48ce-9ddc-be67eec99eed";
     }
+
+    private static final Logger logger = LoggerFactory.getLogger(UserService.class);
 
     private final UserRepository userRepository;
     private final BCryptPasswordEncoder bCryptPasswordEncoder;
@@ -47,16 +54,21 @@ public class UserService implements UserDetailsService {
         User user = userRepository.findByUsername(username);
 
         if (Objects.isNull(user)) {
-            // TODO: В лог
+            logger.error("Can not load user with username = {} because user with this username does not exist.",
+                    username);
             throw new UsernameNotFoundException(ExceptionMessage.USER_NOT_FOUND);
         }
 
         return user;
     }
 
-    public User getCurrentUser(){
-        // TODO: А если текущий пользователь - не пользователь, а система? Будет NullPointerException (NP)
-        return (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+    public User getCurrentUser() {
+        try {
+            return (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        } catch (NullPointerException nullPointerException) {
+            logger.error(nullPointerException.getMessage());
+        }
+        return null;
     }
 
     public boolean existsByUsername(String username){
@@ -75,7 +87,8 @@ public class UserService implements UserDetailsService {
         User userFromDB = userRepository.findByUsername(user.getUsername());
 
         if (!Objects.isNull(userFromDB)) {
-            // TODO: В лог
+            logger.error("Can not save user with username = {} because user with this username already exists.",
+                    user.getUsername());
             return false;
         }
 

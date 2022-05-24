@@ -22,7 +22,7 @@ public class ProfileController {
     }
 
     private static abstract class PathVariables{
-        private static final String UUID = "uuid";
+        private static final String UUID = "id";
     }
 
     private static abstract class ModelAttributes{
@@ -31,7 +31,7 @@ public class ProfileController {
     }
 
     private static abstract class Redirects{
-        private static final String REDIRECT_TO_PROFILE = "redirect:/profile/{uuid}";
+        private static final String REDIRECT_TO_PROFILE = "redirect:/profile/{id}";
     }
 
     private final ProfileService profileService;
@@ -44,23 +44,22 @@ public class ProfileController {
     }
 
     @GetMapping
-    // TODO: showProfilePage
     public String showProfilePage(@ModelAttribute(ModelAttributes.PROFILE) Profile profile,
-                                  @PathVariable(PathVariables.UUID) UUID uuid, // TODO: uuid -> id
+                                  @PathVariable(PathVariables.UUID) UUID id,
                                   Model model)
     {
-        model.addAttribute(ModelAttributes.PROFILE, profileService.getProfile(uuid));
+        model.addAttribute(ModelAttributes.PROFILE, profileService.getProfile(id));
         model.addAttribute(ModelAttributes.CURRENT_USER, userService.getCurrentUser().getProfile().getUserID());
         return Views.PROFILE_PATH + Views.PROFILE_HTML;
     }
 
     @PostMapping
     public String updateProfileNameByProfileId(@ModelAttribute(ModelAttributes.PROFILE) Profile profile,
-                                               @PathVariable(PathVariables.UUID) UUID uuid, // TODO: uuid -> id
+                                               @PathVariable(PathVariables.UUID) UUID id,
                                                Model model)
     {
         model.addAttribute(ModelAttributes.CURRENT_USER, userService.getCurrentUser().getProfile().getUserID());
-        profileService.updateProfileName(uuid, profile);
+        profileService.updateProfileName(id, profile);
         return Redirects.REDIRECT_TO_PROFILE;
     }
 }

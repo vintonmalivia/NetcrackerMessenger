@@ -34,7 +34,20 @@ public class MessageService {
         return databaseMessageDAO.getMessages(uuid);
     }
 
-    // TODO: Можно ли разбить текущий метод на несколько мелких?
+    public TimerTask startAntispamTask(){
+        Profile currentUserProfile = userService.getCurrentUser().getProfile();
+        return new TimerTask() {
+            @Override
+            public void run() {
+                unblockProfile();
+            }
+
+            private void unblockProfile() {
+                currentUserProfile.setSpammingStatus(false);
+            }
+        };
+    }
+
     public void createMessage(TextMessage textMessage, UUID uuid) {
         Profile currentUserProfile = userService.getCurrentUser().getProfile();
         if (databaseMessageDAO.getNumberOfMessagesInLastMinute(
@@ -42,17 +55,7 @@ public class MessageService {
         {
             currentUserProfile.setSpammingStatus(true);
             Timer timer = new Timer(true);
-            TimerTask stopSpamTask = new TimerTask() {
-                @Override
-                public void run() {
-                    unblockProfile();
-                }
-
-                private void unblockProfile() {
-                        currentUserProfile.setSpammingStatus(false);
-                }
-            };
-            timer.schedule(stopSpamTask, TimeUnit.SECONDS.toMillis(SECONDS_TO_UNBLOCK));
+            timer.schedule(startAntispamTask(), TimeUnit.SECONDS.toMillis(SECONDS_TO_UNBLOCK));
         }
         textMessage.setId(UUID.randomUUID());
         textMessage.setDateOfSending(new Date());

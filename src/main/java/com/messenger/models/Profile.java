@@ -5,9 +5,9 @@ import org.hibernate.annotations.Type;
 import javax.persistence.*;
 import java.util.UUID;
 
-import static com.messenger.constants.tables.TableNames.PROFILE;
+import static com.messenger.constants.tables.TableNames.PROFILES;
 
-@Table(name = PROFILE)
+@Table(name = PROFILES)
 @Entity
 public class Profile
 {

@@ -32,7 +32,7 @@ public class ConversationsController
     }
 
     private static abstract class PathVariables {
-        private static final String CONVERSATION_ID = "uuid";
+        private static final String CONVERSATION_ID = "id";
     }
 
     private static abstract class Redirects {
@@ -79,19 +79,17 @@ public class ConversationsController
     }
 
     @PostMapping(CONVERSATION_ID)
-    public String deleteConversationById(@PathVariable(PathVariables.CONVERSATION_ID) UUID uuid) {
-        conversationService.deleteConversation(uuid);
-        // TODO: А точно чат удалился? По сути, delete, насколько я знаю, не возвращает результат, если удалять нечего
-        //  А в логах будет светиться, что конверсейшен, который, по сути, не существовал, был удален каким-то образом
-        logger.info("Deleted conversation with ID = {}.", uuid);
+    public String deleteConversationById(@PathVariable(PathVariables.CONVERSATION_ID) UUID id) {
+        conversationService.deleteConversation(id);
+        logger.info("Deleted conversation with ID = {}.", id);
         return Redirects.REDIRECT_TO_CONVERSATIONS;
     }
 
     @PostMapping(LEAVE_CONVERSATION)
-    public String deleteCurrentUserFromConversationByConversationId(@PathVariable(PathVariables.CONVERSATION_ID) UUID uuid) {
+    public String deleteCurrentUserFromConversationByConversationId(@PathVariable(PathVariables.CONVERSATION_ID) UUID id) {
         UUID profileID = userService.getCurrentUser().getProfile().getUserID();
-        // TODO: Добавь запись в лог
-        conversationService.deleteCurrentUserFromConversationByConversationId(profileID, uuid);
+        conversationService.deleteCurrentUserFromConversationByConversationId(profileID, id);
+        logger.info("Profile with ID = {} was deleted from conversation with ID = {}.", profileID, id);
         return Redirects.REDIRECT_TO_CONVERSATIONS;
     }
 }

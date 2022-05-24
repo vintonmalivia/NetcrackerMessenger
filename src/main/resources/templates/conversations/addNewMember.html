@@ -9,10 +9,10 @@
     <div>
         <a href="/conversations">Get to all conversations </a>
         <a>or</a>
-        <a th:href="@{/conversations/{uuid}/messages/ (uuid = ${uuid})}"> go back to the current conversation</a>
+        <a th:href="@{/conversations/{id}/messages/ (id = ${id})}"> go back to the current conversation</a>
     </div>
 </h4>
-<form th:method="POST" th:action="@{/conversations/{uuid}/messages/add-new-member (uuid = ${uuid})}" th:object="${newMember}">
+<form th:method="POST" th:action="@{/conversations/{id}/messages/add-new-member (id = ${id})}" th:object="${newMember}">
     <label for="username">Enter username to invite user to conversation: </label>
     <input th:size="40" minlength="1" type="text" th:field="*{username}" id="username"/>
     <input type="submit" value="send"/>

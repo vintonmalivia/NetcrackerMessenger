@@ -10,10 +10,10 @@ import java.util.Collection;
 import java.util.Set;
 import java.util.UUID;
 
-import static com.messenger.constants.tables.TableNames.USER;
+import static com.messenger.constants.tables.TableNames.USERS;
 
 @Entity
-@Table(name = USER)
+@Table(name = USERS)
 public class User implements UserDetails {
 
     private static abstract class TypeAnnotation{

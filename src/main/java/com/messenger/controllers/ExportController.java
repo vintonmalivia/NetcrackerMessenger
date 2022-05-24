@@ -4,6 +4,8 @@ import com.messenger.models.Conversation;
 import com.messenger.models.User;
 import com.messenger.repository.ConversationRepository;
 import com.messenger.repository.UserRepository;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -21,13 +23,14 @@ import static com.messenger.constants.controllers.Endpoints.*;
 @RestController
 @RequestMapping(API_V1)
 public class ExportController {
+    private static final Logger logger = LoggerFactory.getLogger(ExportController.class);
+
     private final ConversationRepository conversationRepository;
     private final UserRepository userRepository;
 
     private static abstract class PathVariables{
-        // TODO: Почему uuid? Лучше conversation_id и user_id. Семантику и абстракцию надо сохранять
-        public static final String CONVERSATION_ID = "uuid";
-        public static final String USER_ID = "uuid";
+        public static final String CONVERSATION_ID = "conversation_id";
+        public static final String USER_ID = "user_id";
     }
 
     @Autowired
@@ -37,20 +40,20 @@ public class ExportController {
         this.userRepository = userRepository;
     }
 
-    @GetMapping(value = CONVERSATIONS_API /* TODO: Но ведь есть константа CONVERSATIONS? Ее будет достаточно... */, produces = MediaType.APPLICATION_JSON_VALUE)
+    @GetMapping(value = CONVERSATIONS, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<List<Conversation>> getConversations(){
         List<Conversation> conversations = (List<Conversation>) conversationRepository.findAll();
         return ResponseEntity.ok(conversations);
     }
 
     @GetMapping(value = CONVERSATION_BY_ID_API, produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<Conversation> getConversationByID(@PathVariable(PathVariables.CONVERSATION_ID) UUID convID){
-        if (conversationRepository.findById(convID).isPresent())
+    public ResponseEntity<Conversation> getConversationByID(@PathVariable(PathVariables.CONVERSATION_ID) UUID id){
+        if (conversationRepository.findById(id).isPresent())
         {
-            Conversation conversation = conversationRepository.findById(convID).get();
+            Conversation conversation = conversationRepository.findById(id).get();
             return ResponseEntity.ok(conversation);
         }
-        // TODO: Добавь запись в лог
+        logger.error("Could not find conversation with ID = {}.", id);
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
     }
 
@@ -61,13 +64,13 @@ public class ExportController {
     }
 
     @GetMapping(value = USER_BY_ID_API, produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<User> getUserByID(@PathVariable(PathVariables.USER_ID) UUID userID){
-        if (userRepository.findById(userID).isPresent())
+    public ResponseEntity<User> getUserByID(@PathVariable(PathVariables.USER_ID) UUID id){
+        if (userRepository.findById(id).isPresent())
         {
-            User user = userRepository.findById(userID).get();
+            User user = userRepository.findById(id).get();
             return ResponseEntity.ok(user);
         }
-        // TODO: Добавь запись в лог
+        logger.error("Could not find user with ID = {}.", id);
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
     }
 }

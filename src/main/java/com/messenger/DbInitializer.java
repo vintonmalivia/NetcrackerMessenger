@@ -14,12 +14,11 @@ public class DbInitializer {
         private static final String CONVERSATION_TABLE = "migration/conversation_table.sql";
         private static final String PROFILE_TABLE = "migration/profile_table.sql";
         private static final String CONVERSATION_MEMBERS_TABLE = "migration/conversation_members.sql";
-        // TODO: Слова разделяются нижними прочеркиваниями: abstract_message, text_message...
-        private static final String ABSTRACT_MESSAGE_TABLE = "migration/abstractmessage_table.sql";
-        private static final String TEXT_MESSAGE_TABLE = "migration/textmessage_table.sql";
+        private static final String ABSTRACT_MESSAGE_TABLE = "migration/abstract_message_table.sql";
+        private static final String TEXT_MESSAGE_TABLE = "migration/text_message_table.sql";
         private static final String ROLE_TABLE = "migration/role_table.sql";
         private static final String USER_TABLE = "migration/user_table.sql";
-        private static final String USER_ROLES_TABLE = "migration/user_roles_table.sql";
+        private static final String USER_ROLES_TABLE = "migration/users_roles_table.sql";
     }
 
     public static void initializeTables(DataSource dataSource) {

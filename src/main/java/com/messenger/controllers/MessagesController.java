@@ -28,7 +28,7 @@ public class MessagesController
     }
 
     private static abstract class PathVariables {
-        public static final String UUID = "uuid";
+        public static final String UUID = "id";
     }
 
     private static abstract class ModelAttributes {
@@ -46,7 +46,7 @@ public class MessagesController
     }
 
     private static abstract class Redirects {
-        private static final String REDIRECT_TO_CONVERSATION_MESSAGES = "redirect:/conversations/{uuid}/messages";
+        private static final String REDIRECT_TO_CONVERSATION_MESSAGES = "redirect:/conversations/{id}/messages";
         private static final String REDIRECT_TO_CONVERSATIONS = "redirect:/conversations";
     }
 
@@ -68,41 +68,42 @@ public class MessagesController
     }
 
     @GetMapping
-    public String getMessagesFromConversationByID(@PathVariable(PathVariables.UUID) UUID uuid,
+    public String getMessagesFromConversationByID(@PathVariable(PathVariables.UUID) UUID id,
                                                   @ModelAttribute(ModelAttributes.NEW_MESSAGE) TextMessage textMessage,
                                                   Model model)
     {
-        if (conversationService.isInConversation(uuid, userService.getCurrentUser().getProfile().getUserID()))
+        if (conversationService.isInConversation(id, userService.getCurrentUser().getProfile().getUserID()))
         {
-            model.addAttribute(ModelAttributes.CONVERSATION, conversationService.getById(uuid));
-            model.addAttribute(ModelAttributes.MESSAGES, messageService.getMessages(uuid));
+            model.addAttribute(ModelAttributes.CONVERSATION, conversationService.getById(id));
+            model.addAttribute(ModelAttributes.MESSAGES, messageService.getMessages(id));
             return Views.CONVERSATIONS_PATH + Views.MESSAGES_HTML;
         }
-        // TODO: Выведи в лог сообщение о том, что не получается вывести сообщения для текущего пользователя, так как он
-        //  не состоит в беседе. + указать юзера, попытавшегося это сделать
+        logger.info("Can't open conversation messages from conversation with ID = {} for profile with ID = {} " +
+                "because this profile is not a member of this conversation.",
+                id, userService.getCurrentUser().getProfile().getUserID());
         return Redirects.REDIRECT_TO_CONVERSATIONS;
     }
 
     @PostMapping
-    public String createMessage(@PathVariable(PathVariables.UUID) UUID uuid, // TODO: Просто id достаточно
+    public String createMessage(@PathVariable(PathVariables.UUID) UUID id,
                                 @ModelAttribute(ModelAttributes.NEW_MESSAGE) TextMessage textMessage,
                                 Model model)
     {
-        messageService.createMessage(textMessage, uuid);
+        messageService.createMessage(textMessage, id);
         logger.info("Message with ID = {} by user with profile ID = {} has been sent.",
                 textMessage.getId(), textMessage.getSender().getUserID());
-        model.addAttribute(ModelAttributes.MESSAGES, messageService.getMessages(uuid));
+        model.addAttribute(ModelAttributes.MESSAGES, messageService.getMessages(id));
         return Redirects.REDIRECT_TO_CONVERSATION_MESSAGES;
     }
 
     @GetMapping(ADD_NEW_MEMBER)
-    // TODO: showAddMemberPage
     public String showAddMemberPage(@ModelAttribute(ModelAttributes.NEW_MEMBER) User user,
-                                    @PathVariable UUID uuid)
+                                    @PathVariable UUID id)
     {
-        if (conversationService.isInConversation(uuid, userService.getCurrentUser().getProfile().getUserID()))
+        if (conversationService.isInConversation(id, userService.getCurrentUser().getProfile().getUserID()))
         {
-            // TODO: Выведи в лог сообщение об этом
+            logger.info("Page with adding new member to conversation with ID = {} opened to profile with" +
+                    " ID = {}.", id, userService.getCurrentUser().getProfile().getUserID());
             return Views.CONVERSATIONS_PATH + Views.ADD_NEW_MEMBER_HTML;
         }
         return Redirects.REDIRECT_TO_CONVERSATIONS;
@@ -110,24 +111,26 @@ public class MessagesController
 
     @PostMapping(ADD_NEW_MEMBER)
     public String addMemberToConversation(@ModelAttribute(ModelAttributes.NEW_MEMBER) User user,
-                                          @PathVariable UUID uuid,
+                                          @PathVariable UUID id,
                                           Model model)
     {
         if (!userService.existsByUsername(user.getUsername()))
         {
-            // TODO: Выведи в лог сообщение об отсутствии пользователя
+            logger.info("User with username = {} does not exist.", user.getUsername());
             model.addAttribute(ModelAttributes.USER_NOT_EXIST, "User not exist.");
             return Views.CONVERSATIONS_PATH + Views.ADD_NEW_MEMBER_HTML;
         }
 
-        if (conversationService.isUserInMembers(uuid, user))
+        if (conversationService.isUserInMembers(id, user))
         {
+            logger.info("Can not invite user with username = {} in conversation with ID = {} " +
+                    "because user is already member of this conversation.", user.getUsername(), id);
             model.addAttribute(ModelAttributes.USER_ALREADY_IN_CONVERSATION,
                     "User already in this conversation.");
             return Views.CONVERSATIONS_PATH + Views.ADD_NEW_MEMBER_HTML;
         }
-
-        conversationService.addMemberToConversation(uuid, user);
+        conversationService.addMemberToConversation(id, user);
+        logger.info("User with username = {} successfully added in conversation with ID = {}.", user.getUsername(), id);
         model.addAttribute(ModelAttributes.USER_ADDED, "User successfully added to this conversation.");
         return Views.CONVERSATIONS_PATH + Views.ADD_NEW_MEMBER_HTML;
     }

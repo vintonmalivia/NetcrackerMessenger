@@ -16,17 +16,19 @@
 </div>
 <br>
 <div th:if="${currentUser} == ${profile.getUserID()}">
-    <form th:method="POST" th:object="${profile}" th:action="@{/profile/{uuid}/ (uuid = ${profile.getUserID()})}">
+    <form th:method="POST" th:object="${profile}" th:action="@{/profile/{id}/ (id = ${profile.getUserID()})}">
         <label for="name">Your name: </label>
         <br>
             <div>
-                <input th:size="30" pattern=".{1,32}" required title="1 to 32 characters" type="text" th:field="*{name}" id="name"/>
+                <input th:size="30" pattern=".{1,32}" required title="1 to 32 characters" type="text"
+                       th:field="*{name}" id="name"/>
             </div>
         <br>
         <label for="surname">Your surname: </label>
         <br>
             <div>
-                <input th:size="30" pattern=".{1,32}" required title="1 to 32 characters" type="text" th:field="*{surname}" id="surname"/>
+                <input th:size="30" pattern=".{1,32}" required title="1 to 32 characters" type="text"
+                       th:field="*{surname}" id="surname"/>
             </div>
         <br>
     <input type="submit" value="CLICK TO CONFIRM PROFILE RENAME"/>

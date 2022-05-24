@@ -16,9 +16,11 @@ public class ProfileService {
         this.databaseProfileDAO = databaseProfileDAO;
     }
 
-    // TODO: Здесь findById(id) возвращает Optional. А если там нет объекта? Нужно сделать проверку
     public Profile getProfile(UUID uuid){
-        return databaseProfileDAO.findById(uuid).get();
+        if (databaseProfileDAO.findById(uuid).isPresent()) {
+            return databaseProfileDAO.findById(uuid).get();
+        }
+        return null;
     }
 
     public void updateProfileName(UUID profileID, Profile profile){

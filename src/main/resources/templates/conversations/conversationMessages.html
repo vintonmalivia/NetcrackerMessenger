@@ -9,7 +9,7 @@
     <div>
         <a href="/conversations">Get to all conversations </a>
         <a>or</a>
-        <a th:href="@{/conversations/{uuid}/messages/add-new-member (uuid = ${uuid})}"> add new member to conversation</a>
+        <a th:href="@{/conversations/{id}/messages/add-new-member (id = ${id})}"> add new member to conversation</a>
     </div>
 </h4>
 <h4>
@@ -18,7 +18,7 @@
         <th>Conversation members</th>
         <tr th:each="member : ${conversation.getMembers()}">
             <td>
-                <a th:href="@{/profile/{uuid} (uuid = ${member.getUserID()})}"
+                <a th:href="@{/profile/{id} (id = ${member.getUserID()})}"
                    th:text="${member.getName()} + ' ' + ${member.getSurname()}"></a>
             </td>
         </tr>
@@ -27,7 +27,7 @@
 <table border="2" th:each="message : ${conversationMessages}">
     <tr>
         <td>
-            <a th:href="@{/profile/{uuid} (uuid = ${message.getSender().getUserID()})}"
+            <a th:href="@{/profile/{id} (id = ${message.getSender().getUserID()})}"
                th:text="*{message.getSender().name} + ' ' + *{message.getSender().surname}"></a>
         </td>
         <td th:text="${message.getDateOfSending()}"></td>
@@ -39,7 +39,7 @@
 </table>
 <br>
 <form th:if="${#authentication.getPrincipal().getProfile().getSpammingStatus()} == false" th:method="POST"
-      th:action="@{/conversations/{uuid}/messages (uuid = ${uuid})}" th:object="${newMessage}">
+      th:action="@{/conversations/{id}/messages (id = ${id})}" th:object="${newMessage}">
     <label for="messageText">Enter your message: </label>
     <input th:size="40" required type="text" th:field="*{textOfMessage}" id="messageText"/>
     <input type="submit" value="send"/>

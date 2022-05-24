@@ -52,11 +52,14 @@ public class AdminController {
 
     @PostMapping(ADMIN)
     public String deleteUserById(@RequestParam(defaultValue = ReqParam.DEFAULT_VALUE_UUID) UUID userId,
-                                 @RequestParam(defaultValue = ReqParam.DEFAULT_VALUE_STRING) String action) {
+                                 @RequestParam(defaultValue = ReqParam.DEFAULT_VALUE_STRING) String action
+    )
+    {
         if (action.equals(Actions.DELETE)){
             userService.deleteUser(userId);
             logger.info("User with ID = {} deleted.", userId);
         }
         return Views.REDIRECT + Views.ADMIN;
     }
+
 }

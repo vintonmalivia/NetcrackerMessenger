@@ -12,10 +12,10 @@ import javax.persistence.Table;
 import java.util.Set;
 import java.util.UUID;
 
-import static com.messenger.constants.tables.TableNames.ROLE;
+import static com.messenger.constants.tables.TableNames.ROLES;
 
 @Entity
-@Table(name = ROLE)
+@Table(name = ROLES)
 public class Role implements GrantedAuthority {
 
     private static abstract class TypeAnnotation {
